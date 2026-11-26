@@ -72,7 +72,7 @@
 .btc-key-point>b{display:block;color:#e5c58f;font-size:13px;letter-spacing:.05em}
 .btc-key-point p{margin:7px 0 0;font-size:14px!important}
 .btc-three-defs{grid-template-columns:repeat(3,minmax(0,1fr))}
-.btc-symbol{display:grid;place-items:center;width:42px;height:42px;border:1px solid #876d45;border-radius:10px;background:#302417;color:#f0d39e;font:23px 'Playfair Display',serif}
+.btc-symbol{display:flex;align-items:center;justify-content:center;flex:0 0 44px;box-sizing:border-box;width:44px;height:44px;margin:0;padding:0;overflow:hidden;border:1px solid #876d45;border-radius:10px;background:#302417;color:#f0d39e;font:23px/1 'Playfair Display',serif;text-align:center}.btc-symbol-text{font:700 11px/1 'DM Sans',sans-serif;letter-spacing:.04em}
 .btc-three-defs article small{display:block;margin-top:12px;color:#dfbd83;font-size:11px;line-height:1.55}
 .btc-timeline{position:relative;margin:28px 0 32px;padding-left:26px}
 .btc-timeline:before{content:'';position:absolute;left:12px;top:9px;bottom:12px;width:1px;background:linear-gradient(#b28b55,#51412d)}
