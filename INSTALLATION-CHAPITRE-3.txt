@@ -1,0 +1,25 @@
+ATLAS CRYPTO — CHAPITRE 3 : BLOCKCHAIN, COMMENT FONCTIONNE UN REGISTRE ?
+
+CONTENU DU PACKAGE
+- lessons.js : fiche complète du chapitre 3 (45 min), glossaire, quiz et contenu pédagogique.
+- app.js : prise en charge des définitions contextuelles du chapitre 3 et des deux laboratoires cryptographiques.
+- style.css : schémas, cartes, tableaux et styles responsives du chapitre 3.
+
+INSTALLATION
+1. Extraire cette archive.
+2. Copier lessons.js, app.js et style.css à la racine du dossier local Atlas-crypto.
+3. Remplacer les trois fichiers existants lorsque Windows le demande.
+4. Ouvrir GitHub Desktop et vérifier que les trois fichiers sont listés dans Changes.
+5. Summary : « Chapitre 3 — Blockchain : registre, blocs et consensus ».
+6. Cliquer sur Commit 3 files to main, puis Push origin.
+7. Vercel lancera automatiquement le déploiement.
+
+POINTS IMPORTANTS
+- Le chapitre 3 suit le plan officiel : « Blockchain : comment fonctionne un registre ? ».
+- Le contenu approfondit la structure, les empreintes, le chaînage, les arbres de Merkle, la validation, le consensus, les fourches, la finalité et les limites.
+- Les définitions contextuelles apparaissent à la première occurrence seulement pour chaque notion du chapitre. Le glossaire de fin reste disponible pour réviser.
+- Les deux laboratoires utilisent Web Crypto (SHA-256) dans le navigateur et nécessitent un contexte sécurisé HTTPS. Ils sont explicitement présentés comme des modèles pédagogiques simplifiés, et non comme une implémentation réelle du protocole Bitcoin ou d’une autre blockchain.
+- Le chapitre 1 et le chapitre 2 ne sont pas remplacés sur le fond ; leurs entrées de glossaire contextuel existantes sont conservées.
+
+APRÈS PUBLICATION
+Tester les deux laboratoires sur la version HTTPS, sur ordinateur et téléphone, puis vérifier le quiz, les liens de navigation, le glossaire contextuel et le passage vers le chapitre 4.

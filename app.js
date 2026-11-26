@@ -30,7 +30,7 @@ function atlasTermPattern(value){
     .replace(/'/g,"['’‘`´]");
 }
 function atlasGlossaryEntries(chapterNumber, root){
-  const selector=chapterNumber===1?'#glossaire .glossary-list':'#btc-glossaire .btc-glossary';
+  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':null;
   const glossary=root.querySelector(selector);
   if(!glossary)return [];
   const entries=[...glossary.querySelectorAll('details')].map((detail,index)=>({
@@ -115,6 +115,36 @@ function atlasGlossaryEntries(chapterNumber, root){
       'Cible de preuve de travail':['cible de preuve de travail','cible']
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];else if(extraAliases[entry.label])entry.aliases=extraAliases[entry.label];});
+    entries.forEach(entry=>{if(!entry.aliases.length){entry.aliases=[entry.label];if(!/[s)]$/i.test(entry.label))entry.aliases.push(entry.label+'s');}});
+  } else if(chapterNumber===3){
+    const aliases={
+      'Registre distribué':['registre distribué','registres distribués','registre partagé','registres partagés','DLT'],
+      'Blockchain':['blockchain','blockchains','chaîne de blocs','chaînes de blocs'],
+      'Bloc':['bloc','blocs'],
+      'En-tête de bloc':['en-tête de bloc','en-têtes de bloc','en-tête du bloc','en-têtes du bloc','header de bloc','headers de bloc'],
+      'Hachage':['hachage','hachages'],
+      'Fonction de hachage':['fonction de hachage','fonctions de hachage'],
+      'Empreinte cryptographique (hash)':['empreinte cryptographique','empreintes cryptographiques','hash','hashes'],
+      'Arbre de Merkle':['arbre de merkle','arbres de merkle','merkle tree'],
+      'Racine de Merkle':['racine de merkle','racines de merkle','merkle root'],
+      'Preuve d’inclusion':['preuve d’inclusion','preuves d’inclusion'],
+      'Nœud':['nœud','nœuds','noeud','noeuds'],
+      'Nœud complet':['nœud complet','nœuds complets','noeud complet','noeuds complets'],
+      'Intégrité':['intégrité'],
+      'Règles de consensus':['règles de consensus','règle de consensus'],
+      'Mécanisme de consensus':['mécanisme de consensus','mécanismes de consensus'],
+      'Preuve de travail (Proof of Work)':['preuve de travail','proof of work','proof-of-work','pow'],
+      'Preuve d’enjeu (Proof of Stake)':['preuve d’enjeu','preuve d\'enjeu','proof of stake','pos'],
+      'Validateur':['validateur','validateurs'],
+      'Fourche (fork)':['fourche','fork','forks'],
+      'Réorganisation':['réorganisation','réorganisations'],
+      'Finalité':['finalité'],
+      'Oracle':['oracle','oracles'],
+      'Donnée hors chaîne':['donnée hors chaîne','données hors chaîne','off-chain'],
+      'Blockchain publique':['blockchain publique','blockchains publiques','chaîne publique','chaînes publiques'],
+      'Blockchain permissionnée (à permission)':['blockchain permissionnée','blockchains permissionnées','blockchain à permission','blockchains à permission']
+    };
+    entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
     entries.forEach(entry=>{if(!entry.aliases.length){entry.aliases=[entry.label];if(!/[s)]$/i.test(entry.label))entry.aliases.push(entry.label+'s');}});
   }
   return entries;
@@ -331,6 +361,90 @@ function initLessonInteractions(chapterNumber){
       explain.textContent=era===0?'Période initiale : la subvention théorique est de 50 BTC par bloc. À chaque période de 210 000 blocs, elle est divisée par deux. Les frais de transaction, s’il y en a, s’ajoutent mais correspondent à des BTC déjà existants.':`Après ${era} réduction${era>1?'s':''} par deux, la subvention théorique est de ${btc.toLocaleString('fr-FR',{maximumFractionDigits:8})} BTC par bloc. La période dure 210 000 blocs ; à un intervalle cible moyen de dix minutes, cela représente environ quatre ans, mais la durée réelle varie.`;
     };
     halving.addEventListener('input',updateHalving);updateHalving();
+  }
+  initBlockchainLessonInteractions(chapterNumber);
+}
+async function atlasSha256Bytes(bytes){
+  const digest=await window.crypto.subtle.digest('SHA-256',bytes);
+  return new Uint8Array(digest);
+}
+async function atlasSha256Text(text){
+  return atlasBytesToHex(await atlasSha256Bytes(new TextEncoder().encode(text)));
+}
+function atlasBytesToHex(bytes){
+  return Array.from(bytes).map(value=>value.toString(16).padStart(2,'0')).join('');
+}
+function atlasHexToBytes(hex){
+  const clean=String(hex||'').replace(/[^0-9a-f]/gi,'');
+  const bytes=new Uint8Array(Math.floor(clean.length/2));
+  for(let i=0;i<bytes.length;i++)bytes[i]=parseInt(clean.slice(i*2,i*2+2),16);
+  return bytes;
+}
+async function atlasMerklePair(leftHex,rightHex){
+  const left=atlasHexToBytes(leftHex),right=atlasHexToBytes(rightHex);
+  const joined=new Uint8Array(left.length+right.length);joined.set(left,0);joined.set(right,left.length);
+  return atlasBytesToHex(await atlasSha256Bytes(joined));
+}
+async function initBlockchainLessonInteractions(chapterNumber){
+  if(chapterNumber!==3)return;
+  const shortened=value=>value?'0x'+value.slice(0,22)+'…'+value.slice(-8):'—';
+  const hashInput=document.querySelector('#ch3-hash-input');
+  if(hashInput){
+    const initialValue=hashInput.value;
+    const parentHash='8f'.repeat(32);
+    const currentEl=document.querySelector('#ch3-hash-current');
+    const nextEl=document.querySelector('#ch3-hash-next');
+    const statusEl=document.querySelector('#ch3-hash-status');
+    const relink=document.querySelector('#ch3-hash-relink');
+    const reset=document.querySelector('#ch3-hash-reset');
+    let currentHash='',sequence=0;
+    const render=async()=>{
+      const ticket=++sequence;
+      if(!window.crypto?.subtle){statusEl.textContent='Cette démonstration nécessite un navigateur récent en contexte sécurisé (HTTPS).';return;}
+      try{
+        const calculated=await atlasSha256Text('parent='+parentHash+'|data='+hashInput.value);
+        if(ticket!==sequence)return;
+        currentHash=calculated;currentEl.textContent=shortened(currentHash);
+        const expected=nextEl.dataset.hash||'';
+        if(!expected){nextEl.dataset.hash=currentHash;nextEl.textContent=shortened(currentHash);statusEl.textContent='État initial : le bloc suivant référence bien le hash du bloc courant.';statusEl.className='ch3-lab-status is-ok';}
+        else if(expected===currentHash){statusEl.textContent='Lien cohérent : la référence du bloc suivant correspond à l’empreinte actuelle.';statusEl.className='ch3-lab-status is-ok';}
+        else{statusEl.textContent='Lien rompu : le bloc suivant référence encore l’ancienne empreinte. La modification est détectable.';statusEl.className='ch3-lab-status is-alert';}
+      }catch(error){statusEl.textContent='Le calcul cryptographique n’a pas pu être effectué dans ce navigateur.';statusEl.className='ch3-lab-status is-alert';}
+    };
+    hashInput.addEventListener('input',render);
+    relink?.addEventListener('click',()=>{
+      if(!currentHash)return;
+      nextEl.dataset.hash=currentHash;nextEl.textContent=shortened(currentHash);
+      statusEl.textContent='Lien mis à jour dans la maquette. Dans un vrai réseau, il faudrait aussi reconstruire les blocs concernés et satisfaire les règles du mécanisme de consensus.';
+      statusEl.className='ch3-lab-status is-ok';
+    });
+    reset?.addEventListener('click',()=>{hashInput.value=initialValue;nextEl.dataset.hash='';nextEl.textContent='En attente…';currentHash='';render()});
+    render();
+  }
+  const merkleInputs=[...document.querySelectorAll('[data-ch3-merkle-tx]')];
+  if(merkleInputs.length===4){
+    const leafEls=merkleInputs.map((_,i)=>document.querySelector('#ch3-merkle-leaf-'+i));
+    const pairEls=[0,1].map(i=>document.querySelector('#ch3-merkle-pair-'+i));
+    const rootEl=document.querySelector('#ch3-merkle-root');
+    const statusEl=document.querySelector('#ch3-merkle-status');
+    let sequence=0;
+    const renderMerkle=async()=>{
+      const ticket=++sequence;
+      if(!window.crypto?.subtle){statusEl.textContent='Cette démonstration nécessite un navigateur récent en contexte sécurisé (HTTPS).';return;}
+      try{
+        const leaves=await Promise.all(merkleInputs.map(input=>atlasSha256Text(input.value)));
+        const pairs=await Promise.all([atlasMerklePair(leaves[0],leaves[1]),atlasMerklePair(leaves[2],leaves[3])]);
+        const root=await atlasMerklePair(pairs[0],pairs[1]);
+        if(ticket!==sequence)return;
+        leafEls.forEach((el,i)=>{if(el)el.textContent=shortened(leaves[i]);});
+        pairEls.forEach((el,i)=>{if(el)el.textContent=shortened(pairs[i]);});
+        rootEl.textContent=shortened(root);
+        statusEl.textContent='Arbre recalculé : une modification d’entrée change sa feuille, sa branche et la racine qui engage les quatre transactions.';
+        statusEl.className='ch3-lab-status is-ok';
+      }catch(error){statusEl.textContent='Le calcul de l’arbre n’a pas pu être effectué dans ce navigateur.';statusEl.className='ch3-lab-status is-alert';}
+    };
+    merkleInputs.forEach(input=>input.addEventListener('input',renderMerkle));
+    renderMerkle();
   }
 }
 function route(){

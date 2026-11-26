@@ -676,5 +676,361 @@ window.ATLAS_LESSONS = {
       </section>
     `
   }
+,
 
+  3: {
+    minutes: 45,
+    level: 'Débutant · aucun prérequis',
+    objectives: [
+      'Distinguer une blockchain d’une base de données classique et des autres registres distribués.',
+      'Décrire la structure générale d’un bloc et comprendre le rôle de son en-tête.',
+      'Expliquer le hachage, le chaînage des blocs et l’arbre de Merkle sans les confondre avec du chiffrement.',
+      'Distinguer les rôles des nœuds, des producteurs de blocs et des validateurs.',
+      'Comprendre les différences entre règles de consensus, mécanismes de consensus, bifurcation et finalité.',
+      'Identifier les garanties réelles, les limites et les cas où une blockchain est pertinente.'
+    ],
+    toc: [
+      ['ch3-demarrer', 'Avant de commencer'],
+      ['ch3-registre', 'Le registre partagé'],
+      ['ch3-architecture', 'Anatomie d’un bloc'],
+      ['ch3-hachage', 'Le hachage et l’intégrité'],
+      ['ch3-chainage', 'Relier les blocs'],
+      ['ch3-merkle', 'L’arbre de Merkle'],
+      ['ch3-noeuds', 'Qui vérifie quoi ?'],
+      ['ch3-consensus', 'Comment choisir l’historique ?'],
+      ['ch3-forks', 'Fourches et finalité'],
+      ['ch3-limites', 'Ce que la blockchain ne garantit pas'],
+      ['ch3-choisir', 'Blockchain ou base de données ?'],
+      ['ch3-cas', 'Cas pratique : tracer un lot'],
+      ['ch3-glossaire', 'Glossaire essentiel'],
+      ['ch3-retenir', 'À retenir'],
+      ['ch3-quiz', 'Vérifier ses acquis'],
+      ['ch3-sources', 'Sources']
+    ],
+    html: `
+      <div class="lesson-objectives" id="ch3-demarrer">
+        <div class="objectives-main">
+          <span class="lesson-kicker">Avant de commencer</span>
+          <h2>Comment plusieurs participants peuvent-ils conserver et vérifier un même historique numérique, sans confier toutes les écritures à une base centrale unique ?</h2>
+          <p>Dans le chapitre 2, tu as découvert pourquoi Bitcoin a besoin d’un historique partagé. Ici, nous allons ouvrir la boîte noire : comment les données sont-elles organisées, comment les blocs se relient-ils, et comment les participants détectent-ils une incohérence ?</p>
+          <div class="objective-tags"><span>Débutant</span><span>45 min environ</span><span>6 objectifs</span></div>
+        </div>
+        <aside class="objectives-side">
+          <b>À la fin de cette fiche</b>
+          <ol>
+            <li>Lire la structure d’un bloc</li>
+            <li>Comprendre un hash et un lien parent</li>
+            <li>Visualiser un arbre de Merkle</li>
+            <li>Distinguer vérification et production</li>
+            <li>Comparer plusieurs mécanismes de consensus</li>
+            <li>Reconnaître les limites d’une blockchain</li>
+          </ol>
+        </aside>
+      </div>
+
+      <section class="lesson-section" id="ch3-registre">
+        <span class="lesson-kicker">01 · Le point de départ</span>
+        <h2>Une blockchain est d’abord un registre partagé.</h2>
+        <p>Un registre est un historique organisé d’événements : paiements, transferts, changements de propriété ou mises à jour d’un état. Une banque possède par exemple un registre interne de comptes. Une entreprise peut tenir un registre de stocks. Une blockchain cherche, elle, à permettre à plusieurs participants de conserver des copies cohérentes d’un historique et d’appliquer des règles communes à l’ajout de nouvelles données.</p>
+        <div class="ch3-compare">
+          <article>
+            <span class="ch3-card-kicker">Modèle classique</span>
+            <h3>Une base centrale</h3>
+            <div class="ch3-central-diagram" role="img" aria-label="Plusieurs utilisateurs se connectent à une base de données centrale">
+              <span class="ch3-user">Utilisateur A</span><span class="ch3-user">Utilisateur B</span><span class="ch3-user">Utilisateur C</span>
+              <div class="ch3-central-lines"><i></i><i></i><i></i></div>
+              <div class="ch3-database">Base de données<br><small>administrée par un opérateur</small></div>
+            </div>
+            <p>Un opérateur contrôle l’accès et les écritures. Il peut être très efficace et appliquer des contrôles précis, mais les autres participants doivent lui faire confiance pour tenir le registre correctement.</p>
+          </article>
+          <article>
+            <span class="ch3-card-kicker">Modèle distribué</span>
+            <h3>Un registre répliqué</h3>
+            <div class="ch3-network-diagram" role="img" aria-label="Plusieurs nœuds reliés entre eux conservent et vérifient un registre partagé">
+              <span class="ch3-network-node n1">Nœud A</span><span class="ch3-network-node n2">Nœud B</span><span class="ch3-network-node n3">Nœud C</span><span class="ch3-network-node n4">Nœud D</span>
+              <svg viewBox="0 0 320 145" aria-hidden="true"><path d="M58 35L160 18L264 35L264 112L160 128L58 112Z M58 35L264 112 M264 35L58 112 M160 18L160 128"/></svg>
+            </div>
+            <p>Plusieurs machines échangent des données et vérifient les nouvelles entrées selon des règles partagées. La confiance n’a pas disparu : elle est déplacée vers le logiciel, les règles, les mécanismes de consensus et les hypothèses de sécurité.</p>
+          </article>
+        </div>
+        <div class="lesson-callout"><strong>Une distinction essentielle</strong><p>Un registre distribué (DLT) est une famille de systèmes où un registre est partagé entre plusieurs participants. Une blockchain est une manière particulière de structurer ce registre, en regroupant des données dans des blocs reliés cryptographiquement. Tous les registres distribués ne sont donc pas nécessairement des blockchains.</p></div>
+        <h3>Pourquoi ne pas simplement partager un fichier ?</h3>
+        <p>Un fichier partagé ne résout pas à lui seul les conflits. Si deux personnes modifient le même document hors ligne, quelle version doit être retenue ? Qui a le droit d’écrire ? Comment détecter une modification non autorisée ? Une blockchain ajoute des règles de validation, un ordre partagé des écritures et un mécanisme permettant aux participants de converger vers un historique commun. La manière exacte de résoudre ces problèmes varie selon chaque réseau.</p>
+      </section>
+
+      <section class="lesson-section" id="ch3-architecture">
+        <span class="lesson-kicker">02 · L’unité de construction</span>
+        <h2>Anatomie d’un bloc : des données et des métadonnées.</h2>
+        <p>Un bloc regroupe généralement des enregistrements — souvent des transactions — ainsi que des informations qui permettent de le situer dans la chaîne et de vérifier son contenu. On peut le comparer à une page d’un registre : la page contient les opérations, mais aussi des repères permettant de savoir à quelle page elle succède et si son contenu correspond à l’engagement cryptographique annoncé.</p>
+        <div class="ch3-block-anatomy">
+          <div class="ch3-block-top"><span>EN-TÊTE DU BLOC</span><b>Les informations qui identifient et relient le bloc</b></div>
+          <div class="ch3-header-grid">
+            <div><small>Référence au parent</small><strong>Hash du bloc précédent</strong><em>Relie ce bloc à l’historique antérieur</em></div>
+            <div><small>Engagement sur le contenu</small><strong>Racine de Merkle</strong><em>Résume les empreintes des enregistrements</em></div>
+            <div><small>Repères techniques</small><strong>Temps, version, paramètres…</strong><em>Champs propres au protocole</em></div>
+          </div>
+          <div class="ch3-block-body"><div><span>CONTENU DU BLOC</span><b>Transactions ou autres données</b><small>Exemples : transferts, appels de contrats, événements ou changements d’état selon le réseau.</small></div><div class="ch3-records"><i>Enregistrement 01</i><i>Enregistrement 02</i><i>Enregistrement 03</i><i>…</i></div></div>
+          <div class="ch3-block-caption">Schéma de principe : les champs exacts et leur organisation dépendent du protocole.</div>
+        </div>
+        <h3>Un bloc n’a pas la même structure partout.</h3>
+        <p>Dans Bitcoin, l’en-tête du bloc est une structure de 80 octets contenant notamment la version, le hash de l’en-tête précédent, la racine de Merkle, l’horodatage, une cible de difficulté encodée et un nonce. Cette structure est spécifique à Bitcoin. On appelle cette partie l’en-tête de bloc. Le hash qu’elle contient est une empreinte cryptographique calculée selon les règles du protocole. Ethereum organise ses blocs différemment et inclut notamment une référence au parent, des engagements sur l’état et les transactions ainsi qu’un contenu d’exécution. Il ne faut donc pas apprendre un schéma Bitcoin comme s’il s’appliquait à toutes les blockchains.</p>
+        <div class="ch3-fact-row"><div><b>Bitcoin</b><span>En-tête de 80 octets dans le format de bloc décrit par sa documentation de référence.</span></div><div><b>Ethereum</b><span>Structure de bloc plus riche, avec des engagements sur l’état et les données d’exécution.</span></div></div>
+        <div class="lesson-callout lesson-callout-muted"><strong>À ne pas confondre</strong><p>Le bloc est un contenant de données structuré. La blockchain est l’historique formé par l’enchaînement des blocs retenus. Le réseau est l’ensemble des participants et des machines qui échangent, proposent ou vérifient ces données.</p></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-hachage">
+        <span class="lesson-kicker">03 · L’empreinte numérique</span>
+        <h2>Le hachage : transformer des données en empreinte.</h2>
+        <p>Une fonction de hachage cryptographique prend des données de taille variable et calcule une empreinte de taille fixe. On peut lui donner une phrase, un fichier ou une série d’octets : le résultat est une suite de caractères qui sert de résumé technique des données fournies.</p>
+        <div class="ch3-hash-flow">
+          <div class="ch3-hash-input"><span>DONNÉES EN ENTRÉE</span><b>« Le lot contient 24 cartons »</b><small>Texte de taille variable</small></div>
+          <div class="ch3-hash-arrow">→</div>
+          <div class="ch3-hash-function"><span>FONCTION DE HACHAGE</span><b>SHA-256</b><small>Calcul déterministe</small></div>
+          <div class="ch3-hash-arrow">→</div>
+          <div class="ch3-hash-output"><span>EMPREINTE</span><b>64 caractères hexadécimaux</b><small>256 bits pour SHA-256</small></div>
+        </div>
+        <h3>Quelles propriétés cherche-t-on ?</h3>
+        <div class="ch3-property-grid">
+          <article><b>Déterministe</b><p>La même entrée produit la même empreinte avec la même fonction et le même formatage.</p></article>
+          <article><b>Résultat fixe</b><p>SHA-256 produit toujours 256 bits, que l’entrée soit courte ou longue.</p></article>
+          <article><b>Effet avalanche</b><p>Une modification minuscule de l’entrée change normalement une grande partie de l’empreinte.</p></article>
+          <article><b>Difficile à inverser</b><p>À partir du hash seul, retrouver une entrée donnée doit être impraticable pour une fonction sûre.</p></article>
+        </div>
+        <div class="ch3-warning"><b>Un hash n’est pas un chiffrement.</b><p>Le chiffrement transforme des données pour qu’une personne disposant de la clé appropriée puisse les retrouver. Le hachage sert à produire une empreinte ; il n’est pas conçu pour retrouver le texte initial. Il ne prouve pas non plus que les données d’origine étaient vraies.</p></div>
+        <h3>À quoi sert l’empreinte dans un registre ?</h3>
+        <p>Elle permet de comparer rapidement une version à une autre. Si un fichier est modifié, son empreinte a de fortes chances de changer. Dans une blockchain, les empreintes servent notamment à relier des blocs et à engager le contenu d’un ensemble de transactions. La sécurité dépend toutefois de la fonction employée, de la manière dont les données sont encodées et des règles qui vérifient le tout.</p>
+      </section>
+
+      <section class="lesson-section" id="ch3-chainage">
+        <span class="lesson-kicker">04 · Construire une chaîne</span>
+        <h2>Chaque bloc pointe vers le bloc qui le précède.</h2>
+        <p>Dans une blockchain, un bloc contient généralement une empreinte liée à son parent. Le bloc suivant référence donc le bloc précédent. Cette succession crée un ordre et rend les modifications anciennes détectables : si le contenu d’un bloc change, son empreinte change ; la référence stockée dans le bloc suivant ne correspond alors plus.</p>
+        <figure class="lesson-figure">
+          <div class="ch3-chain-visual" role="img" aria-label="Trois blocs reliés par les empreintes du bloc précédent">
+            <div class="ch3-chain-block"><small>BLOC 101</small><b>Données A</b><span>Hash : A7F2…</span></div><div class="ch3-chain-link"><i></i><small>référence A7F2…</small></div>
+            <div class="ch3-chain-block"><small>BLOC 102</small><b>Données B</b><span>Hash : B91C…</span></div><div class="ch3-chain-link"><i></i><small>référence B91C…</small></div>
+            <div class="ch3-chain-block"><small>BLOC 103</small><b>Données C</b><span>Hash : C43D…</span></div>
+          </div>
+          <figcaption>Les valeurs affichées sont fictives et abrégées. Le bloc 102 conserve la référence cryptographique au bloc 101, et le bloc 103 à son tour au bloc 102.</figcaption>
+        </figure>
+        <h3>Teste la conséquence d’une modification.</h3>
+        <p>Modifie le texte ci-dessous. La simulation calcule une empreinte SHA-256 du contenu et de la référence au bloc parent. Tu verras que le lien du bloc suivant continue de pointer vers l’ancienne empreinte tant que tu ne le mets pas à jour.</p>
+        <div class="ch3-lab" id="ch3-chain-lab">
+          <div class="ch3-lab-head"><span class="lesson-kicker">Laboratoire · chaînage</span><strong>Que se passe-t-il si une donnée change ?</strong><p>Édite l’enregistrement du bloc 102 pour observer le changement d’empreinte.</p></div>
+          <label class="ch3-input-label" for="ch3-hash-input">Contenu simplifié du bloc 102</label>
+          <input id="ch3-hash-input" type="text" value="Lot A17 · 24 cartons reçus · 10:42" autocomplete="off">
+          <div class="ch3-hash-readouts"><div><small>Nouvelle empreinte calculée du bloc 102</small><code id="ch3-hash-current">Calcul en cours…</code></div><div><small>Référence conservée par le bloc 103</small><code id="ch3-hash-next">En attente…</code></div></div>
+          <div class="ch3-lab-status" id="ch3-hash-status" role="status">Calcul de l’empreinte…</div>
+          <div class="ch3-lab-actions"><button type="button" class="quiz-reset" id="ch3-hash-relink">Simuler la mise à jour du lien</button><button type="button" class="quiz-reset" id="ch3-hash-reset">Réinitialiser</button></div>
+          <p class="ch3-lab-note">Modèle simplifié : le navigateur calcule un SHA-256 sur une chaîne de texte. Un vrai bloc a une structure binaire et des règles propres à son protocole. Réécrire un historique réel demanderait aussi de respecter le mécanisme de consensus et les décisions du réseau.</p>
+        </div>
+        <div class="lesson-callout"><strong>La chaîne rend la modification détectable, pas physiquement impossible.</strong><p>Un attaquant peut toujours modifier une copie locale de données. La difficulté vient du fait qu’il doit aussi rendre cohérents les blocs suivants et convaincre ou contraindre le réseau à retenir cet historique selon ses règles. C’est ce coût et cette vérification collective qui rendent la réécriture résistante, pas un verrou magique.</p></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-merkle">
+        <span class="lesson-kicker">05 · Résumer beaucoup de données</span>
+        <h2>L’arbre de Merkle : un résumé compact des transactions.</h2>
+        <p>Un bloc peut contenir des centaines ou des milliers d’enregistrements. Plutôt que de placer l’empreinte de chaque transaction séparément dans l’en-tête, certains protocoles construisent un arbre de hachage : les transactions sont d’abord transformées en empreintes, puis les empreintes sont regroupées deux par deux et hachées à leur tour, jusqu’à obtenir une seule valeur au sommet : la racine de Merkle. Cette organisation est appelée un arbre de Merkle.</p>
+        <div class="ch3-merkle-static" role="img" aria-label="Arbre de Merkle avec quatre transactions, deux empreintes intermédiaires et une racine">
+          <div class="ch3-merkle-level root"><span>Racine de Merkle</span><b>H(H12 + H34)</b></div>
+          <div class="ch3-merkle-connectors"><i></i><i></i></div>
+          <div class="ch3-merkle-level middle"><span>H12</span><span>H34</span></div>
+          <div class="ch3-merkle-connectors four"><i></i><i></i><i></i><i></i></div>
+          <div class="ch3-merkle-level leaves"><span>TX 1</span><span>TX 2</span><span>TX 3</span><span>TX 4</span></div>
+          <small>Chaque H représente une empreinte calculée à partir des données ou des empreintes situées en dessous.</small>
+        </div>
+        <h3>Pourquoi faire un arbre plutôt qu’une simple liste ?</h3>
+        <p>La racine de Merkle représente de manière compacte l’ensemble ordonné des transactions du bloc. Pour prouver qu’une transaction appartient à un bloc, un client peut recevoir la transaction, la racine incluse dans l’en-tête et seulement les empreintes voisines nécessaires pour reconstruire le chemin jusqu’à la racine. Il n’a pas toujours besoin de télécharger toutes les autres transactions. Le chemin de hachages transmis constitue une preuve d’inclusion : il permet de vérifier que la transaction contribue bien à la racine annoncée.</p>
+        <div class="ch3-merkle-lab" id="ch3-merkle-lab">
+          <div class="ch3-lab-head"><span class="lesson-kicker">Laboratoire · arbre de Merkle</span><strong>Change une transaction, observe la racine.</strong><p>Modifie l’une des quatre opérations. Les feuilles, les branches intermédiaires et la racine sont recalculées dans ton navigateur.</p></div>
+          <div class="ch3-merkle-inputs">
+            <label>Transaction 1<input data-ch3-merkle-tx value="Alice paie 12 unités à Bruno"></label>
+            <label>Transaction 2<input data-ch3-merkle-tx value="Chloé paie 5 unités à David"></label>
+            <label>Transaction 3<input data-ch3-merkle-tx value="Emma paie 8 unités à Farid"></label>
+            <label>Transaction 4<input data-ch3-merkle-tx value="Hugo paie 3 unités à Inès"></label>
+          </div>
+          <div class="ch3-merkle-output">
+            <div><small>Empreintes des 4 transactions</small><div class="ch3-hash-pills"><code id="ch3-merkle-leaf-0">—</code><code id="ch3-merkle-leaf-1">—</code><code id="ch3-merkle-leaf-2">—</code><code id="ch3-merkle-leaf-3">—</code></div></div>
+            <div><small>Empreintes des paires</small><div class="ch3-hash-pills"><code id="ch3-merkle-pair-0">—</code><code id="ch3-merkle-pair-1">—</code></div></div>
+            <div class="ch3-merkle-root"><small>Racine calculée</small><code id="ch3-merkle-root">Calcul en cours…</code></div>
+          </div>
+          <p id="ch3-merkle-status" class="ch3-lab-status" role="status">Calcul de l’arbre…</p>
+          <p class="ch3-lab-note">Modèle didactique avec SHA-256 et quatre entrées textuelles. Les implémentations réelles définissent précisément l’encodage et parfois le nombre de hachages appliqués. Bitcoin, par exemple, utilise des règles spécifiques pour ses identifiants et ses arbres de Merkle.</p>
+        </div>
+        <div class="lesson-callout lesson-callout-muted"><strong>Ce que la racine ne prouve pas à elle seule</strong><p>Elle permet de vérifier qu’une donnée correspond à l’engagement cryptographique du bloc, si l’on dispose d’un en-tête fiable et du chemin de preuve attendu. Elle ne prouve pas que l’événement décrit par la transaction s’est réellement produit dans le monde physique.</p></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-noeuds">
+        <span class="lesson-kicker">06 · Les participants</span>
+        <h2>Qui conserve, propose et vérifie les données ?</h2>
+        <p>Le mot « réseau » peut donner l’impression que tous les ordinateurs font la même chose. En réalité, les tâches sont réparties. Selon le protocole, une machine peut relayer des informations, vérifier des blocs, proposer un bloc ou exécuter des programmes. Certains participants cumulent plusieurs rôles, mais les fonctions restent distinctes.</p>
+        <div class="ch3-role-grid">
+          <article><span>01</span><h3>Nœud</h3><p>Un ordinateur connecté qui échange des messages et des données avec d’autres participants. Il peut relayer les transactions et les blocs qu’il juge acceptables selon son logiciel.</p><small>Image mentale : un poste qui reçoit et transmet les pages du registre.</small></article>
+          <article><span>02</span><h3>Nœud complet</h3><p>Il télécharge ou conserve les données nécessaires et vérifie indépendamment les blocs et transactions selon les règles qu’il applique. Il ne doit pas accepter un bloc uniquement parce qu’un producteur l’a annoncé.</p><small>Image mentale : un contrôleur qui vérifie le règlement ligne par ligne.</small></article>
+          <article><span>03</span><h3>Producteur de bloc</h3><p>Selon le réseau, il peut s’agir d’un mineur en preuve de travail ou d’un proposant sélectionné en preuve d’enjeu. Il assemble les données et propose un bloc à faire vérifier.</p><small>Image mentale : la personne qui prépare la prochaine page du registre.</small></article>
+          <article><span>04</span><h3>Utilisateur ou application</h3><p>Il crée des demandes, lit des données ou interagit avec le réseau. Il peut utiliser un portefeuille ou un service qui s’appuie sur des nœuds tiers plutôt que vérifier toute la chaîne lui-même.</p><small>Image mentale : la personne qui consulte ou demande une inscription.</small></article>
+        </div>
+        <div class="lesson-callout"><strong>Produire n’est pas valider.</strong><p>Un producteur peut proposer un bloc qui paraît intéressant pour lui. Les nœuds qui appliquent les règles du réseau doivent encore contrôler sa validité. Une preuve de travail valide ou une signature de validateur ne rend pas automatiquement valides des transactions qui violeraient les règles.</p></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-consensus">
+        <span class="lesson-kicker">07 · L’accord collectif</span>
+        <h2>Le consensus : comment les participants retiennent-ils un historique ?</h2>
+        <p>Deux notions sont souvent confondues. Les <b>règles de consensus</b> disent ce qui est valide : structure des blocs, signatures, dépenses autorisées, limites d’émission ou transitions d’état. Le <b>mécanisme de consensus</b> aide le réseau à choisir un historique commun lorsque plusieurs blocs ou branches valides sont en concurrence.</p>
+        <div class="ch3-consensus-compare">
+          <article><span class="ch3-card-kicker">Preuve de travail · PoW</span><h3>Le travail de calcul</h3><p>Les producteurs cherchent une valeur qui satisfait une cible définie par le protocole. La production d’un bloc demande des essais coûteux ; les autres participants peuvent vérifier rapidement le résultat. Dans Bitcoin, la branche retenue parmi les branches valides est celle qui représente le plus de travail cumulé.</p><div class="ch3-consensus-visual pow"><i>Calcul</i><b>→</b><i>Preuve vérifiable</i><b>→</b><i>Travail cumulé</i></div><small>Exemple : Bitcoin.</small></article>
+          <article><span class="ch3-card-kicker">Preuve d’enjeu · PoS</span><h3>La mise économique</h3><p>Des validateurs immobilisent un actif selon les règles du réseau. Ils proposent ou attestent des blocs ; un comportement interdit peut entraîner une pénalité, parfois la destruction d’une partie de la mise. Les règles de sélection, de vote et de finalité dépendent du protocole concerné.</p><div class="ch3-consensus-visual pos"><i>Mise</i><b>→</b><i>Attestations</i><b>→</b><i>Poids / finalité</i></div><small>Exemple : Ethereum depuis 2022.</small></article>
+        </div>
+        <h3>Il n’existe pas un consensus universel.</h3>
+        <p>La preuve de travail et la preuve d’enjeu sont deux familles de mécanismes, pas deux boutons que l’on pourrait appliquer à n’importe quel système sans autre conséquence. D’autres réseaux utilisent des modèles permissionnés, des autorités identifiées ou des variantes de consensus. Le choix influe sur la sécurité, le coût, les participants nécessaires, la gouvernance et les hypothèses de confiance.</p>
+        <div class="ch3-distinction"><b>À retenir :</b><span>les règles disent « ce qui est valide » ; le mécanisme aide à décider « quel historique valide suivre ».</span></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-forks">
+        <span class="lesson-kicker">08 · Les désaccords temporaires</span>
+        <h2>Fourches, réorganisations et finalité.</h2>
+        <p>Un réseau distribué ne reçoit pas instantanément chaque message au même moment. Deux producteurs peuvent parfois proposer des blocs concurrents à peu près simultanément. Pendant un court instant, deux groupes de nœuds peuvent donc avoir une vision différente du dernier bloc. Les règles de choix de branche permettent ensuite au réseau de converger, si les hypothèses du protocole sont respectées.</p>
+        <div class="ch3-fork-diagram" role="img" aria-label="Un tronc commun mène à deux branches concurrentes, puis une branche est prolongée et retenue">
+          <div class="ch3-fork-common"><b>Tronc commun</b><small>Bloc 100</small></div><div class="ch3-fork-split"><i></i><i></i></div>
+          <div class="ch3-fork-branches"><div class="branch-a"><b>Branche A</b><span>Bloc 101A</span><span>Bloc 102A</span><em>Retenue dans cet exemple</em></div><div class="branch-b"><b>Branche B</b><span>Bloc 101B</span><em>Écartée par la règle de choix</em></div></div>
+        </div>
+        <h3>Trois mots à distinguer.</h3>
+        <div class="ch3-three-terms">
+          <div><b>Fourche temporaire</b><p>Deux blocs concurrents apparaissent au même niveau ; différentes copies du réseau peuvent momentanément voir des branches différentes.</p></div>
+          <div><b>Réorganisation</b><p>Le réseau remplace une partie récente de la branche qu’il suivait par une autre branche valide, conformément à son mécanisme de choix.</p></div>
+          <div><b>Hard fork</b><p>Changement des règles de consensus qui n’est pas rétrocompatible avec les règles précédentes. Il peut conduire à une séparation durable entre groupes de logiciels.</p></div>
+        </div>
+        <h3>La finalité n’a pas le même sens partout.</h3>
+        <p>Dans un système à preuve de travail comme Bitcoin, la confiance augmente généralement avec le travail cumulé construit au-dessus d’un bloc : on parle souvent de finalité probabiliste, car le risque d’une réorganisation diminue sans devenir mathématiquement nul. Dans Ethereum en preuve d’enjeu, des points de contrôle sont finalisés lorsque les attestations atteignent le seuil prévu par le protocole — au moins deux tiers de l’ETH mis en jeu pour les votes concernés ; revenir sur un bloc finalisé impliquerait des pénalités économiques majeures pour les validateurs concernés. Ces deux modèles ne doivent pas être confondus.</p>
+        <div class="lesson-callout lesson-callout-muted"><strong>Pas d’irréversibilité magique.</strong><p>Le terme « finalisé » a une définition propre à chaque réseau. Il ne signifie pas qu’une panne, une erreur logicielle, une attaque ou une coordination exceptionnelle devient impossible. Il décrit une garantie conditionnelle, liée aux règles et aux hypothèses du protocole.</p></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-limites">
+        <span class="lesson-kicker">09 · Les garanties réelles</span>
+        <h2>Ce que la blockchain garantit — et ce qu’elle ne garantit pas.</h2>
+        <p>Une blockchain peut rendre un historique partagé plus difficile à modifier discrètement et permettre à plusieurs participants de vérifier qu’un enregistrement respecte les règles prévues. Mais il faut distinguer l’intégrité technique d’une donnée de sa vérité dans le monde réel.</p>
+        <div class="ch3-guarantee-grid">
+          <article class="good"><span>Elle peut aider à…</span><ul><li>détecter une modification des données engagées par un hash ;</li><li>conserver un historique ordonné et répliqué ;</li><li>vérifier qu’un bloc respecte les règles du protocole ;</li><li>rendre certaines réécritures coûteuses ou pénalisées.</li></ul></article>
+          <article class="caution"><span>Elle ne garantit pas automatiquement…</span><ul><li>que la donnée saisie au départ était vraie ;</li><li>que l’identité d’un utilisateur est connue ou honnête ;</li><li>la confidentialité des informations publiées ;</li><li>la disponibilité permanente, l’absence de bug ou un recours juridique ;</li><li>une valeur économique ou un rendement.</li></ul></article>
+        </div>
+        <h3>Le problème des données du monde réel.</h3>
+        <p>Imaginons qu’un transporteur inscrive « colis livré » sur une blockchain. Le réseau peut vérifier que cette déclaration a été enregistrée et qu’elle n’a pas été modifiée selon les règles retenues. Il ne peut pas, par le seul calcul cryptographique, vérifier que le colis a réellement été déposé devant la bonne porte. Il faut une source fiable, un contrôle physique, un capteur ou un tiers qui atteste l’événement. La donnée hors chaîne — c’est-à-dire issue de l’extérieur du registre — doit donc être apportée par une source à évaluer. Lorsqu’un logiciel transmet une telle information à un contrat ou à un réseau, on parle souvent d’<em>oracle</em> ; cet intermédiaire devient alors une hypothèse de confiance supplémentaire.</p>
+        <div class="ch3-warning"><b>« Garbage in, garbage out ».</b><p>Si une donnée fausse est inscrite dans un registre parfaitement protégé, le registre conservera fidèlement cette donnée fausse. La blockchain protège la cohérence de l’historique ; elle ne transforme pas une déclaration inexacte en vérité.</p></div>
+        <h3>Autres limites à examiner.</h3>
+        <ul class="check-list"><li><b>Capacité :</b> le débit et la taille des données sont limités par le protocole et les ressources des participants.</li><li><b>Coût :</b> les frais, l’énergie, le stockage et la maintenance peuvent être importants selon l’architecture.</li><li><b>Confidentialité :</b> une chaîne publique peut rendre des informations visibles et analysables durablement.</li><li><b>Correction :</b> une erreur peut nécessiter une nouvelle écriture corrective plutôt que l’effacement de l’ancienne trace.</li><li><b>Gouvernance :</b> les mises à jour du logiciel et les changements de règles impliquent des choix collectifs et parfois des désaccords.</li></ul>
+      </section>
+
+      <section class="lesson-section" id="ch3-choisir">
+        <span class="lesson-kicker">10 · Faire le bon choix technique</span>
+        <h2>Blockchain ou base de données classique ?</h2>
+        <p>Une blockchain n’est pas automatiquement supérieure à une base de données. Le bon choix dépend du problème. Une blockchain publique permet généralement au public de consulter le registre et, selon les règles, de soumettre des transactions ou de participer au réseau. Une blockchain permissionnée réserve certaines opérations — écriture, validation ou administration — à des participants autorisés. Ces modèles n’offrent pas les mêmes garanties d’ouverture, de gouvernance ni de confidentialité. Si une organisation unique est responsable du registre et que les utilisateurs lui font confiance, une base classique est souvent plus rapide, moins coûteuse, plus simple à corriger et plus facile à protéger par des règles d’accès.</p>
+        <div class="ch3-choice-table">
+          <div class="head"><b>Question</b><b>Base classique</b><b>Blockchain</b></div>
+          <div><b>Qui écrit ?</b><span>Un opérateur ou un groupe bien défini.</span><span>Plusieurs participants selon des règles partagées.</span></div>
+          <div><b>Qui contrôle l’historique ?</b><span>Administrateur et contrôles internes.</span><span>Vérification par les nœuds et mécanisme de consensus.</span></div>
+          <div><b>Confidentialité</b><span>Accès finement restreints selon le système.</span><span>À concevoir explicitement ; une chaîne publique expose souvent les données inscrites.</span></div>
+          <div><b>Correction</b><span>Modifications ou suppressions possibles selon les droits et les journaux.</span><span>On ajoute souvent une correction traçable ; l’ancienne entrée peut rester visible.</span></div>
+          <div><b>Coût et performance</b><span>Souvent plus efficaces pour une application centralisée.</span><span>Consensus, réplication et vérification ajoutent des coûts et contraintes.</span></div>
+        </div>
+        <div class="ch3-choice-check"><strong>La blockchain devient intéressante lorsque :</strong><p>plusieurs organisations doivent partager un historique, qu’aucune ne devrait pouvoir le réécrire seule, et que les participants peuvent s’accorder sur des règles de validation. Si une base opérée par un tiers de confiance répond déjà au besoin, la blockchain peut ajouter de la complexité sans bénéfice proportionné.</p></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-cas">
+        <span class="lesson-kicker">11 · Mettre les idées en situation</span>
+        <h2>Cas pratique : suivre un lot de café de l’exploitation au magasin.</h2>
+        <p>Imaginons quatre acteurs qui veulent partager un historique de traçabilité : une coopérative, un transporteur, un entrepôt et un distributeur. Ils souhaitent chacun inscrire une étape et pouvoir vérifier que les autres étapes n’ont pas été discrètement réécrites.</p>
+        <div class="ch3-case-flow">
+          <article><span>01 · Coopérative</span><b>Lot créé</b><p>Un identifiant de lot et une déclaration d’origine sont inscrits.</p></article><i>→</i>
+          <article><span>02 · Transporteur</span><b>Lot expédié</b><p>Une date, un transport et un événement de prise en charge sont ajoutés.</p></article><i>→</i>
+          <article><span>03 · Entrepôt</span><b>Lot réceptionné</b><p>Une quantité reçue et un contrôle sont consignés.</p></article><i>→</i>
+          <article><span>04 · Distributeur</span><b>Lot distribué</b><p>La réception finale et le transfert au magasin sont enregistrés.</p></article>
+        </div>
+        <h3>Qu’est-ce que la blockchain apporte ici ?</h3>
+        <p>Elle peut fournir un journal partagé et vérifiable, dans lequel les acteurs voient l’ordre des événements et détectent une altération ultérieure de l’historique retenu. Mais elle ne vérifie pas à elle seule que le café provient réellement de la ferme indiquée. Cette garantie dépend de contrôles, d’identifiants, de procédures et de personnes qui alimentent le système.</p>
+        <div class="ch3-case-questions"><b>Avant de choisir une blockchain, pose ces quatre questions :</b><ol><li>Les acteurs ont-ils réellement besoin d’un registre commun ?</li><li>Existe-t-il une organisation unique digne de confiance qui pourrait tenir la base ?</li><li>Quelles données doivent rester confidentielles ou pouvoir être corrigées ?</li><li>Comment vérifier la fiabilité des informations saisies dans le monde réel ?</li></ol></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-glossaire">
+        <span class="lesson-kicker">12 · Le vocabulaire sans jargon</span>
+        <h2>Glossaire essentiel.</h2>
+        <p>Les termes techniques importants sont aussi définis directement à leur première apparition dans le texte. Ouvre une entrée ici pour réviser ou retrouver une notion rencontrée plus tôt.</p>
+        <div class="btc-glossary">
+          <details><summary>Registre distribué</summary><p>Registre partagé entre plusieurs participants, dont les copies sont synchronisées selon des règles communes. Il peut prendre plusieurs formes ; toutes les architectures de registre distribué ne sont pas des blockchains.</p></details>
+          <details><summary>Blockchain</summary><p>Type de registre numérique dans lequel des blocs de données sont ordonnés et reliés par des empreintes cryptographiques. Les règles du réseau déterminent quels blocs sont acceptés et quel historique est retenu.</p></details>
+          <details><summary>Bloc</summary><p>Ensemble de données regroupées avec des informations techniques qui permettent de les identifier, de les vérifier et de les relier à l’historique précédent. Le contenu exact dépend du protocole.</p></details>
+          <details><summary>En-tête de bloc</summary><p>Partie d’un bloc qui contient des informations de référence et des engagements sur son contenu. Dans Bitcoin, il comporte notamment le hash du bloc précédent et la racine de Merkle ; sa structure diffère sur d’autres réseaux.</p></details>
+          <details><summary>Hachage</summary><p>Opération qui consiste à appliquer une fonction de hachage à des données pour obtenir une empreinte de taille déterminée. Le terme décrit le calcul, pas le résultat lui-même.</p></details>
+          <details><summary>Fonction de hachage</summary><p>Algorithme qui transforme des données de taille variable en une sortie de taille fixe. Une fonction cryptographique sûre est conçue pour rendre impraticables certaines recherches d’entrées ou de collisions.</p></details>
+          <details><summary>Empreinte cryptographique (hash)</summary><p>Résultat du hachage. Elle sert de résumé technique des données : une modification de l’entrée change normalement l’empreinte. Ce n’est ni un chiffrement ni une preuve que la donnée est vraie.</p></details>
+          <details><summary>Arbre de Merkle</summary><p>Structure en arbre où les feuilles représentent des empreintes de données et où les niveaux supérieurs sont calculés en hachant des paires, jusqu’à obtenir une racine unique.</p></details>
+          <details><summary>Racine de Merkle</summary><p>Empreinte située au sommet de l’arbre de Merkle. Elle engage l’ensemble ordonné des éléments sous-jacents et permet de construire des preuves d’inclusion compactes.</p></details>
+          <details><summary>Preuve d’inclusion</summary><p>Ensemble d’empreintes intermédiaires permettant de vérifier qu’une donnée appartient à un ensemble engagé par une racine, sans télécharger tous les autres éléments.</p></details>
+          <details><summary>Nœud</summary><p>Ordinateur qui exécute un logiciel du réseau, échange des données avec d’autres participants et réalise les tâches prévues par sa configuration.</p></details>
+          <details><summary>Nœud complet</summary><p>Nœud qui vérifie indépendamment les blocs et transactions selon les règles du protocole qu’il applique. Il ne se contente pas de croire un producteur de bloc.</p></details>
+          <details><summary>Intégrité</summary><p>Propriété qui permet de détecter qu’une donnée a été modifiée ou qu’elle ne correspond plus à une référence attendue. L’intégrité ne prouve pas que la donnée était exacte dès le départ.</p></details>
+          <details><summary>Règles de consensus</summary><p>Règles qui définissent quelles transactions, quels blocs et quelles évolutions d’état sont considérés comme valides par les participants qui les appliquent.</p></details>
+          <details><summary>Mécanisme de consensus</summary><p>Ensemble de procédures qui aide un réseau distribué à s’accorder sur l’ordre des blocs ou l’historique à retenir lorsque plusieurs propositions sont en concurrence.</p></details>
+          <details><summary>Preuve de travail (Proof of Work)</summary><p>Mécanisme dans lequel produire un bloc demande un travail de calcul dont le résultat peut être vérifié rapidement par les autres participants.</p></details>
+          <details><summary>Preuve d’enjeu (Proof of Stake)</summary><p>Mécanisme qui s’appuie sur des participants ayant immobilisé une mise selon les règles du réseau. Des pénalités peuvent sanctionner certains comportements interdits.</p></details>
+          <details><summary>Validateur</summary><p>Participant, généralement associé à un logiciel spécialisé, qui vérifie ou atteste des blocs selon le mécanisme de consensus d’un réseau à preuve d’enjeu.</p></details>
+          <details><summary>Fourche (fork)</summary><p>Séparation de l’historique en branches concurrentes, ou changement des règles du protocole pouvant conduire à des groupes qui n’acceptent plus les mêmes blocs.</p></details>
+          <details><summary>Réorganisation</summary><p>Remplacement d’une partie récente de la branche suivie par une autre branche valide, selon la règle de choix de l’historique propre au réseau.</p></details>
+          <details><summary>Finalité</summary><p>Degré ou statut selon lequel un bloc est considéré comme très difficile, voire économiquement extrêmement coûteux, à retirer de l’historique. La définition et les garanties varient selon les protocoles.</p></details>
+          <details><summary>Oracle</summary><p>Service ou mécanisme qui apporte à un réseau une information provenant de l’extérieur, par exemple un prix, une température ou un événement physique. La fiabilité de cette source constitue une hypothèse supplémentaire.</p></details>
+          <details><summary>Donnée hors chaîne</summary><p>Information conservée ou produite en dehors de la blockchain, puis éventuellement référencée ou transmise au réseau. Le réseau ne peut pas vérifier sa vérité simplement parce qu’elle est publiée sur la chaîne.</p></details>
+          <details><summary>Blockchain publique</summary><p>Réseau auquel le public peut généralement accéder pour lire les données et, selon les règles, soumettre des transactions ou participer à la validation.</p></details>
+          <details><summary>Blockchain permissionnée (à permission)</summary><p>Réseau où l’accès à certaines actions — lecture, écriture, validation ou administration — est réservé à des participants autorisés.</p></details>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="ch3-retenir">
+        <span class="lesson-kicker">13 · Synthèse</span>
+        <h2>À retenir.</h2>
+        <div class="ch3-takeaways">
+          <article><span>01</span><h3>Un registre partagé</h3><p>La blockchain est une architecture de registre distribué, pas un synonyme de toute base de données ni de tout registre partagé.</p></article>
+          <article><span>02</span><h3>Des blocs structurés</h3><p>Un bloc regroupe des données et des métadonnées. Les champs exacts changent selon le protocole.</p></article>
+          <article><span>03</span><h3>Des liens vérifiables</h3><p>Les empreintes et les racines de Merkle permettent de détecter certaines modifications et de vérifier l’inclusion d’un enregistrement.</p></article>
+          <article><span>04</span><h3>Des rôles et des règles</h3><p>Les producteurs proposent ; les nœuds vérifient ; le mécanisme de consensus aide à retenir un historique commun.</p></article>
+          <article><span>05</span><h3>Des garanties conditionnelles</h3><p>La blockchain rend certaines altérations détectables et coûteuses, mais ne garantit ni la vérité des données saisies, ni l’absence de risque.</p></article>
+        </div>
+        <div class="lesson-callout"><strong>Le réflexe Atlas Crypto</strong><p>Quand on te présente une blockchain, demande : quelles données sont inscrites ? Qui peut écrire ? Qui vérifie ? Quelle règle décide de l’historique retenu ? Qu’est-ce qui est réellement protégé par la cryptographie, et qu’est-ce qui dépend encore d’une personne, d’une entreprise ou d’une source externe ?</p></div>
+      </section>
+
+      <section class="lesson-section" id="ch3-quiz">
+        <span class="lesson-kicker">14 · Vérification active</span>
+        <h2>Vérifier ses acquis.</h2>
+        <p>Les questions progressent de la compréhension des bases vers l’analyse critique. Après chaque réponse, lis l’explication : elle fait partie de l’apprentissage.</p>
+        <div class="quiz-progress-wrap"><div class="quiz-progress-track"><span id="quiz-progress-fill"></span></div><b id="quiz-progress-label">0 / 10 réponses</b></div>
+        <div class="btc-quiz-set">
+          <article class="quiz-question" data-question><span class="question-count">Question 1 / 10 · Architecture</span><h3>Quelle affirmation décrit le mieux le rapport entre registre distribué et blockchain ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Une blockchain n’est pas la seule forme possible de registre distribué. D’autres architectures partagent un registre sans nécessairement organiser les données en blocs chaînés.">Tous les registres distribués sont des blockchains</button><button type="button" data-correct="true" data-explanation="Exact. La blockchain est une architecture particulière au sein d’une famille plus large de registres distribués.">Une blockchain est une forme particulière de registre distribué</button><button type="button" data-correct="false" data-explanation="Une base centrale peut être répliquée ou distribuée techniquement, mais elle n’implique pas nécessairement les règles et le modèle de consensus d’une blockchain.">Toute base répliquée est une blockchain</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 2 / 10 · Structure</span><h3>Pourquoi un bloc contient-il une référence au bloc précédent ?</h3><div class="quiz-options"><button type="button" data-correct="true" data-explanation="Exact. Le lien cryptographique ordonne les blocs et rend détectable une modification d’un bloc ancien, car la référence du bloc suivant ne correspond plus.">Pour relier cryptographiquement les blocs dans un ordre</button><button type="button" data-correct="false" data-explanation="La référence au bloc précédent ne chiffre pas les données et ne les rend pas privées. Elle participe à la structure et à l’intégrité de l’historique.">Pour cacher le contenu du bloc</button><button type="button" data-correct="false" data-explanation="Les liens au parent ne suppriment pas les données anciennes. Ils créent des dépendances vérifiables entre les blocs.">Pour effacer automatiquement les anciennes transactions</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 3 / 10 · Hachage</span><h3>Que montre un changement d’empreinte après modification d’un document ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Le hash n’est pas un chiffrement : il ne transforme pas un document en message secret.">Que le document a été chiffré</button><button type="button" data-correct="true" data-explanation="Exact. Le changement d’empreinte indique que les données ne correspondent plus à la version engagée précédemment, sous réserve des propriétés de la fonction utilisée.">Que les données ne correspondent plus à l’empreinte initiale</button><button type="button" data-correct="false" data-explanation="Une empreinte ne vérifie pas la réalité du contenu. Un document faux peut avoir une empreinte parfaitement calculée.">Que les informations contenues dans le document sont vraies</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 4 / 10 · Cryptographie</span><h3>Un hash est-il la même chose qu’un chiffrement ?</h3><div class="quiz-options"><button type="button" data-correct="true" data-explanation="Exact. Un hash produit une empreinte ; un chiffrement vise à rendre des données illisibles sans clé et à permettre leur déchiffrement par un détenteur autorisé.">Non. Le hash produit une empreinte ; le chiffrement vise la confidentialité</button><button type="button" data-correct="false" data-explanation="Le hachage cryptographique est conçu comme une fonction à sens unique, pas comme un chiffrement réversible.">Oui, les deux peuvent être inversés avec une clé</button><button type="button" data-correct="false" data-explanation="Un hash n’est pas un mot de passe caché. Il sert notamment à détecter des changements et à construire des engagements cryptographiques.">Oui, un hash est un mot de passe</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 5 / 10 · Merkle</span><h3>À quoi sert principalement la racine de Merkle dans un bloc ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="La racine ne chiffre pas les données et ne les rend pas confidentielles.">À cacher toutes les transactions</button><button type="button" data-correct="true" data-explanation="Exact. Elle engage l’ensemble des transactions et permet de vérifier une inclusion avec les empreintes intermédiaires nécessaires.">À résumer cryptographiquement l’ensemble des transactions</button><button type="button" data-correct="false" data-explanation="La racine de Merkle ne choisit pas seule quel bloc est retenu. Cette décision dépend du mécanisme de consensus.">À décider quelle branche de la blockchain sera retenue</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 6 / 10 · Validation</span><h3>Un producteur propose un bloc contenant une transaction invalide. Que doivent faire les nœuds qui appliquent les règles ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="La réputation du producteur n’est pas une règle de validité. Les nœuds appliquent les règles du protocole.">Accepter le bloc si le producteur est connu</button><button type="button" data-correct="true" data-explanation="Exact. La preuve de travail ou une attestation ne transforme pas un contenu invalide en contenu valide. Les nœuds qui vérifient les règles rejettent le bloc.">Rejeter le bloc, même si sa proposition est correctement produite</button><button type="button" data-correct="false" data-explanation="La validation dépend des règles et non d’un vote de confiance sur la personne qui produit le bloc.">Demander à l’utilisateur de confirmer manuellement toutes les transactions</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 7 / 10 · Consensus</span><h3>Quelle différence faut-il faire entre règles et mécanisme de consensus ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Les deux notions sont liées, mais elles ne désignent pas la même chose.">Aucune : ce sont deux expressions identiques</button><button type="button" data-correct="true" data-explanation="Exact. Les règles définissent ce qui est valide ; le mécanisme aide le réseau à choisir l’historique lorsque plusieurs propositions sont en concurrence.">Les règles définissent la validité ; le mécanisme aide à retenir un historique commun</button><button type="button" data-correct="false" data-explanation="Les utilisateurs peuvent participer à la gouvernance ou aux choix, mais les règles de validité sont appliquées par les logiciels participants, pas décidées à chaque transaction par un vote des utilisateurs.">Les règles sont toujours décidées par un vote direct de tous les utilisateurs</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 8 / 10 · Fourches</span><h3>Que décrit une réorganisation de chaîne ?</h3><div class="quiz-options"><button type="button" data-correct="true" data-explanation="Exact. Une partie récente de l’historique suivi est remplacée par une autre branche valide, selon la règle de choix du réseau.">Le remplacement d’une partie récente par une autre branche valide</button><button type="button" data-correct="false" data-explanation="Une réorganisation ne signifie pas nécessairement une modification des règles du protocole. Elle peut être temporaire et résulter de blocs concurrents.">Une mise à jour logicielle obligatoire de tous les nœuds</button><button type="button" data-correct="false" data-explanation="Une réorganisation concerne le choix d’une branche de l’historique, pas l’effacement automatique de toutes les données.">La suppression complète de la blockchain</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 9 / 10 · Limites</span><h3>Une donnée de livraison inscrite sur une blockchain prouve-t-elle à elle seule que le colis a réellement été livré ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Le hash protège l’engagement sur une donnée mais ne vérifie pas l’événement physique décrit. Il faut une source fiable ou un contrôle indépendant.">Oui, car la blockchain ne peut pas mentir</button><button type="button" data-correct="true" data-explanation="Exact. Le registre peut prouver qu’une déclaration a été inscrite et préservée selon ses règles ; la réalité de la livraison dépend de la source qui a fourni l’information.">Non. Il faut aussi vérifier la source de l’information</button><button type="button" data-correct="false" data-explanation="Une blockchain peut enregistrer une donnée issue d’un capteur, mais elle ne certifie pas automatiquement la qualité ou l’intégrité physique de ce capteur.">Oui, si l’information vient d’un capteur</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 10 / 10 · Esprit critique</span><h3>Dans quelle situation une blockchain apporte-t-elle potentiellement le plus de valeur ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Si une seule organisation de confiance contrôle le processus, une base classique est souvent plus simple, rapide et économique.">Une entreprise seule veut stocker ses propres factures en privé</button><button type="button" data-correct="true" data-explanation="Exact. Un registre partagé peut être utile lorsque plusieurs acteurs ont besoin d’un historique commun et vérifiable sans confier toute la tenue du registre à un seul opérateur.">Plusieurs organisations veulent partager un historique sans confier seules son contrôle à l’une d’elles</button><button type="button" data-correct="false" data-explanation="La blockchain n’est pas un outil universel de confidentialité ni une solution miracle pour toutes les données personnelles.">Une application doit supprimer rapidement toutes les données personnelles</button></div><p class="quiz-feedback" role="status"></p></article>
+          <div class="quiz-summary" id="quiz-summary" aria-live="polite">0 / 10 réponses validées</div>
+          <button class="quiz-reset" id="quiz-reset" type="button">Recommencer le quiz</button>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="ch3-sources">
+        <span class="lesson-kicker">15 · Pour approfondir avec des sources traçables</span>
+        <h2>Sources et lectures complémentaires.</h2>
+        <p>Les références ci-dessous distinguent une vue d’ensemble institutionnelle, la documentation technique de Bitcoin et la documentation d’Ethereum. Les détails d’implémentation sont propres à chaque protocole : une règle décrite pour Bitcoin ne doit pas être automatiquement transposée à Ethereum ou à une autre blockchain.</p>
+        <div class="source-list">
+          <a href="https://csrc.nist.gov/pubs/ir/8202/final" target="_blank" rel="noopener noreferrer"><span>Vue d’ensemble institutionnelle · NIST IR 8202</span><b>Blockchain Technology Overview</b><small>Présentation générale des registres distribués, mécanismes de consensus, forks, applications et limites.</small><em>Consulter le rapport ↗</em></a>
+          <a href="https://www.nist.gov/information-technology/blockchain" target="_blank" rel="noopener noreferrer"><span>Recherche institutionnelle · NIST</span><b>Blockchain</b><small>Explication du registre partagé, des blocs, des liens cryptographiques et de la résistance aux modifications.</small><em>Consulter la synthèse ↗</em></a>
+          <a href="https://developer.bitcoin.org/devguide/block_chain.html" target="_blank" rel="noopener noreferrer"><span>Documentation technique · Bitcoin Developer Guide</span><b>Block Chain</b><small>Chaînage des blocs, transactions, arbre de Merkle, nœuds complets et règles de validation.</small><em>Lire le guide ↗</em></a>
+          <a href="https://developer.bitcoin.org/reference/block_chain.html" target="_blank" rel="noopener noreferrer"><span>Référence technique · Bitcoin</span><b>Block Chain Reference</b><small>Structure précise de l’en-tête Bitcoin, champs, références au parent et racine de Merkle.</small><em>Consulter la référence ↗</em></a>
+          <a href="https://ethereum.org/developers/docs/blocks/" target="_blank" rel="noopener noreferrer"><span>Documentation officielle · Ethereum</span><b>Blocks</b><small>Structure des blocs Ethereum, références au parent, transactions ordonnées et transition d’état.</small><em>Lire la documentation ↗</em></a>
+          <a href="https://ethereum.org/fr/developers/docs/consensus-mechanisms/pos/" target="_blank" rel="noopener noreferrer"><span>Documentation officielle · Ethereum</span><b>Preuve d’enjeu et finalité</b><small>Rôle des validateurs, attestations, choix de branche et finalité économique sur Ethereum.</small><em>Lire la documentation ↗</em></a>
+        </div>
+        <p class="editorial-note"><b>Note éditoriale :</b> les schémas et simulateurs sont des modèles pédagogiques simplifiés. Ils illustrent des principes cryptographiques et de registre partagé, mais ne remplacent pas l’analyse des règles de consensus ni l’exécution d’un nœud réel. Les caractéristiques exactes, les garanties et les risques varient selon chaque réseau. Cette fiche n’est ni un conseil technique de déploiement ni une recommandation d’investissement.</p>
+      </section>
+    `
+  }
 };
