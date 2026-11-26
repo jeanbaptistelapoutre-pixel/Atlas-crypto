@@ -1,6 +1,6 @@
 ATLAS CRYPTO — GLOSSAIRE CONTEXTUEL (CHAPITRES 1 ET 2)
 
-Cette mise à jour conserve le glossaire classique en fin de chapitre et rend les termes importants accessibles directement pendant la lecture.
+Cette mise à jour conserve le glossaire classique en fin de chapitre et rend les termes importants accessibles directement pendant la lecture. Chaque notion reçoit une seule occurrence cliquable par chapitre : les répétitions du même terme restent en texte normal.
 
 INSTALLATION
 1. Extraire l’archive.
@@ -19,6 +19,7 @@ COMPORTEMENT
 - Chapitre 2 : quelques termes techniques employés dans le texte (bloc, hash, sortie de transaction, mempool, transaction de génération, signature numérique et cible de preuve de travail) ont été ajoutés au glossaire pour éviter qu’un mot technique reste sans définition contextuelle.
 
 NOTES
+- Une seule occurrence cliquable est créée pour chaque notion dans chaque chapitre ; les répétitions du mot ou de ses variantes restent en texte normal.
 - Les définitions du glossaire de fin de chapitre restent disponibles pour la révision.
 - Les quiz et les définitions elles-mêmes ne sont pas annotés afin de ne pas surcharger l’interface ni de créer des définitions imbriquées.
 - Aucun changement n’est requis dans index.html, data.js, chapitres.json ou laboratoire-bitcoin.html.

@@ -154,6 +154,8 @@ function atlasDecorateTerms(chapterNumber, root){
     }
   });
   const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  // One contextual definition per concept and per chapter: annotate only its first occurrence.
+  const seenEntries=new Set();
   nodes.forEach(node=>{
     const text=node.nodeValue;expression.lastIndex=0;
     const matches=[...text.matchAll(expression)];if(!matches.length)return;
@@ -161,7 +163,13 @@ function atlasDecorateTerms(chapterNumber, root){
     matches.forEach(match=>{
       const entry=aliasMap.get(atlasNormalizeTerm(match[0]));if(!entry)return;
       fragment.append(document.createTextNode(text.slice(cursor,match.index)));
-      fragment.append(atlasCreateTermButton(match[0],entry));cursor=match.index+match[0].length;
+      if(!seenEntries.has(entry.id)){
+        fragment.append(atlasCreateTermButton(match[0],entry));
+        seenEntries.add(entry.id);
+      } else {
+        fragment.append(document.createTextNode(match[0]));
+      }
+      cursor=match.index+match[0].length;
     });
     if(cursor===0)return;
     fragment.append(document.createTextNode(text.slice(cursor)));node.parentNode.replaceChild(fragment,node);
