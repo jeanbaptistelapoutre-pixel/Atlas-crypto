@@ -18,7 +18,233 @@ function renderGeneric(c,i){
   document.querySelectorAll('[data-generic-answer]').forEach(b=>b.onclick=()=>{$('#feedback').textContent=b.dataset.genericAnswer==='1'?'Exact. Un raisonnement solide commence par l’analyse des mécanismes et des risques.':'Pas tout à fait. Il faut examiner les mécanismes et leurs limites, plutôt que chercher des certitudes.'});
   $('#lesson-meta').textContent='Synthèse introductive · approfondissements à développer';
 }
-function initLessonInteractions(){
+/* Glossaire contextuel : définitions directement accessibles dans le texte. */
+function atlasNormalizeTerm(value){
+  return String(value||'').normalize('NFC').toLocaleLowerCase('fr-FR').replace(/[’‘`´]/g,"'").replace(/[‐‑‒–—]/g,'-').replace(/\s+/g,' ').trim();
+}
+function atlasEscapeRegex(value){return value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function atlasTermPattern(value){
+  return atlasEscapeRegex(value)
+    .replace(/ /g,'\\s+')
+    .replace(/-/g,'[-‐‑‒–—]')
+    .replace(/'/g,"['’‘`´]");
+}
+function atlasGlossaryEntries(chapterNumber, root){
+  const selector=chapterNumber===1?'#glossaire .glossary-list':'#btc-glossaire .btc-glossary';
+  const glossary=root.querySelector(selector);
+  if(!glossary)return [];
+  const entries=[...glossary.querySelectorAll('details')].map((detail,index)=>({
+    label:detail.querySelector('summary')?.textContent.trim()||'',
+    definition:detail.querySelector('p')?.textContent.trim()||'',
+    aliases:[],
+    id:`ch${chapterNumber}-g${index}`
+  })).filter(item=>item.label&&item.definition);
+  const addEntry=(label,definition,aliases=[])=>entries.push({label,definition,aliases,id:`ch${chapterNumber}-extra-${entries.length}`});
+  if(chapterNumber===1){
+    // These three notions already have their own explanatory block in this chapter.
+    const excluded=new Set(['inflation','déflation','désinflation']);
+    for(let i=entries.length-1;i>=0;i--){
+      if(excluded.has(atlasNormalizeTerm(entries[i].label)))entries.splice(i,1);
+    }
+    const creditIndex=entries.findIndex(x=>atlasNormalizeTerm(x.label)==='crédit et principal');
+    if(creditIndex>=0){
+      const source=entries.splice(creditIndex,1)[0];
+      addEntry('Crédit','Opération par laquelle un prêteur met des fonds à la disposition d’un emprunteur, qui s’engage à les rembourser.');
+      addEntry('Principal du prêt','Montant emprunté qu’il reste à rembourser, sans compter les intérêts. C’est le principal qui diminue quand l’emprunteur rembourse le capital emprunté.',['principal']);
+    }
+    const valueIndex=entries.findIndex(x=>atlasNormalizeTerm(x.label)==='valeur nominale et valeur réelle');
+    if(valueIndex>=0){
+      entries.splice(valueIndex,1);
+      addEntry('Valeur nominale','Montant affiché en euros : par exemple 100 € sur un billet ou un compte. Le chiffre ne tient pas, à lui seul, compte de l’évolution des prix.');
+      addEntry('Valeur réelle','Ce que cette somme permet effectivement d’acheter après prise en compte de l’évolution des prix. Deux sommes nominalement identiques peuvent donc avoir des pouvoirs d’achat différents.');
+    }
+    const byLabel={
+      'Intermédiaire des échanges':['intermédiaire des échanges'],
+      'Réserve de valeur':['réserve de valeur'],
+      'Double coïncidence des besoins':['double coïncidence des besoins'],
+      'Monnaie fiduciaire':['monnaie fiduciaire'],
+      'Monnaie scripturale':['monnaie scripturale'],
+      'Monnaie centrale':['monnaie centrale'],
+      'Réserves bancaires':['réserves bancaires','réserve bancaire'],
+      'Instrument de paiement':['instrument de paiement','instruments de paiement'],
+      'Créance':['créance','créances'],
+      'Intérêt':['intérêt','intérêts'],
+      'Pouvoir d’achat':['pouvoir d’achat',"pouvoir d'achat",'pouvoir d achat'],
+      'Liquidité':['liquidité'],
+      'Solvabilité':['solvabilité'],
+      'Fonds propres':['fonds propres'],
+      'Compensation':['compensation','compensations'],
+      'Règlement':['règlement','règlements'],
+      'Eurosystème':['Eurosystème'],
+      'Unité de compte':['unité de compte','unités de compte']
+    };
+    entries.forEach(entry=>{const custom=byLabel[entry.label];if(custom)entry.aliases=custom;});
+    // Common plural forms for glossary headings where the meaning remains identical.
+    entries.forEach(entry=>{
+      if(!entry.aliases.length){
+        entry.aliases=[entry.label];
+        if(!/[s)]$/i.test(entry.label))entry.aliases.push(entry.label+'s');
+      }
+    });
+  } else if(chapterNumber===2){
+    const aliases={
+      'Pair-à-pair (P2P)':['pair-à-pair','pair à pair','P2P','peer-to-peer'],
+      'Double dépense':['double dépense','doubles dépenses'],
+      'Protocole':['protocole','protocoles'],
+      'Nœud':['nœud','nœuds','noeud','noeuds'],
+      'Nœud complet':['nœud complet','nœuds complets','noeud complet','noeuds complets'],
+      'Mineur':['mineur','mineurs'],
+      'Preuve de travail (Proof of Work)':['preuve de travail','proof of work','proof-of-work'],
+      'Bloc de genèse':['bloc de genèse','blocs de genèse','genesis block'],
+      'Confirmation':['confirmation','confirmations'],
+      'Travail cumulé':['travail cumulé'],
+      'Subvention de bloc':['subvention de bloc','subventions de bloc'],
+      'Halving':['halving','halvings'],
+      'Satoshi':['satoshi','satoshis','sat','sats'],
+      'Pseudonymat':['pseudonymat','pseudonyme','pseudonymes'],
+      'Consensus':['consensus'],
+      'Réorganisation de chaîne':['réorganisation de chaîne','réorganisation de la chaîne','réorganisations de chaîne']
+    };
+    const extraAliases={
+      'Bloc':['bloc','blocs'],
+      'Empreinte cryptographique (hash)':['empreinte cryptographique','empreintes cryptographiques','hash','hashes'],
+      'Sortie de transaction':['sortie de transaction','sorties de transaction'],
+      'Mempool (réserve de transactions en attente)':['mempool','réserve de transactions en attente'],
+      'Transaction de génération (coinbase)':['transaction de génération','transactions de génération','coinbase','coinbase transaction'],
+      'Signature numérique':['signature numérique','signatures numériques'],
+      'Cible de preuve de travail':['cible de preuve de travail','cible']
+    };
+    entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];else if(extraAliases[entry.label])entry.aliases=extraAliases[entry.label];});
+    entries.forEach(entry=>{if(!entry.aliases.length){entry.aliases=[entry.label];if(!/[s)]$/i.test(entry.label))entry.aliases.push(entry.label+'s');}});
+  }
+  return entries;
+}
+function atlasCreateTermButton(match, entry){
+  const button=document.createElement('button');
+  button.type='button';button.className='atlas-term';button.textContent=match;
+  button.dataset.termTitle=entry.label;button.dataset.termDefinition=entry.definition;button.dataset.termId=entry.id;
+  button.setAttribute('aria-label',`Afficher la définition de ${entry.label}`);
+  button.setAttribute('aria-expanded','false');
+  return button;
+}
+function atlasDecorateTerms(chapterNumber, root){
+  const entries=atlasGlossaryEntries(chapterNumber,root);
+  if(!entries.length)return;
+  const aliasMap=new Map();
+  const patternParts=[];
+  entries.sort((a,b)=>b.label.length-a.label.length).forEach(entry=>{
+    const aliases=[...new Set([entry.label,...(entry.aliases||[])])].sort((a,b)=>b.length-a.length);
+    aliases.forEach(alias=>{
+      const normalized=atlasNormalizeTerm(alias);
+      if(!normalized||aliasMap.has(normalized))return;
+      aliasMap.set(normalized,entry);
+      patternParts.push(atlasTermPattern(alias));
+    });
+  });
+  if(!patternParts.length)return;
+  const expression=new RegExp(`(?<![\\p{L}\\p{N}_])(?:${patternParts.join('|')})(?![\\p{L}\\p{N}_])`,'giu');
+  const excluded='a,button,summary,script,style,code,pre,textarea,input,select,option,.glossary-list,.btc-glossary,.quiz-question,.quiz-options,.quiz-suite,.btc-quiz-set,.atlas-term,svg';
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+    acceptNode(node){
+      if(!node.nodeValue||!node.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+      const parent=node.parentElement;
+      if(!parent||parent.closest(excluded))return NodeFilter.FILTER_REJECT;
+      if(parent.closest('h1,h2'))return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    const text=node.nodeValue;expression.lastIndex=0;
+    const matches=[...text.matchAll(expression)];if(!matches.length)return;
+    const fragment=document.createDocumentFragment();let cursor=0;
+    matches.forEach(match=>{
+      const entry=aliasMap.get(atlasNormalizeTerm(match[0]));if(!entry)return;
+      fragment.append(document.createTextNode(text.slice(cursor,match.index)));
+      fragment.append(atlasCreateTermButton(match[0],entry));cursor=match.index+match[0].length;
+    });
+    if(cursor===0)return;
+    fragment.append(document.createTextNode(text.slice(cursor)));node.parentNode.replaceChild(fragment,node);
+  });
+}
+function atlasBindContextualTooltip(){
+  if(window.__atlasContextTooltipBound)return;
+  window.__atlasContextTooltipBound=true;
+  let activeTrigger=null,pinned=false,closeTimer=null;
+  const tooltip=document.createElement('div');
+  tooltip.className='atlas-term-popover';tooltip.id='atlas-term-popover';tooltip.setAttribute('role','tooltip');tooltip.hidden=true;
+  const kicker=document.createElement('span');kicker.className='atlas-term-popover-kicker';kicker.textContent='DÉFINITION CONTEXTUELLE';
+  const heading=document.createElement('strong');heading.className='atlas-term-popover-title';
+  const body=document.createElement('p');body.className='atlas-term-popover-body';
+  tooltip.append(kicker,heading,body);document.body.append(tooltip);
+  const isHoverDevice=()=>window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const clearTimer=()=>{if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}};
+  const position=()=>{
+    if(!activeTrigger||tooltip.hidden)return;
+    const r=activeTrigger.getBoundingClientRect();
+    const w=tooltip.getBoundingClientRect().width,h=tooltip.getBoundingClientRect().height;
+    let left=r.left+r.width/2-w/2;left=Math.max(12,Math.min(left,window.innerWidth-w-12));
+    let top=r.bottom+9;if(top+h>window.innerHeight-12)top=r.top-h-9;
+    top=Math.max(10,Math.min(top,window.innerHeight-h-10));
+    tooltip.style.left=`${left}px`;tooltip.style.top=`${top}px`;
+  };
+  const close=()=>{
+    clearTimer();if(activeTrigger){activeTrigger.setAttribute('aria-expanded','false');activeTrigger.removeAttribute('aria-describedby');}
+    activeTrigger=null;pinned=false;tooltip.hidden=true;
+  };
+  window.__atlasCloseContextTooltip=close;
+  const open=(trigger,keepOpen)=>{
+    clearTimer();if(activeTrigger&&activeTrigger!==trigger){activeTrigger.setAttribute('aria-expanded','false');activeTrigger.removeAttribute('aria-describedby');}
+    activeTrigger=trigger;pinned=Boolean(keepOpen);
+    heading.textContent=trigger.dataset.termTitle||trigger.textContent;
+    body.textContent=trigger.dataset.termDefinition||'';
+    tooltip.hidden=false;
+    trigger.setAttribute('aria-expanded','true');trigger.setAttribute('aria-describedby',tooltip.id);
+    position();
+  };
+  const scheduleClose=()=>{if(pinned)return;clearTimer();closeTimer=setTimeout(close,180);};
+  document.addEventListener('pointerover',event=>{
+    if(!isHoverDevice())return;
+    const trigger=event.target.closest?.('.atlas-term');
+    if(trigger&&trigger!==activeTrigger){open(trigger,false);return;}
+    if(tooltip.contains(event.target))clearTimer();
+  });
+  document.addEventListener('pointerout',event=>{
+    const trigger=event.target.closest?.('.atlas-term');
+    if(trigger&&(!event.relatedTarget||!trigger.contains(event.relatedTarget))&&!tooltip.contains(event.relatedTarget))scheduleClose();
+    if(tooltip.contains(event.target)&&(!event.relatedTarget||!tooltip.contains(event.relatedTarget))&&!activeTrigger?.contains(event.relatedTarget))scheduleClose();
+  });
+  document.addEventListener('click',event=>{
+    const trigger=event.target.closest?.('.atlas-term');
+    if(trigger){
+      event.preventDefault();
+      if(activeTrigger===trigger&&pinned){close();return;}
+      open(trigger,true);return;
+    }
+    if(!tooltip.contains(event.target))close();
+  });
+  document.addEventListener('focusin',event=>{
+    const trigger=event.target.closest?.('.atlas-term');
+    if(trigger)open(trigger,false);
+  });
+  document.addEventListener('focusout',event=>{
+    if(event.target.closest?.('.atlas-term')&&!pinned)scheduleClose();
+  });
+  tooltip.addEventListener('pointerover',clearTimer);
+  tooltip.addEventListener('pointerleave',()=>{if(!pinned)scheduleClose();});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!tooltip.hidden){const trigger=activeTrigger;close();trigger?.focus?.();}});
+  window.addEventListener('resize',position,{passive:true});
+  window.addEventListener('scroll',()=>{if(!tooltip.hidden)position();},{passive:true});
+}
+function initContextualGlossary(chapterNumber){
+  if(window.__atlasCloseContextTooltip)window.__atlasCloseContextTooltip();
+  const root=$('#lesson-content');if(!root)return;
+  atlasDecorateTerms(chapterNumber,root);
+  atlasBindContextualTooltip();
+}
+
+function initLessonInteractions(chapterNumber){
+  initContextualGlossary(chapterNumber);
   const amount=$('#calc-amount'), inflation=$('#calc-inflation'), years=$('#calc-years');
   if(amount&&inflation&&years){
     const updateCalculator=()=>{
@@ -104,7 +330,7 @@ function route(){
   if(!m){const target=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;if(target&&target.closest('#reader'))return;$('#home').hidden=false;$('#reader').classList.remove('active');return}
   const i=Number(m[1])-1;if(!CHAPTERS[i]){location.hash='encyclopedie';return}current=i;const c=CHAPTERS[i];
   $('#home').hidden=true;$('#reader').classList.add('active');$('#reader-part').textContent=c.part+' · Fiche '+(i+1)+' / 25';$('#reader-title').textContent=c.title;$('#reader-lead').textContent=c.lead;
-  const lesson=window.ATLAS_LESSONS?.[i+1];if(lesson){$('#lesson-meta').textContent=lesson.level+' · '+lesson.minutes+' min de lecture';$('#lesson-nav').innerHTML='<strong>Dans cette fiche</strong>'+lesson.toc.map(x=>'<a href="#'+x[0]+'">'+x[1]+'</a>').join('');$('#lesson-content').innerHTML=lesson.html;initLessonInteractions()}else{renderGeneric(c,i)}
+  const lesson=window.ATLAS_LESSONS?.[i+1];if(lesson){$('#lesson-meta').textContent=lesson.level+' · '+lesson.minutes+' min de lecture';$('#lesson-nav').innerHTML='<strong>Dans cette fiche</strong>'+lesson.toc.map(x=>'<a href="#'+x[0]+'">'+x[1]+'</a>').join('');$('#lesson-content').innerHTML=lesson.html;initLessonInteractions(i+1)}else{renderGeneric(c,i)}
   $('#next').textContent=i===24?'Revenir au début ↺':'Fiche suivante →';window.scrollTo({top:0,behavior:'instant'});
 }
 window.addEventListener('hashchange',route);route();$('#next').onclick=()=>location.hash='chapitre-'+(current===24?1:current+2);

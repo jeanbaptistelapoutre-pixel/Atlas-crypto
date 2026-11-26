@@ -1,0 +1,24 @@
+ATLAS CRYPTO — GLOSSAIRE CONTEXTUEL (CHAPITRES 1 ET 2)
+
+Cette mise à jour conserve le glossaire classique en fin de chapitre et rend les termes importants accessibles directement pendant la lecture.
+
+INSTALLATION
+1. Extraire l’archive.
+2. Copier lessons.js, app.js et style.css à la racine du dépôt local Atlas-crypto.
+3. Remplacer les trois fichiers existants lorsque Windows le demande.
+4. Ouvrir GitHub Desktop et vérifier que les trois fichiers sont listés dans Changes.
+5. Commit : « Glossaire contextuel — chapitres 1 et 2 ».
+6. Cliquer sur Push origin. Vercel déclenche ensuite le déploiement automatique.
+
+COMPORTEMENT
+- Ordinateur : survol d’un terme pour afficher sa définition ; clic pour la maintenir ouverte.
+- Téléphone : toucher le terme pour afficher la définition ; toucher à l’extérieur ou le terme à nouveau pour la fermer.
+- Clavier : les termes sont des boutons accessibles au focus ; Échap ferme la définition.
+- Les définitions affichées proviennent du glossaire de la fiche, avec quelques sous-entrées pour « crédit », « principal », « valeur nominale » et « valeur réelle ».
+- Chapitre 1 : « inflation », « déflation » et « désinflation » ne sont volontairement pas transformés en termes cliquables, car ils disposent déjà de leur explication dédiée.
+- Chapitre 2 : quelques termes techniques employés dans le texte (bloc, hash, sortie de transaction, mempool, transaction de génération, signature numérique et cible de preuve de travail) ont été ajoutés au glossaire pour éviter qu’un mot technique reste sans définition contextuelle.
+
+NOTES
+- Les définitions du glossaire de fin de chapitre restent disponibles pour la révision.
+- Les quiz et les définitions elles-mêmes ne sont pas annotés afin de ne pas surcharger l’interface ni de créer des définitions imbriquées.
+- Aucun changement n’est requis dans index.html, data.js, chapitres.json ou laboratoire-bitcoin.html.

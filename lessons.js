@@ -263,7 +263,7 @@ window.ATLAS_LESSONS = {
       <section class="lesson-section" id="glossaire">
         <span class="lesson-kicker">08 · Le vocabulaire sans jargon</span>
         <h2>Glossaire essentiel</h2>
-        <p>Ces termes reviendront dans les prochains chapitres. Ouvre une définition pour lire une explication simple et un exemple d’utilisation.</p>
+        <p>Ces termes reviendront dans les prochains chapitres. Ouvre une définition pour lire une explication simple et un exemple d’utilisation. Dans le texte, les termes soulignés en pointillés sont aussi cliquables : sur ordinateur, survole-les ou clique dessus ; sur téléphone, touche-les.</p>
         <div class="glossary-list">
           <details><summary>Unité de compte</summary><p>Unité commune dans laquelle on exprime les prix et les dettes. Exemple : un loyer de 750 € peut être comparé à un autre de 820 €.</p></details>
           <details><summary>Intermédiaire des échanges</summary><p>Rôle de la monnaie qui permet de vendre un bien contre de la monnaie puis d’utiliser cette monnaie pour un autre achat, sans troc direct.</p></details>
@@ -549,7 +549,7 @@ window.ATLAS_LESSONS = {
         <span class="lesson-kicker">07 · Les règles monétaires</span>
         <h2>Une émission définie par le protocole, pas par une banque centrale.</h2>
         <p>De nouveaux bitcoins entrent dans l’historique au moyen d’une transaction spéciale incluse par le mineur dans chaque bloc valide : la transaction de génération, souvent appelée <em>coinbase transaction</em>. La récompense comprend une subvention de bloc (<em>block subsidy</em>) et, lorsqu’il y en a, les frais des transactions incluses. La subvention est la partie qui crée de nouvelles unités ; les frais sont des unités déjà existantes transférées au mineur.</p>
-        <p>Le montant de la subvention suit une règle prévue par le protocole : elle est divisée par deux tous les 210 000 blocs. Le rythme moyen visé est d’environ dix minutes par bloc, donc une période de réduction correspond approximativement à quatre ans. C’est un objectif moyen, pas un calendrier exact : le temps réel entre blocs varie.</p>
+        <p>Le montant de la subvention suit une règle prévue par le protocole : elle est divisée par deux tous les 210 000 blocs. Cette réduction périodique est appelée halving (mot anglais signifiant « division par deux »). Le rythme moyen visé est d’environ dix minutes par bloc, donc une période de réduction correspond approximativement à quatre ans. C’est un objectif moyen, pas un calendrier exact : le temps réel entre blocs varie.</p>
         <div class="btc-halving-lab">
           <span class="lesson-kicker">Simulateur d’émission · modèle de la subvention</span>
           <h3>Observe l’effet des divisions par deux</h3>
@@ -597,7 +597,7 @@ window.ATLAS_LESSONS = {
       <section class="lesson-section" id="btc-glossaire">
         <span class="lesson-kicker">10 · Le vocabulaire sans jargon</span>
         <h2>Glossaire essentiel.</h2>
-        <p>Ces notions vont revenir dans les chapitres suivants. Ouvre chaque définition pour revoir l’idée principale avec une formulation simple.</p>
+        <p>Ces notions vont revenir dans les chapitres suivants. Ouvre chaque définition pour revoir l’idée principale avec une formulation simple. Dans le texte, les termes soulignés en pointillés sont aussi cliquables : sur ordinateur, survole-les ou clique dessus ; sur téléphone, touche-les.</p>
         <div class="btc-glossary">
           <details><summary>Pair-à-pair (P2P)</summary><p>Organisation dans laquelle des ordinateurs communiquent directement entre eux pour échanger des données, sans dépendre d’un serveur unique qui serait le passage obligé de tous les messages.</p></details>
           <details><summary>Double dépense</summary><p>Tentative d’utiliser deux fois la même unité ou la même valeur d’origine dans des transactions concurrentes. Un système de paiement doit empêcher que ces deux dépenses soient toutes deux retenues dans un même état valide.</p></details>
@@ -615,6 +615,13 @@ window.ATLAS_LESSONS = {
           <details><summary>Pseudonymat</summary><p>Les transactions sont associées à des adresses ou identifiants publics, pas directement à des noms civils. Des analyses et données externes peuvent néanmoins relier certaines adresses à des personnes.</p></details>
           <details><summary>Consensus</summary><p>Ensemble des règles et mécanismes qui permettent aux nœuds de s’accorder sur l’historique valide et l’état du registre. Dans Bitcoin, les nœuds vérifient les règles et la preuve de travail contribue à ordonner les blocs.</p></details>
           <details><summary>Réorganisation de chaîne</summary><p>Changement de la partie récente de l’historique retenu lorsqu’une autre chaîne valide présente davantage de travail cumulé. Elle peut rendre non confirmée une transaction auparavant incluse dans un bloc de la branche abandonnée.</p></details>
+          <details><summary>Bloc</summary><p>Dans Bitcoin, un bloc est un enregistrement qui regroupe une ou plusieurs transactions et des informations techniques. Chaque bloc référence le bloc précédent, ce qui forme une chaîne.</p></details>
+          <details><summary>Empreinte cryptographique (hash)</summary><p>Résultat calculé à partir de données par une fonction de hachage. Dans Bitcoin, l’en-tête d’un bloc est haché pour la preuve de travail. Une modification des données produit normalement une empreinte très différente. Un hash n’est pas un chiffrement.</p></details>
+          <details><summary>Sortie de transaction</summary><p>Partie d’une transaction qui associe une valeur en satoshis à des conditions pour la dépenser. Une transaction ultérieure peut utiliser cette sortie comme entrée. Si elle n’a pas encore été dépensée, elle peut constituer un UTXO.</p></details>
+          <details><summary>Mempool (réserve de transactions en attente)</summary><p>Zone d’attente locale d’un nœud qui conserve les transactions qu’il a reçues et acceptées, mais qui ne sont pas encore incluses dans un bloc. Chaque nœud a sa propre vue : il n’existe pas une file mondiale parfaitement identique partout.</p></details>
+          <details><summary>Transaction de génération (coinbase)</summary><p>Première transaction d’un bloc, créée par le mineur. Elle lui permet de réclamer la subvention de bloc et les frais des transactions incluses, selon les règles du protocole.</p></details>
+          <details><summary>Signature numérique</summary><p>Donnée cryptographique produite avec une clé privée et vérifiable avec la clé publique associée. Dans Bitcoin, elle sert à autoriser la dépense d’une sortie sans révéler la clé privée.</p></details>
+          <details><summary>Cible de preuve de travail</summary><p>Valeur limite que doit respecter l’empreinte de l’en-tête d’un bloc pour que sa preuve de travail soit valide. Plus la cible est basse, plus il faut en moyenne d’essais pour trouver un résultat acceptable.</p></details>
         </div>
       </section>
 
