@@ -381,4 +381,293 @@ window.ATLAS_LESSONS = {
       </section>
     `
   }
+
+  ,
+  2: {
+    minutes: 35,
+    level: 'Débutant · aucun prérequis',
+    objectives: [
+      'Expliquer le problème de la double dépense dans un système de paiement numérique.',
+      'Distinguer le réseau Bitcoin, le protocole et l’unité bitcoin (BTC).',
+      'Situer les principaux jalons historiques de 2008 à 2010.',
+      'Distinguer le rôle des portefeuilles, des nœuds complets et des mineurs.',
+      'Comprendre pourquoi la preuve de travail rend l’historique coûteux à réécrire, sans le rendre absolument irréversible.',
+      'Décrire les grandes règles d’émission du bitcoin et leurs limites.'
+    ],
+    toc: [
+      ['btc-probleme', 'Le problème des paiements numériques'],
+      ['btc-definition', 'Ce que Bitcoin est'],
+      ['btc-histoire', 'Les premiers jalons'],
+      ['btc-double-depense', 'La double dépense'],
+      ['btc-reseau', 'Le réseau pair-à-pair'],
+      ['btc-preuve-travail', 'La preuve de travail'],
+      ['btc-emission', 'Une émission régie par des règles'],
+      ['btc-usages-limites', 'Usages, limites et idées reçues'],
+      ['btc-cas-reel', 'Un premier paiement sur le réseau'],
+      ['btc-glossaire', 'Glossaire essentiel'],
+      ['btc-retenir', 'À retenir'],
+      ['btc-quiz', 'Vérifier ses acquis'],
+      ['btc-sources', 'Sources']
+    ],
+    html: `
+      <div class="lesson-objectives" id="btc-demarrer">
+        <div class="objectives-main">
+          <span class="lesson-kicker">Avant de commencer</span>
+          <h2>Comment envoyer une valeur sur Internet sans demander à une entreprise unique de tenir le registre et d’empêcher les doubles paiements ?</h2>
+          <p>Tu connais déjà les paiements numériques : carte bancaire, virement, portefeuille mobile. Bitcoin pose une question différente. Peut-on concevoir une unité numérique native d’Internet, transférable entre utilisateurs, dont les règles et l’historique sont vérifiables par un réseau plutôt que décidés par un opérateur central ?</p>
+          <div class="objective-tags"><span>Débutant</span><span>35 min environ</span><span>6 objectifs</span></div>
+        </div>
+        <aside class="objectives-side">
+          <b>À la fin de la fiche</b>
+          <ol>
+            <li>Comprendre la double dépense</li>
+            <li>Identifier réseau, protocole et BTC</li>
+            <li>Expliquer les rôles du réseau</li>
+            <li>Comprendre la preuve de travail</li>
+            <li>Connaître les règles d’émission</li>
+            <li>Identifier les limites de Bitcoin</li>
+          </ol>
+        </aside>
+      </div>
+
+      <section class="lesson-section" id="btc-probleme">
+        <span class="lesson-kicker">01 · Le problème à résoudre</span>
+        <h2>Un fichier numérique se copie. Une valeur dépensable ne devrait pas se dédoubler.</h2>
+        <p>Une photo, un PDF ou un morceau de musique peut être copié sans que l’original disparaisse. C’est l’une des propriétés normales de l’information numérique. Mais un système de paiement doit répondre à une autre exigence : si une personne possède une unité de valeur et l’utilise pour payer, elle ne doit pas pouvoir utiliser exactement cette même unité une deuxième fois comme si rien ne s’était passé.</p>
+        <div class="btc-analogy-grid">
+          <article><span class="btc-card-index">01 · Information</span><h3>Copier un fichier</h3><p>Tu envoies une copie d’un document à deux amis. Les deux peuvent conserver leur copie : rien n’oblige le fichier envoyé au premier à disparaître.</p><div class="btc-card-foot">La duplication est attendue.</div></article>
+          <article><span class="btc-card-index">02 · Paiement</span><h3>Dépenser une même unité deux fois</h3><p>Tu disposes d’une unité numérique de 1 BTC. Tu signes un paiement vers Bob, puis un autre vers Carol en essayant d’utiliser la même valeur d’origine.</p><div class="btc-card-foot">Le système doit déterminer quelle dépense peut être retenue.</div></article>
+        </div>
+        <p>Dans un système bancaire classique, les établissements et leurs infrastructures tiennent les comptes et coordonnent les règlements. Les utilisateurs n’ont pas à résoudre eux-mêmes le problème de la double dépense : ils s’appuient sur ce système organisé.</p>
+        <p>Le projet de Bitcoin est différent : proposer un système de paiement électronique <em>pair-à-pair</em> qui n’exige pas qu’un tiers unique soit l’arbitre de chaque transaction. Le livre blanc de 2008 formule précisément ce problème. Il ne prétend pas que les paiements numériques n’existaient pas avant Bitcoin ; il propose une manière particulière de les organiser sans registre central unique.</p>
+        <div class="lesson-callout"><strong>La question fondatrice</strong><p>Comment des participants qui ne se connaissent pas peuvent-ils s’accorder sur l’ordre des transactions et sur le fait qu’une même valeur n’a pas déjà été dépensée ? Bitcoin combine signatures numériques, diffusion entre pairs, preuve de travail et règles de validation pour répondre à cette question.</p></div>
+        <div class="btc-contrast">
+          <div><span class="lesson-kicker">Modèle avec intermédiaire</span><h3>Un registre tenu par un opérateur</h3><p>Un établissement reçoit les instructions, vérifie les soldes selon ses règles et met à jour son registre. Les participants lui confient une partie de la tenue des comptes et du règlement.</p></div>
+          <div class="btc-contrast-arrow" aria-hidden="true">↔</div>
+          <div><span class="lesson-kicker">Modèle Bitcoin</span><h3>Un registre vérifié par un réseau</h3><p>Les transactions sont diffusées entre pairs. Les nœuds complets appliquent les mêmes règles de validation ; les mineurs proposent des blocs ordonnés par preuve de travail.</p></div>
+        </div>
+        <p class="btc-caveat"><b>Nuance importante :</b> utiliser Bitcoin ne signifie pas toujours se passer de tiers. Un utilisateur peut passer par une plateforme d’échange, un dépositaire ou un prestataire. La proposition pair-à-pair concerne le fonctionnement du protocole et la possibilité de vérifier soi-même les règles en utilisant un nœud compatible.</p>
+      </section>
+
+      <section class="lesson-section" id="btc-definition">
+        <span class="lesson-kicker">02 · Poser les bons mots</span>
+        <h2>Bitcoin, bitcoin et BTC : trois notions à ne pas confondre.</h2>
+        <p>Dans le langage courant, on emploie souvent « Bitcoin » pour parler de tout l’écosystème. Pour raisonner proprement, il est utile de séparer le système, le réseau et l’unité qui y circule. Les majuscules ne sont pas toujours utilisées de manière uniforme dans les médias ; ici, Atlas Crypto adopte la convention suivante.</p>
+        <div class="btc-three-defs">
+          <article><span class="btc-symbol">₿</span><h3>Bitcoin</h3><p>Le nom usuel du protocole, du système et de l’écosystème construits autour des règles Bitcoin.</p><small>Exemple : « le protocole Bitcoin ».</small></article>
+          <article><span class="btc-symbol">⇄</span><h3>Le réseau</h3><p>L’ensemble des logiciels et des machines connectés qui échangent des transactions et des blocs entre pairs.</p><small>Exemple : « un nœud se connecte au réseau ».</small></article>
+          <article><span class="btc-symbol">BTC</span><h3>Le bitcoin</h3><p>L’unité de compte native suivie par le protocole. Un bitcoin se subdivise en 100 millions de satoshis.</p><small>Exemple : « envoyer 0,01 BTC ».</small></article>
+        </div>
+        <h3>Un protocole n’est pas une entreprise</h3>
+        <p>Bitcoin ne possède pas de direction centrale qui pourrait, à elle seule, modifier les règles appliquées par tous les participants. Son code est développé et discuté publiquement, mais publier une modification ne suffit pas à l’imposer au réseau. Les opérateurs de nœuds choisissent les logiciels et les règles qu’ils acceptent ; les mineurs proposent des blocs ; les utilisateurs, entreprises et développeurs influencent l’adoption des changements.</p>
+        <p>Il existe donc une gouvernance sociale et technique, même en l’absence d’un directeur général ou d’une banque centrale du Bitcoin. Les désaccords peuvent conduire à des mises à jour coordonnées, à des versions concurrentes du logiciel ou, dans certains cas, à une scission de réseau.</p>
+        <div class="btc-key-point"><b>À comprendre</b><p>« Décentralisé » ne veut pas dire « sans règles », « sans organisation » ou « sans influence ». Cela signifie qu’aucun acteur unique ne dispose automatiquement du pouvoir de faire accepter ses décisions à tous les autres participants.</p></div>
+        <h3>Bitcoin n’est pas le premier projet de monnaie numérique</h3>
+        <p>Des systèmes de paiement électroniques et des propositions de monnaie cryptographique existaient avant 2008. Le livre blanc cite notamment des travaux sur les signatures numériques, l’horodatage, la preuve de travail et des propositions de monnaie numérique comme b-money. L’intérêt historique de Bitcoin tient à l’assemblage de ces idées dans un protocole opérationnel de paiement pair-à-pair, doté d’un mécanisme public d’ordonnancement des transactions.</p>
+      </section>
+
+      <section class="lesson-section" id="btc-histoire">
+        <span class="lesson-kicker">03 · Les premiers jalons</span>
+        <h2>De la proposition au réseau : 2008–2010.</h2>
+        <p>Il est utile de distinguer trois moments : la publication d’une proposition, la création du premier bloc et les premiers paiements entre personnes. Ils ne se sont pas produits le même jour.</p>
+        <div class="btc-timeline">
+          <article class="btc-timeline-item"><span class="btc-date">31 OCTOBRE 2008</span><div class="btc-timeline-mark">01</div><div><h3>Le livre blanc est annoncé</h3><p>Une personne ou un groupe utilisant le pseudonyme Satoshi Nakamoto diffuse sur une liste de discussion consacrée à la cryptographie le texte <em>Bitcoin: A Peer-to-Peer Electronic Cash System</em>. Il présente le problème de la double dépense et une architecture pair-à-pair fondée sur la preuve de travail.</p><a class="btc-inline-link" href="https://satoshi.nakamotoinstitute.org/emails/cryptography/1/" target="_blank" rel="noopener noreferrer">Consulter le message archivé du 31 octobre 2008 ↗</a></div></article>
+          <article class="btc-timeline-item"><span class="btc-date">3 JANVIER 2009</span><div class="btc-timeline-mark">02</div><div><h3>Le bloc de genèse est créé</h3><p>Le bloc 0, appelé <em>Genesis Block</em>, est le point de départ de la chaîne Bitcoin. Son champ de données contient une manchette du journal <em>The Times</em> datée du 3 janvier 2009 : « Chancellor on brink of second bailout for banks ».</p><a class="btc-inline-link" href="https://www.blockchain.com/explorer/blocks/btc/00000000000000000000" target="_blank" rel="noopener noreferrer">Observer le bloc 0 sur un explorateur ↗</a><p class="btc-source-note">La manchette est une donnée vérifiable du bloc. Elle est souvent interprétée comme un commentaire sur le contexte bancaire de l’époque, mais elle ne permet pas, à elle seule, de connaître toutes les motivations de l’auteur.</p></div></article>
+          <article class="btc-timeline-item"><span class="btc-date">JANVIER 2009</span><div class="btc-timeline-mark">03</div><div><h3>Le logiciel et le réseau deviennent utilisables</h3><p>Le logiciel initial est diffusé publiquement. Des participants commencent à faire fonctionner le programme, à produire des blocs et à expérimenter les premières transactions. Bitcoin passe ainsi d’une proposition écrite à un système informatique en activité.</p></div></article>
+          <article class="btc-timeline-item"><span class="btc-date">12 JANVIER 2009</span><div class="btc-timeline-mark">04</div><div><h3>Une première transaction entre deux personnes est enregistrée</h3><p>Satoshi Nakamoto envoie 10 BTC à Hal Finney dans une transaction incluse au bloc 170. Il s’agit d’un jalon documenté du fonctionnement pair-à-pair, distinct de la récompense de création des blocs.</p><a class="btc-inline-link" href="https://www.blockchain.com/explorer/transactions/BTC/f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16" target="_blank" rel="noopener noreferrer">Voir la transaction historique ↗</a></div></article>
+          <article class="btc-timeline-item"><span class="btc-date">22 MAI 2010</span><div class="btc-timeline-mark">05</div><div><h3>Les deux pizzas de 10 000 BTC</h3><p>Laszlo Hanyecz paie 10 000 BTC pour deux pizzas dans une transaction organisée sur un forum. Cet épisode est devenu un symbole de l’un des premiers achats de biens physiques publiquement connus réglés en bitcoin. Il ne faut pas le confondre avec la première transaction de personne à personne, qui date de janvier 2009.</p><a class="btc-inline-link" href="https://www.guinnessworldrecords.com/world-records/696240-first-commercial-bitcoin-transaction" target="_blank" rel="noopener noreferrer">Lire le contexte historique de l’achat ↗</a></div></article>
+        </div>
+        <div class="btc-key-point"><b>Ce que l’histoire permet d’affirmer — et ce qu’elle ne permet pas</b><p>Le nom Satoshi Nakamoto est le pseudonyme associé au livre blanc et au logiciel initial. L’identité réelle de la personne ou des personnes derrière ce nom n’a pas été établie de façon vérifiable. Atlas Crypto ne reprend donc pas les spéculations sur son identité comme des faits.</p></div>
+      </section>
+
+      <section class="lesson-section" id="btc-double-depense">
+        <span class="lesson-kicker">04 · Le cœur du problème</span>
+        <h2>La double dépense : pourquoi une seule transaction ne suffit pas.</h2>
+        <p>Imagine qu’Alice contrôle une sortie de transaction disponible d’une valeur de 1 BTC. Elle prépare deux paiements concurrents : 0,7 BTC vers Bob et 0,7 BTC vers Carol. Dans les deux cas, elle essaie d’utiliser la même valeur d’origine. Le réseau doit éviter que les deux paiements soient validés dans une même histoire cohérente.</p>
+        <div class="btc-conflict-lab" data-double-spend-lab>
+          <div class="btc-lab-heading"><span class="lesson-kicker">Laboratoire interactif · modèle simplifié</span><h3>Deux paiements concurrents, une même valeur d’origine</h3><p>Choisis le paiement que le bloc retenu inclut dans cet exemple. Le choix est volontairement hypothétique : il sert à voir pourquoi les deux dépenses ne peuvent pas toutes les deux rester valides dans la même chaîne.</p></div>
+          <div class="btc-conflict-origin"><span>Valeur disponible au départ</span><strong>1,00 BTC</strong><small>Une même sortie de transaction, utilisée comme source par les deux tentatives.</small></div>
+          <div class="btc-conflict-branches">
+            <article class="btc-conflict-branch" id="btc-conflict-bob"><span class="btc-branch-tag">Transaction A</span><b>Alice → Bob</b><strong>0,70 BTC</strong><small>Une partie de la valeur est envoyée à Bob ; le reste serait rendu à Alice.</small></article>
+            <article class="btc-conflict-branch" id="btc-conflict-carol"><span class="btc-branch-tag">Transaction B</span><b>Alice → Carol</b><strong>0,70 BTC</strong><small>La même valeur d’origine est utilisée une seconde fois dans une tentative concurrente.</small></article>
+          </div>
+          <div class="btc-lab-controls"><button type="button" class="mode-button" data-btc-conflict="bob" aria-pressed="false">Le bloc inclut le paiement vers Bob</button><button type="button" class="mode-button" data-btc-conflict="carol" aria-pressed="false">Le bloc inclut le paiement vers Carol</button></div>
+          <div class="btc-conflict-result" id="btc-conflict-feedback" role="status" aria-live="polite">Choisis l’un des deux scénarios pour voir ce qu’il advient de l’autre transaction.</div>
+          <button type="button" class="btc-reset-button" data-btc-conflict-reset>Réinitialiser la démonstration</button>
+        </div>
+        <h3>Pourquoi la règle n’est-elle pas simplement « la première arrivée gagne » ?</h3>
+        <p>Les messages circulent sur Internet : deux nœuds peuvent recevoir des transactions conflictuelles dans un ordre différent, ou l’une des transactions peut atteindre certains mineurs avant l’autre. Les règles locales de relais et de mempool peuvent privilégier une transaction reçue en premier, mais cet ordre de réception n’est pas à lui seul une règle de consensus globale.</p>
+        <p>Ce qui compte pour l’état partagé, c’est l’historique de blocs valide que les nœuds retiennent selon les règles du protocole et le travail cumulé de la chaîne. Une fois qu’un bloc incluant une dépense est accepté, une autre transaction qui tente de consommer la même sortie ne peut pas être acceptée en parallèle dans cette même chaîne.</p>
+        <div class="btc-caveat"><b>Limite de la maquette :</b> elle illustre deux dépenses qui entrent en conflit et le résultat d’un bloc retenu. Elle ne simule ni la propagation réelle des messages, ni le mempool, ni la compétition des mineurs, ni une réorganisation de chaîne. Ces mécanismes seront approfondis dans les chapitres sur la blockchain et les transactions.</div>
+      </section>
+
+      <section class="lesson-section" id="btc-reseau">
+        <span class="lesson-kicker">05 · Une organisation sans serveur central unique</span>
+        <h2>Le réseau pair-à-pair : chacun a un rôle différent.</h2>
+        <p>Un réseau pair-à-pair (<em>peer-to-peer</em>, ou P2P) est un ensemble de machines qui communiquent directement entre elles. Il n’existe pas un serveur unique qui serait l’unique source de vérité pour toutes les transactions. Les participants peuvent recevoir et relayer les informations depuis plusieurs pairs.</p>
+        <figure class="lesson-figure btc-network-figure">
+          <svg viewBox="0 0 760 360" role="img" aria-label="Schéma conceptuel d'un réseau pair-à-pair : un portefeuille diffuse une transaction à plusieurs nœuds ; les mineurs proposent un bloc ; les nœuds vérifient ce bloc.">
+            <defs><linearGradient id="btcNodeGold" x1="0" x2="1"><stop stop-color="#9b7444"/><stop offset="1" stop-color="#e4c18a"/></linearGradient></defs>
+            <g stroke="#9b8059" stroke-width="2" stroke-dasharray="6 7" fill="none"><path d="M110 180 L270 80 L450 95 L630 180 L470 285 L270 275 Z"/><path d="M110 180 L450 95 M110 180 L270 275 M270 80 L470 285 M450 95 L470 285 M630 180 L270 275"/></g>
+            <g fill="#221a12" stroke="url(#btcNodeGold)" stroke-width="2"><rect x="22" y="142" width="176" height="76" rx="12"/><circle cx="270" cy="80" r="54"/><circle cx="450" cy="95" r="54"/><circle cx="630" cy="180" r="54"/><circle cx="470" cy="285" r="54"/><circle cx="270" cy="275" r="54"/></g>
+            <g fill="#f4e8d5" font-family="Arial" font-size="15" text-anchor="middle"><text x="110" y="172">Portefeuille</text><text x="110" y="193" font-size="11">prépare et signe</text><text x="270" y="77">Nœud</text><text x="270" y="95" font-size="11">vérifie</text><text x="450" y="92">Nœud</text><text x="450" y="110" font-size="11">relaie</text><text x="630" y="177">Mineur</text><text x="630" y="195" font-size="11">propose un bloc</text><text x="470" y="282">Nœud</text><text x="470" y="300" font-size="11">vérifie le bloc</text><text x="270" y="272">Nœud</text><text x="270" y="290" font-size="11">applique les règles</text></g>
+          </svg>
+          <figcaption>Schéma de principe : les messages circulent entre pairs ; les nœuds vérifient indépendamment les données reçues. Le dessin ne représente pas la topologie réelle du réseau.</figcaption>
+        </figure>
+        <div class="btc-role-lab" data-role-lab>
+          <span class="lesson-kicker">Explore les rôles</span>
+          <h3>Qui fait quoi dans le réseau ?</h3>
+          <div class="btc-lab-controls"><button type="button" class="mode-button active" data-btc-role="wallet" aria-pressed="true">Portefeuille</button><button type="button" class="mode-button" data-btc-role="node" aria-pressed="false">Nœud complet</button><button type="button" class="mode-button" data-btc-role="miner" aria-pressed="false">Mineur</button></div>
+          <div class="btc-role-detail" id="btc-role-detail" role="status" aria-live="polite"><b>Portefeuille</b><p>Le portefeuille aide l’utilisateur à préparer une transaction et à l’autoriser avec les clés nécessaires. Il communique ensuite la transaction au réseau. Il ne décide pas seul de l’état global du registre.</p></div>
+        </div>
+        <div class="btc-role-grid">
+          <article><span>01</span><h3>Le portefeuille</h3><p>Il gère les clés et aide l’utilisateur à construire et signer une transaction. Un portefeuille peut s’appuyer sur un nœud distant ; cela ne signifie pas qu’il vérifie lui-même toute la chaîne.</p></article>
+          <article><span>02</span><h3>Le nœud complet</h3><p>Il reçoit les transactions et les blocs, vérifie leur conformité aux règles qu’il applique et peut relayer les données valides vers d’autres pairs. Il ne se contente pas de croire un mineur sur parole.</p></article>
+          <article><span>03</span><h3>Le mineur</h3><p>Il sélectionne des transactions qu’il considère valides, assemble un bloc candidat et effectue la recherche de preuve de travail. Il propose un bloc ; il ne peut pas obliger les nœuds à accepter un bloc invalide.</p></article>
+        </div>
+        <div class="lesson-callout"><strong>Nœud et mineur ne sont pas synonymes</strong><p>Un mineur participe à la production de blocs. Un nœud complet vérifie les règles et l’historique. Un même opérateur peut exercer les deux rôles, mais les fonctions restent différentes : la preuve de travail ne remplace pas la vérification indépendante.</p></div>
+      </section>
+
+      <section class="lesson-section" id="btc-preuve-travail">
+        <span class="lesson-kicker">06 · Ordonner les transactions</span>
+        <h2>La preuve de travail : rendre la réécriture coûteuse.</h2>
+        <p>Les mineurs construisent un bloc candidat qui contient notamment une référence au bloc précédent et une sélection de transactions. Ils font varier des données du bloc pour rechercher une empreinte cryptographique (<em>hash</em>) inférieure à une cible fixée par le protocole. La recherche demande un grand nombre de calculs ; vérifier qu’un résultat respecte la cible est en revanche rapide.</p>
+        <div class="btc-pow-sequence">
+          <div><span>01</span><b>Construire</b><small>Assembler un bloc candidat et son en-tête.</small></div><i>→</i>
+          <div><span>02</span><b>Calculer</b><small>Essayer différentes valeurs et calculer les empreintes.</small></div><i>→</i>
+          <div><span>03</span><b>Trouver</b><small>Obtenir un résultat inférieur à la cible de difficulté.</small></div><i>→</i>
+          <div><span>04</span><b>Vérifier</b><small>Les nœuds contrôlent le bloc et appliquent leurs règles.</small></div>
+        </div>
+        <h3>Pourquoi cela protège-t-il l’historique ?</h3>
+        <p>Chaque bloc référence cryptographiquement le précédent. Si quelqu’un modifie une transaction ancienne, l’empreinte du bloc change ; les références des blocs suivants ne correspondent alors plus. Pour proposer une histoire alternative qui soit retenue, un attaquant doit refaire le travail nécessaire et dépasser le travail cumulé de la chaîne concurrente, tout en produisant des blocs et transactions acceptables selon les règles des nœuds.</p>
+        <p>Plusieurs blocs ajoutés après une transaction augmentent généralement le coût d’une réorganisation réussie. C’est pourquoi on parle de <em>confirmations</em>. Mais il ne s’agit pas d’une finalité mathématique absolue : le risque de réorganisation n’est pas strictement nul et dépend notamment de la puissance de calcul relative, de la profondeur de confirmation et du contexte du réseau.</p>
+        <div class="btc-key-point"><b>Preuve de travail ne veut pas dire « les mineurs décident de tout »</b><p>La preuve de travail aide le réseau à ordonner les blocs et à rendre les réécritures coûteuses. Les nœuds complets vérifient toujours les règles de consensus : un bloc qui crée trop de bitcoins ou contient une transaction invalide est rejeté par un nœud qui applique ces règles, même si un mineur a dépensé beaucoup d’énergie pour le produire.</p></div>
+        <div class="btc-caveat"><b>À ne pas confondre :</b> le travail de calcul ne « prouve » pas qu’une personne est honnête et ne garantit pas qu’un prix est juste. Il établit une condition technique coûteuse pour proposer l’ordre des blocs. La sécurité dépend aussi des hypothèses économiques, du comportement des participants et de la validation des règles.</div>
+      </section>
+
+      <section class="lesson-section" id="btc-emission">
+        <span class="lesson-kicker">07 · Les règles monétaires</span>
+        <h2>Une émission définie par le protocole, pas par une banque centrale.</h2>
+        <p>De nouveaux bitcoins entrent dans l’historique au moyen d’une transaction spéciale incluse par le mineur dans chaque bloc valide : la transaction de génération, souvent appelée <em>coinbase transaction</em>. La récompense comprend une subvention de bloc (<em>block subsidy</em>) et, lorsqu’il y en a, les frais des transactions incluses. La subvention est la partie qui crée de nouvelles unités ; les frais sont des unités déjà existantes transférées au mineur.</p>
+        <p>Le montant de la subvention suit une règle prévue par le protocole : elle est divisée par deux tous les 210 000 blocs. Le rythme moyen visé est d’environ dix minutes par bloc, donc une période de réduction correspond approximativement à quatre ans. C’est un objectif moyen, pas un calendrier exact : le temps réel entre blocs varie.</p>
+        <div class="btc-halving-lab">
+          <span class="lesson-kicker">Simulateur d’émission · modèle de la subvention</span>
+          <h3>Observe l’effet des divisions par deux</h3>
+          <p>Déplace le curseur pour changer le nombre de réductions successives depuis la subvention initiale de 50 BTC. Le calcul est arrondi au satoshi, soit 0,00000001 BTC. La récompense affichée est une subvention théorique par bloc ; le bloc de genèse est un cas particulier dont la récompense de 50 BTC n’est pas dépensable.</p>
+          <label for="btc-halving-era">Nombre de réductions par deux : <strong id="btc-halving-count">0</strong></label>
+          <input id="btc-halving-era" type="range" min="0" max="10" step="1" value="0">
+          <div class="btc-halving-readout"><div><span>Subvention par bloc</span><strong id="btc-halving-reward">50 BTC</strong></div><div><span>Réduction par rapport au départ</span><strong id="btc-halving-reduction">0 %</strong></div><div><span>Rythme du protocole</span><strong>210 000 blocs</strong></div></div>
+          <p class="btc-halving-explain" id="btc-halving-explain" role="status" aria-live="polite">Cycle initial : la subvention de bloc est de 50 BTC. Les frais de transaction, s’il y en a, s’ajoutent à cette subvention mais ne constituent pas de nouvelles unités.</p>
+        </div>
+        <h3>Pourquoi parle-t-on d’un plafond proche de 21 millions de BTC ?</h3>
+        <p>La subvention diminue par étapes et finit par s’arrondir à zéro au niveau du satoshi. En additionnant les subventions permises par cette séquence, on obtient une émission maximale théorique inférieure à 21 millions de BTC, souvent résumée par le plafond de 21 millions. Cette limite découle des règles de consensus adoptées par les nœuds, et non d’une promesse d’une entreprise.</p>
+        <p>Un mineur ne peut pas décider de créer une récompense supérieure à ce que permettent les règles : les nœuds complets qui vérifient le bloc le rejetteraient. Modifier ces règles demanderait une adoption coordonnée d’un changement par les participants ; une déclaration ou une décision isolée ne suffit pas à changer les bitcoins reconnus par le réseau.</p>
+        <div class="btc-caveat"><b>Ce que le plafond ne signifie pas :</b> il ne garantit pas que le prix du BTC monte, qu’il sera accepté partout, qu’il n’y aura pas de perte de clé, ni qu’un détenteur conservera son pouvoir d’achat. Une quantité limitée est une caractéristique de l’offre ; la valeur de marché dépend aussi de la demande, de l’utilité perçue, de la liquidité et des risques.</div>
+      </section>
+
+      <section class="lesson-section" id="btc-usages-limites">
+        <span class="lesson-kicker">08 · Ce que le système permet — et ce qu’il ne garantit pas</span>
+        <h2>Comprendre les compromis de Bitcoin.</h2>
+        <p>Bitcoin apporte une manière de transférer des unités numériques et de vérifier publiquement un historique selon des règles partagées. Ce choix technique a des avantages, mais aussi des coûts et des limites. Il ne faut pas déduire de son architecture qu’il est automatiquement meilleur qu’un système bancaire pour chaque situation.</p>
+        <div class="btc-pros-cons">
+          <article><span class="btc-card-index">Possibilités</span><h3>Ce que le protocole cherche à apporter</h3><ul><li>Un transfert direct entre utilisateurs, sans qu’un opérateur unique soit obligatoire dans le protocole.</li><li>Des règles publiques et une vérification indépendante par les nœuds complets.</li><li>Un historique public dont la réécriture devient coûteuse à mesure que le travail s’accumule.</li><li>Une émission monétaire déterminée par des règles connues.</li></ul></article>
+          <article><span class="btc-card-index">Compromis</span><h3>Ce qu’il faut examiner</h3><ul><li>Le prix du BTC peut être très volatil et son acceptation comme moyen de paiement reste variable.</li><li>La preuve de travail consomme de l’électricité et mobilise du matériel spécialisé.</li><li>La capacité de traitement et l’espace dans les blocs sont limités : les frais et délais peuvent varier.</li><li>La conservation des clés, la confidentialité et les erreurs d’envoi restent des responsabilités importantes.</li></ul></article>
+        </div>
+        <h3>Bitcoin est-il anonyme ?</h3>
+        <p>Il vaut mieux parler de pseudonymat. Le registre est public : les transactions, montants et adresses peuvent être observés. Une adresse n’affiche pas automatiquement le nom civil de son utilisateur, mais des informations externes, des réutilisations d’adresses ou les données d’une plateforme peuvent permettre de relier des activités à une identité. Le fonctionnement détaillé des clés, adresses et pratiques de confidentialité sera approfondi dans les chapitres 4 et 21.</p>
+        <h3>Les confirmations rendent-elles un paiement irréversible ?</h3>
+        <p>Une transaction Bitcoin confirmée ne se traite pas comme un paiement par carte que le commerçant pourrait annuler par une simple demande à un émetteur central. Cependant, une réorganisation de chaîne reste théoriquement possible, et les services centralisés peuvent appliquer leurs propres politiques de crédit, de retrait ou de remboursement. Le nombre de confirmations exigé dépend du montant, du risque accepté et du contexte ; il n’existe pas de règle universelle valable pour toutes les situations.</p>
+        <div class="btc-key-point"><b>Le bon réflexe Atlas Crypto</b><p>Pour évaluer Bitcoin, sépare toujours quatre questions : que permet le protocole ? Qu’est-ce que le réseau vérifie ? Quels risques restent à la charge de l’utilisateur ? Et quel usage réel justifie de choisir cette solution plutôt qu’une autre ?</p></div>
+      </section>
+
+      <section class="lesson-section" id="btc-cas-reel">
+        <span class="lesson-kicker">09 · Relier l’histoire au registre</span>
+        <h2>Le paiement de 10 BTC à Hal Finney : un fait vérifiable sur la chaîne.</h2>
+        <p>Le 12 janvier 2009, une transaction incluse dans le bloc 170 transfère 10 BTC à Hal Finney. L’entrée dépense une sortie issue d’une récompense de bloc antérieure de 50 BTC ; la transaction crée deux sorties : 10 BTC vers le destinataire et 40 BTC de monnaie rendue à l’adresse de retour. Cet exemple rappelle que le protocole enregistre des opérations, et non des récits sur les personnes qui les réalisent.</p>
+        <div class="btc-transaction-card">
+          <div class="btc-transaction-head"><span>TRANSACTION HISTORIQUE</span><b>Bloc 170 · 12 janvier 2009</b></div>
+          <div class="btc-transaction-flow"><div><small>Entrée dépensée</small><strong>50 BTC</strong><span>Récompense d’un bloc antérieur</span></div><div class="btc-tx-arrow">→</div><div class="btc-tx-outputs"><div><small>Sortie vers Hal Finney</small><strong>10 BTC</strong></div><div><small>Sortie de retour</small><strong>40 BTC</strong></div></div></div>
+          <p>La transaction est consultable publiquement à l’aide de son identifiant. Cette transparence permet une vérification indépendante, mais elle ne révèle pas à elle seule toute l’identité ou l’intention des personnes concernées.</p>
+          <a class="btc-inline-link" href="https://www.blockchain.com/explorer/transactions/BTC/f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16" target="_blank" rel="noopener noreferrer">Ouvrir les données de la transaction ↗</a>
+        </div>
+        <h3>Ce que cet exemple démontre — et ce qu’il ne démontre pas</h3>
+        <div class="three-column-note"><div><b>Il démontre</b><p>Qu’un transfert entre participants distincts a bien été enregistré sur le réseau à cette date.</p></div><div><b>Il illustre</b><p>Que la chaîne conserve une trace publique et vérifiable des transactions retenues dans les blocs.</p></div><div><b>Il ne démontre pas</b><p>Que le bitcoin avait alors une valeur de marché stable, une acceptation générale ou un usage universel.</p></div></div>
+      </section>
+
+      <section class="lesson-section" id="btc-glossaire">
+        <span class="lesson-kicker">10 · Le vocabulaire sans jargon</span>
+        <h2>Glossaire essentiel.</h2>
+        <p>Ces notions vont revenir dans les chapitres suivants. Ouvre chaque définition pour revoir l’idée principale avec une formulation simple.</p>
+        <div class="btc-glossary">
+          <details><summary>Pair-à-pair (P2P)</summary><p>Organisation dans laquelle des ordinateurs communiquent directement entre eux pour échanger des données, sans dépendre d’un serveur unique qui serait le passage obligé de tous les messages.</p></details>
+          <details><summary>Double dépense</summary><p>Tentative d’utiliser deux fois la même unité ou la même valeur d’origine dans des transactions concurrentes. Un système de paiement doit empêcher que ces deux dépenses soient toutes deux retenues dans un même état valide.</p></details>
+          <details><summary>Protocole</summary><p>Ensemble de règles et de formats que les logiciels participants appliquent pour communiquer et déterminer quelles données sont valides.</p></details>
+          <details><summary>Nœud</summary><p>Ordinateur qui exécute un logiciel compatible et participe à la communication avec d’autres machines du réseau. Ses fonctions exactes dépendent du type de logiciel et de la configuration.</p></details>
+          <details><summary>Nœud complet</summary><p>Nœud qui vérifie indépendamment les blocs et les transactions selon les règles qu’il applique, plutôt que de se fier seulement à un résumé fourni par un tiers.</p></details>
+          <details><summary>Mineur</summary><p>Participant qui sélectionne des transactions pour construire des blocs candidats et effectue la preuve de travail afin de proposer le prochain bloc.</p></details>
+          <details><summary>Preuve de travail (Proof of Work)</summary><p>Mécanisme qui oblige les producteurs de blocs à effectuer une recherche coûteuse en calcul, alors que les autres participants peuvent vérifier rapidement le résultat.</p></details>
+          <details><summary>Bloc de genèse</summary><p>Premier bloc de la chaîne Bitcoin, identifié par la hauteur 0. Il sert de point de départ commun à l’historique des blocs.</p></details>
+          <details><summary>Confirmation</summary><p>Une transaction reçoit une confirmation lorsqu’elle est incluse dans un bloc accepté. Chaque bloc ajouté ensuite augmente le nombre de confirmations et le travail cumulé qui protège cet historique.</p></details>
+          <details><summary>Travail cumulé</summary><p>Mesure du travail de preuve de travail associé à une chaîne entière. Pour comparer des historiques concurrents valides, le protocole tient compte du travail cumulé, pas seulement du nombre de blocs.</p></details>
+          <details><summary>Subvention de bloc</summary><p>Quantité de nouveaux bitcoins qu’un mineur peut réclamer dans la transaction de génération d’un bloc valide. Elle suit le calendrier d’émission prévu par le protocole.</p></details>
+          <details><summary>Halving</summary><p>Réduction de moitié de la subvention de bloc tous les 210 000 blocs. Le mot vient de l’anglais « half », moitié.</p></details>
+          <details><summary>Satoshi</summary><p>Plus petite unité de bitcoin : 1 BTC vaut 100 000 000 satoshis (sats).</p></details>
+          <details><summary>Pseudonymat</summary><p>Les transactions sont associées à des adresses ou identifiants publics, pas directement à des noms civils. Des analyses et données externes peuvent néanmoins relier certaines adresses à des personnes.</p></details>
+          <details><summary>Consensus</summary><p>Ensemble des règles et mécanismes qui permettent aux nœuds de s’accorder sur l’historique valide et l’état du registre. Dans Bitcoin, les nœuds vérifient les règles et la preuve de travail contribue à ordonner les blocs.</p></details>
+          <details><summary>Réorganisation de chaîne</summary><p>Changement de la partie récente de l’historique retenu lorsqu’une autre chaîne valide présente davantage de travail cumulé. Elle peut rendre non confirmée une transaction auparavant incluse dans un bloc de la branche abandonnée.</p></details>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="btc-retenir">
+        <span class="lesson-kicker">11 · Synthèse</span>
+        <h2>À retenir.</h2>
+        <div class="btc-takeaways">
+          <article><span>01</span><h3>Un problème précis</h3><p>Bitcoin cherche à permettre des paiements numériques pair-à-pair sans registre central unique chargé d’arbitrer toutes les dépenses.</p></article>
+          <article><span>02</span><h3>Une histoire partagée</h3><p>Les transactions sont diffusées, regroupées dans des blocs et ordonnées par une chaîne protégée par la preuve de travail.</p></article>
+          <article><span>03</span><h3>Des rôles distincts</h3><p>Les portefeuilles préparent et signent ; les nœuds vérifient ; les mineurs proposent des blocs. Ces responsabilités ne sont pas interchangeables.</p></article>
+          <article><span>04</span><h3>Des règles d’émission</h3><p>La subvention de bloc suit un calendrier de réductions successives et une limite d’offre proche de 21 millions de BTC.</p></article>
+          <article><span>05</span><h3>Pas de garantie universelle</h3><p>La sécurité technique n’élimine ni la volatilité, ni les risques de conservation, ni les limites de capacité, ni les questions de confidentialité.</p></article>
+        </div>
+        <div class="lesson-callout"><strong>Le réflexe à conserver pour le chapitre suivant</strong><p>Ne résume pas Bitcoin à « une monnaie qui fonctionne sans banque ». Demande-toi : comment les transactions sont-elles diffusées ? Qui vérifie les règles ? Comment l’ordre des blocs est-il établi ? Quel coût rend une réécriture difficile ? Quelles limites et quelles hypothèses restent nécessaires ?</p></div>
+      </section>
+
+      <section class="lesson-section" id="btc-quiz">
+        <span class="lesson-kicker">12 · Vérification active</span>
+        <h2>Vérifier ses acquis.</h2>
+        <p>Réponds sans revenir au texte si possible. Les questions montent progressivement en difficulté. Après chaque réponse, lis l’explication : l’objectif est de comprendre le raisonnement, pas seulement de mémoriser une option.</p>
+        <div class="quiz-progress-wrap"><div class="quiz-progress-track"><span id="quiz-progress-fill"></span></div><b id="quiz-progress-label">0 / 10 réponses</b></div>
+        <div class="btc-quiz-set">
+          <article class="quiz-question" data-question><span class="question-count">Question 1 / 10 · Le problème</span><h3>Quel problème un système de monnaie numérique doit-il résoudre en plus de l’envoi de données ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Un fichier numérique peut être copié ; ce n’est pas le problème central d’un système de paiement. Il faut empêcher qu’une même valeur soit dépensée deux fois.">Empêcher toute copie d’un fichier</button><button type="button" data-correct="true" data-explanation="Exact. Le système doit empêcher qu’une même valeur d’origine soit utilisée dans deux paiements incompatibles qui seraient tous deux retenus.">Empêcher la double dépense</button><button type="button" data-correct="false" data-explanation="La vitesse est une question de performance, mais le problème fondateur étudié ici est l’ordre des dépenses concurrentes.">Garantir que chaque paiement soit instantané</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 2 / 10 · Définitions</span><h3>Que désigne le sigle BTC ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Bitcoin désigne couramment le protocole et le système. BTC est le code utilisé pour l’unité de bitcoin.">Le nom du logiciel de portefeuille officiel</button><button type="button" data-correct="true" data-explanation="Exact. BTC est le code de l’unité native du système Bitcoin ; un bitcoin se subdivise en satoshis.">L’unité de bitcoin</button><button type="button" data-correct="false" data-explanation="Le réseau est l’ensemble des participants et des machines connectés. BTC désigne l’unité qui y est suivie.">Le réseau pair-à-pair lui-même</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 3 / 10 · Histoire</span><h3>À quelle date le livre blanc de Bitcoin a-t-il été annoncé sur la liste de discussion consacrée à la cryptographie ?</h3><div class="quiz-options"><button type="button" data-correct="true" data-explanation="Exact. Le message « Bitcoin P2P e-cash paper » est daté du 31 octobre 2008. Le bloc de genèse ne sera créé que le 3 janvier 2009.">31 octobre 2008</button><button type="button" data-correct="false" data-explanation="Cette date correspond à la création du bloc de genèse, pas à l’annonce du livre blanc.">3 janvier 2009</button><button type="button" data-correct="false" data-explanation="La transaction de 10 BTC vers Hal Finney est enregistrée en janvier 2009 ; le livre blanc est antérieur.">12 janvier 2009</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 4 / 10 · Histoire</span><h3>Que représente le bloc de genèse ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Le bloc de genèse est le bloc 0, point de départ de la chaîne. Le premier paiement entre deux personnes identifié ici est enregistré plus tard au bloc 170.">La première transaction entre deux utilisateurs</button><button type="button" data-correct="true" data-explanation="Exact. Le bloc 0 est le point de départ commun de l’historique Bitcoin ; il a été créé le 3 janvier 2009.">Le premier bloc de la chaîne Bitcoin</button><button type="button" data-correct="false" data-explanation="Le BTC est une unité native du protocole, pas une action représentant une société.">L’action de la société qui gère Bitcoin</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 5 / 10 · Rôles</span><h3>Quel rôle vérifie indépendamment les blocs et les transactions selon ses règles ?</h3><div class="quiz-options"><button type="button" data-correct="true" data-explanation="Exact. Un nœud complet vérifie les transactions et les blocs ; il ne se contente pas de faire confiance au mineur qui les propose.">Le nœud complet</button><button type="button" data-correct="false" data-explanation="Le portefeuille aide à gérer les clés et à préparer des transactions. Il ne vérifie pas nécessairement l’intégralité de la chaîne.">Le portefeuille de l’utilisateur</button><button type="button" data-correct="false" data-explanation="Le mineur construit des blocs candidats et cherche une preuve de travail. Les nœuds complets contrôlent ensuite le bloc selon leurs règles.">Le mineur uniquement</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 6 / 10 · Rôles</span><h3>Un mineur trouve une preuve de travail valide pour un bloc contenant une transaction qui viole les règles de consensus. Que se passe-t-il ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="La preuve de travail ne rend pas automatiquement valides les transactions. Les règles de consensus restent vérifiées indépendamment.">Le bloc devient valide automatiquement</button><button type="button" data-correct="true" data-explanation="Exact. Les nœuds complets qui appliquent les règles rejettent un bloc invalide, même si son producteur a réalisé du travail de calcul.">Les nœuds complets rejettent le bloc</button><button type="button" data-correct="false" data-explanation="La règle de validation ne dépend pas d’un vote majoritaire des mineurs pour autoriser une création monétaire invalide.">Les utilisateurs doivent rembourser le mineur</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 7 / 10 · Preuve de travail</span><h3>À quoi sert principalement la preuve de travail dans Bitcoin ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="La preuve de travail n’est pas un chiffrement des transactions. Le registre Bitcoin est public et les transactions utilisent des signatures et des règles de script.">À rendre les transactions secrètes</button><button type="button" data-correct="true" data-explanation="Exact. Elle aide à ordonner les blocs et rend coûteuse la production d’un historique alternatif qui dépasserait le travail cumulé de la chaîne retenue.">À rendre coûteuse la réécriture de l’historique</button><button type="button" data-correct="false" data-explanation="Les mineurs ne choisissent pas librement le nombre de bitcoins créés : la subvention est limitée par les règles de consensus vérifiées par les nœuds.">À permettre aux mineurs de créer autant de BTC qu’ils le souhaitent</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 8 / 10 · Double dépense</span><h3>Deux transactions concurrentes essaient de dépenser la même sortie. Que peut-il arriver dans une même chaîne valide ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Une même sortie ne peut pas être consommée deux fois dans une même chaîne valide. L’autre transaction devient incompatible avec l’état retenu.">Les deux paiements sont confirmés comme si chacun était indépendant</button><button type="button" data-correct="true" data-explanation="Exact. Une seule dépense de cette sortie peut être retenue dans une même chaîne valide ; la transaction conflictuelle ne peut pas aussi la dépenser.">Une seule dépense de cette sortie peut être retenue</button><button type="button" data-correct="false" data-explanation="Le protocole ne choisit pas l’identité du bénéficiaire. Il applique des règles de validité et d’ordre des transactions dans l’historique retenu.">Le réseau choisit toujours le bénéficiaire le plus connu</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 9 / 10 · Confirmations</span><h3>Pourquoi plusieurs confirmations apportent-elles généralement davantage de sécurité à un paiement ?</h3><div class="quiz-options"><button type="button" data-correct="true" data-explanation="Exact. Chaque bloc ajouté renforce le travail cumulé au-dessus de la transaction et augmente le coût d’une tentative de réorganisation. Le risque n’est toutefois pas absolument nul.">Le travail cumulé au-dessus du bloc augmente</button><button type="button" data-correct="false" data-explanation="Une confirmation ne transforme pas le bitcoin en dépôt bancaire assuré ; elle renforce l’ancrage de la transaction dans l’historique de la chaîne.">La banque centrale garantit le paiement après six blocs</button><button type="button" data-correct="false" data-explanation="Les confirmations ne rendent pas les détails privés. Les transactions restent visibles sur le registre public.">Les détails de la transaction deviennent invisibles</button></div><p class="quiz-feedback" role="status"></p></article>
+          <article class="quiz-question" data-question><span class="question-count">Question 10 / 10 · Esprit critique</span><h3>Une limite d’offre proche de 21 millions de BTC garantit-elle une hausse de prix ?</h3><div class="quiz-options"><button type="button" data-correct="false" data-explanation="Une offre limitée ne suffit pas à fixer un prix. Il faut aussi une demande, une utilité, une liquidité et des participants prêts à échanger à ce prix.">Oui, car une quantité limitée monte toujours en valeur</button><button type="button" data-correct="true" data-explanation="Exact. Le prix dépend aussi de la demande, des usages, de la liquidité, des anticipations et des risques. La règle d’offre ne garantit aucun rendement.">Non. La demande et les risques comptent aussi</button><button type="button" data-correct="false" data-explanation="La limite d’offre est une règle du protocole, pas une promesse de prix ni une assurance de pouvoir d’achat.">Oui, parce que les mineurs contrôlent le prix</button></div><p class="quiz-feedback" role="status"></p></article>
+          <div class="quiz-summary" id="quiz-summary" aria-live="polite">0 / 10 réponse validée</div>
+          <button class="quiz-reset" id="quiz-reset" type="button">Recommencer le quiz</button>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="btc-sources">
+        <span class="lesson-kicker">13 · Pour approfondir avec des sources traçables</span>
+        <h2>Sources et lectures complémentaires.</h2>
+        <p>Cette fiche sépare les documents de conception, la documentation technique et les enregistrements historiques vérifiables. Le livre blanc décrit la proposition initiale ; la documentation des développeurs décrit le fonctionnement logiciel actuel. Les exemples pédagogiques simplifient certains détails et ne remplacent pas l’étude des règles complètes du protocole.</p>
+        <div class="source-list">
+          <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener noreferrer"><span>Document primaire · 2008</span><b>Bitcoin: A Peer-to-Peer Electronic Cash System</b><small>Le livre blanc original : double dépense, horodatage distribué, preuve de travail et règles proposées.</small><em>Lire le document ↗</em></a>
+          <a href="https://satoshi.nakamotoinstitute.org/emails/cryptography/1/" target="_blank" rel="noopener noreferrer"><span>Archive historique · 31 octobre 2008</span><b>Bitcoin P2P e-cash paper</b><small>Message associé à la diffusion du livre blanc sur la liste de discussion cryptographique.</small><em>Lire le message ↗</em></a>
+          <a href="https://developer.bitcoin.org/devguide/p2p_network.html" target="_blank" rel="noopener noreferrer"><span>Documentation technique · Bitcoin Developer Guide</span><b>P2P Network</b><small>Échanges entre pairs, rôle des nœuds complets et propagation des blocs et transactions.</small><em>Consulter la documentation ↗</em></a>
+          <a href="https://developer.bitcoin.org/devguide/mining.html" target="_blank" rel="noopener noreferrer"><span>Documentation technique · Bitcoin Developer Guide</span><b>Mining</b><small>Construction des blocs candidats, nonce, cible de difficulté, recherche et vérification de la preuve de travail.</small><em>Consulter la documentation ↗</em></a>
+          <a href="https://developer.bitcoin.org/devguide/operating_modes.html" target="_blank" rel="noopener noreferrer"><span>Documentation technique · Bitcoin Developer Guide</span><b>Operating Modes</b><small>Différences entre nœud complet et vérification simplifiée, et limites des modèles qui font confiance à un serveur.</small><em>Consulter la documentation ↗</em></a>
+          <a href="https://www.blockchain.com/explorer/blocks/btc/00000000000000000000" target="_blank" rel="noopener noreferrer"><span>Donnée de chaîne · 3 janvier 2009</span><b>Bloc 0 · Genesis Block</b><small>Hauteur, empreinte, date et données du premier bloc Bitcoin.</small><em>Observer le bloc ↗</em></a>
+          <a href="https://www.blockchain.com/explorer/transactions/BTC/f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16" target="_blank" rel="noopener noreferrer"><span>Donnée de chaîne · 12 janvier 2009</span><b>Transaction de 10 BTC vers Hal Finney</b><small>Identifiant de transaction, bloc 170 et sorties enregistrées sur le registre public.</small><em>Observer la transaction ↗</em></a>
+        </div>
+        <p class="editorial-note"><b>Note éditoriale :</b> les dates et montants historiques sont présentés comme des faits documentés par les archives ou les données de chaîne citées. Les analogies et simulateurs sont des modèles pédagogiques, pas des reconstitutions exactes du réseau. La valeur de marché du BTC, son acceptation et les conditions d’utilisation évoluent ; cette fiche ne constitue ni un conseil financier ni une recommandation d’investissement.</p>
+      </section>
+    `
+  }
+
 };

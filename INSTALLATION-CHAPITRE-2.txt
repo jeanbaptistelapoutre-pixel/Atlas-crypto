@@ -1,0 +1,26 @@
+ATLAS CRYPTO — REFONTE DU CHAPITRE 2
+Titre : Bitcoin : naissance d'une monnaie numérique
+
+CONTENU DU PACKAGE
+- index.html : mise à jour du texte d'accueil pour signaler que les chapitres 1 et 2 sont au format approfondi.
+- lessons.js : ajout du cours complet du chapitre 2. Le chapitre 1 est conservé.
+- app.js : interactions du laboratoire anti-double-dépense, du sélecteur des rôles du réseau et du simulateur de halving.
+- style.css : styles additionnels du chapitre 2, dans l'identité graphique existante.
+
+INSTALLATION (Windows + GitHub Desktop)
+1. Téléchargez et extrayez l'archive ZIP.
+2. Ouvrez le dossier local Atlas-crypto (celui qui est connecté à GitHub Desktop).
+3. Copiez les quatre fichiers extraits dans la racine du dossier Atlas-crypto.
+4. Acceptez le remplacement des fichiers existants.
+5. Ne supprimez et ne remplacez aucun autre fichier ou dossier. En particulier, ne modifiez pas data.js, chapitres.json, cover.png, le dossier app/ ou laboratoire-bitcoin.html.
+6. Ouvrez GitHub Desktop. Vérifiez que les quatre fichiers attendus apparaissent dans Changes : app.js, index.html, lessons.js et style.css.
+7. Dans Summary, saisissez : Refonte pédagogique du chapitre 2 — Bitcoin
+8. Cliquez sur Commit 4 files to main, puis sur Push origin.
+9. Vercel devrait lancer automatiquement un nouveau déploiement à partir de la branche main.
+10. Après le déploiement, ouvrez le chapitre 2 depuis l'encyclopédie et testez : navigation des sections, simulateur de double dépense, sélecteur portefeuille/nœud/mineur, curseur de halving et quiz.
+
+IMPORTANT
+- Le package ne remplace pas le site entier : il contient uniquement les quatre fichiers à fusionner dans le dépôt existant.
+- Le chapitre 1 n'est pas réécrit par cette mise à jour.
+- La page publique ne changera qu'après le commit, le push vers GitHub et le déploiement Vercel.
+- Les simulateurs sont pédagogiques et simplifiés ; leurs limites sont indiquées dans le cours.

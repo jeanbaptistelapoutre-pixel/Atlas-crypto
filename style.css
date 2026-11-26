@@ -53,3 +53,106 @@
 @media(max-width:560px){.borrower-balance,.loan-columns{grid-template-columns:1fr}.price-sequence{grid-template-columns:1fr}.price-sequence>span{transform:rotate(90deg)}.calculator-secondary{align-items:flex-start;flex-direction:column}.lesson-objectives{padding:18px}.lesson-lab-box,.loan-lab-box{padding:16px}.trust-chain{grid-template-columns:1fr}.trust-chain>span{transform:rotate(90deg)}.trust-chain>span:nth-of-type(2){display:block}.trust-chain .trust-step:nth-of-type(n+3){margin-top:0}}
 
 .payment-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}.payment-steps>div{padding:13px;border:1px solid #55442f;border-radius:7px;background:#17130f}.payment-steps b,.payment-steps span{display:block}.payment-steps b{color:#e6c58d;font-size:12px}.payment-steps span{margin-top:5px;color:#cbbda9;font-size:11px;line-height:1.55}@media(max-width:560px){.payment-steps{grid-template-columns:1fr}}
+
+/* Chapter 2 — Bitcoin: origins, double spending and peer-to-peer coordination */
+.btc-analogy-grid,.btc-three-defs,.btc-pros-cons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:22px 0}
+.btc-analogy-grid article,.btc-three-defs article,.btc-pros-cons article{padding:20px;border:1px solid #5b4933;border-radius:11px;background:linear-gradient(145deg,#292117,#1b1814)}
+.btc-card-index,.btc-branch-tag{display:inline-block;color:#e4c28d;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.btc-analogy-grid h3,.btc-three-defs h3,.btc-pros-cons h3{font:22px 'Playfair Display',serif;margin:10px 0 7px;color:#f2e6d6}
+.btc-analogy-grid p,.btc-three-defs p,.btc-pros-cons p{font-size:13px!important;line-height:1.75!important;margin:0!important}
+.btc-card-foot{margin-top:13px;padding-top:10px;border-top:1px solid #55442f;color:#dfbd83;font-size:11px;font-weight:700}
+.btc-contrast{display:grid;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr);gap:12px;align-items:center;margin:25px 0;padding:18px;border:1px solid #665239;border-radius:12px;background:radial-gradient(circle at 15% 0%,#302417,#1a1713 72%)}
+.btc-contrast>div:not(.btc-contrast-arrow){padding:14px;border:1px solid #5b4933;border-radius:8px;background:#1b1712}
+.btc-contrast h3{font:20px 'Playfair Display',serif;margin:7px 0}
+.btc-contrast p{font-size:12px!important;margin:0!important}
+.btc-contrast-arrow{text-align:center;color:var(--gold);font-size:24px}
+.btc-caveat{margin:22px 0;padding:16px 19px;border-left:3px solid #d9b77e;border-radius:0 9px 9px 0;background:#272117;color:#e2d4c1;font-size:13px;line-height:1.75}
+.btc-caveat b{color:#e8c990}
+.btc-key-point{margin:23px 0;padding:18px 20px;border:1px solid #695538;border-radius:10px;background:linear-gradient(120deg,#2c2419,#1d1914)}
+.btc-key-point>b{display:block;color:#e5c58f;font-size:13px;letter-spacing:.05em}
+.btc-key-point p{margin:7px 0 0;font-size:14px!important}
+.btc-three-defs{grid-template-columns:repeat(3,minmax(0,1fr))}
+.btc-symbol{display:grid;place-items:center;width:42px;height:42px;border:1px solid #876d45;border-radius:10px;background:#302417;color:#f0d39e;font:23px 'Playfair Display',serif}
+.btc-three-defs article small{display:block;margin-top:12px;color:#dfbd83;font-size:11px;line-height:1.55}
+.btc-timeline{position:relative;margin:28px 0 32px;padding-left:26px}
+.btc-timeline:before{content:'';position:absolute;left:12px;top:9px;bottom:12px;width:1px;background:linear-gradient(#b28b55,#51412d)}
+.btc-timeline-item{position:relative;display:grid;grid-template-columns:1fr;gap:6px;margin:0 0 17px;padding:17px 19px 18px 22px;border:1px solid #4e402d;border-radius:10px;background:linear-gradient(115deg,#251e16,#191613)}
+.btc-timeline-mark{position:absolute;left:-27px;top:20px;display:grid;place-items:center;width:25px;height:25px;border:1px solid #b28b55;border-radius:50%;background:#191510;color:#e6c58d;font-size:10px;font-weight:700}
+.btc-date{color:#e3c18b;font-size:10px;letter-spacing:.15em;font-weight:700}
+.btc-timeline-item h3{font:21px 'Playfair Display',serif;margin:2px 0 4px}
+.btc-timeline-item p{font-size:13px!important;margin:0 0 8px!important}
+.btc-inline-link{display:inline-block;margin-top:5px;color:#e8c88f;font-size:12px;font-weight:700;text-decoration:underline;text-decoration-color:#8c7049;text-underline-offset:4px}
+.btc-source-note{padding:10px 12px;border-left:2px solid #806541;background:#211b14;color:#cbbda9;font-size:11px!important}
+.btc-conflict-lab,.btc-role-lab,.btc-halving-lab{margin:26px 0;padding:22px;border:1px solid #70583a;border-radius:13px;background:radial-gradient(circle at 10% 0%,#302619,#1b1712 66%)}
+.btc-lab-heading h3,.btc-role-lab h3,.btc-halving-lab h3{font:23px 'Playfair Display',serif;margin:8px 0}
+.btc-lab-heading>p,.btc-role-lab>p,.btc-halving-lab>p{font-size:13px!important;margin:4px 0 15px!important}
+.btc-conflict-origin{display:grid;justify-items:center;gap:3px;margin:18px auto;padding:15px;border:1px solid #98774b;border-radius:9px;background:#251e16;text-align:center;max-width:460px}
+.btc-conflict-origin span{color:#e5c58f;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.btc-conflict-origin strong{font:30px 'Playfair Display',serif;color:#f0d6a5}
+.btc-conflict-origin small{font-size:11px;color:#c8b9a5}
+.btc-conflict-branches{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:15px 0}
+.btc-conflict-branch{padding:16px;border:1px solid #594832;border-radius:9px;background:#1a1713;transition:border-color .2s,background .2s,transform .2s}
+.btc-conflict-branch>b,.btc-conflict-branch>strong,.btc-conflict-branch>small{display:block}
+.btc-conflict-branch>b{font:18px 'Playfair Display',serif;margin:8px 0}
+.btc-conflict-branch>strong{font:25px 'Playfair Display',serif;color:#e7c58f}
+.btc-conflict-branch>small{font-size:11px;color:#c6b9a9;line-height:1.6;margin-top:5px}
+.btc-conflict-selected{border-color:#7cb18e;background:#1b281f;transform:translateY(-2px)}
+.btc-conflict-rejected{border-color:#a86659;background:#291c19;opacity:.78}
+.btc-lab-controls{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}
+.btc-lab-controls .mode-button{flex:1;min-width:190px;line-height:1.45}
+.btc-lab-controls .mode-button.active{box-shadow:0 0 0 2px #d9b77e55}
+.btc-conflict-result,.btc-role-detail{min-height:78px;margin-top:12px;padding:15px 17px;border-left:3px solid #d9b77e;border-radius:0 8px 8px 0;background:#211b14;color:#e7d7c2;font-size:13px;line-height:1.7}
+.btc-conflict-result p,.btc-role-detail p{margin:6px 0!important;font-size:13px!important}
+.btc-conflict-result small{display:block;margin-top:8px;color:#c7b9a5;font-size:11px;line-height:1.6}
+.btc-reset-button{margin-top:12px;padding:8px 12px;border:1px solid #6a563d;border-radius:6px;background:transparent;color:#d7c5ac;font-size:11px}
+.btc-reset-button:hover{border-color:#d9b77e;color:#f3d6a4}
+.btc-network-figure{padding:15px;background:radial-gradient(circle at 50% 40%,#2b2117,#171411 70%)}
+.btc-network-figure svg{display:block;width:100%;height:auto;max-height:360px}
+.btc-role-detail>b{display:block;color:#e5c58f;font-size:14px}
+.btc-role-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:22px 0}
+.btc-role-grid article{padding:15px;border:1px solid #55442f;border-radius:9px;background:#1e1a15}
+.btc-role-grid article>span{display:grid;place-items:center;width:28px;height:28px;border:1px solid #806541;border-radius:50%;color:#e3c18b;font-size:10px}
+.btc-role-grid h3{font:19px 'Playfair Display',serif;margin:9px 0 5px}
+.btc-role-grid p{font-size:12px!important;margin:0!important;line-height:1.65!important}
+.btc-pow-sequence{display:grid;grid-template-columns:1fr 20px 1fr 20px 1fr 20px 1fr;gap:7px;align-items:center;margin:24px 0}
+.btc-pow-sequence>div{height:100%;padding:14px 10px;border:1px solid #5c4930;border-radius:8px;background:linear-gradient(145deg,#292117,#1b1713)}
+.btc-pow-sequence>div span,.btc-pow-sequence>div b,.btc-pow-sequence>div small{display:block}
+.btc-pow-sequence>div span{color:#e5c58f;font-size:10px;font-weight:700}
+.btc-pow-sequence>div b{margin:6px 0;font:17px 'Playfair Display',serif}
+.btc-pow-sequence>div small{font-size:10px;line-height:1.5;color:#c4b7a6}
+.btc-pow-sequence>i{text-align:center;color:#d9b77e;font-style:normal}
+.btc-halving-lab label{display:block;margin:17px 0 7px;color:#e4d3bd;font-size:12px}
+.btc-halving-lab input[type=range]{width:100%;accent-color:#d9b77e;cursor:pointer}
+.btc-halving-readout{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:9px;margin:17px 0}
+.btc-halving-readout>div{padding:14px;border:1px solid #5a4933;border-radius:8px;background:#17130f}
+.btc-halving-readout span,.btc-halving-readout strong{display:block}
+.btc-halving-readout span{font-size:10px;color:#c5b6a2;line-height:1.4}
+.btc-halving-readout strong{font:20px 'Playfair Display',serif;color:#e9ca96;margin-top:7px}
+.btc-halving-explain{padding:13px 15px;border-left:3px solid #d9b77e;border-radius:0 7px 7px 0;background:#211b14;color:#e5d5c0;font-size:12px!important}
+.btc-pros-cons{grid-template-columns:1fr 1fr}
+.btc-pros-cons ul{margin:10px 0 0;padding-left:18px;color:#d9cbb7;font-size:12px;line-height:1.7}
+.btc-pros-cons li{margin:7px 0}
+.btc-transaction-card{margin:25px 0;padding:20px;border:1px solid #685438;border-radius:11px;background:linear-gradient(140deg,#292117,#191612)}
+.btc-transaction-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:13px;border-bottom:1px solid #584630;color:#e4c48e;font-size:10px;letter-spacing:.1em}
+.btc-transaction-head b{letter-spacing:0;text-transform:none;font-size:12px}
+.btc-transaction-flow{display:grid;grid-template-columns:1fr 42px 1.3fr;gap:10px;align-items:center;margin:18px 0}
+.btc-transaction-flow>div:first-child,.btc-tx-outputs>div{padding:15px;border:1px solid #5b4932;border-radius:8px;background:#17130f}
+.btc-transaction-flow small,.btc-transaction-flow strong,.btc-transaction-flow span{display:block}
+.btc-transaction-flow small{font-size:10px;color:#c7b89f}
+.btc-transaction-flow strong{font:23px 'Playfair Display',serif;color:#e8c991;margin:6px 0}
+.btc-transaction-flow span{font-size:11px;color:#c5b6a2}
+.btc-tx-arrow{text-align:center;color:#e2c28b;font-size:25px}
+.btc-tx-outputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btc-transaction-card>p{font-size:12px!important;margin:10px 0}
+.btc-takeaways{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0}
+.btc-takeaways article{padding:17px;border:1px solid #5b4933;border-radius:9px;background:linear-gradient(145deg,#292117,#1b1814)}
+.btc-takeaways article>span{display:grid;place-items:center;width:30px;height:30px;border:1px solid #8a704a;border-radius:50%;color:#e3c28e;font-size:10px}
+.btc-takeaways h3{font:20px 'Playfair Display',serif;margin:9px 0 5px}
+.btc-takeaways p{font-size:12px!important;margin:0!important}
+.btc-glossary details{margin:8px 0;padding:13px 16px;border:1px solid #51432f;border-radius:8px;background:#1d1914}
+.btc-glossary summary{cursor:pointer;color:#ead8bd;font-weight:700;font-size:13px}
+.btc-glossary details[open]{border-color:#92754a;background:#211b14}
+.btc-glossary details p{margin:10px 0 2px!important;font-size:12px!important;color:#d1c2ad}
+.btc-quiz-set{display:grid;gap:12px}
+@media(max-width:850px){.btc-three-defs{grid-template-columns:1fr 1fr}.btc-pow-sequence{grid-template-columns:1fr 18px 1fr}.btc-pow-sequence>div:nth-of-type(n+3){margin-top:8px}.btc-role-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.btc-contrast{grid-template-columns:1fr}.btc-contrast-arrow{transform:rotate(90deg)}.btc-three-defs,.btc-analogy-grid,.btc-pros-cons,.btc-conflict-branches,.btc-takeaways{grid-template-columns:1fr}.btc-role-grid{grid-template-columns:1fr}.btc-pow-sequence{grid-template-columns:1fr}.btc-pow-sequence>i{transform:rotate(90deg);margin:2px 0}.btc-pow-sequence>div:nth-of-type(n+3){margin-top:0}.btc-halving-readout{grid-template-columns:1fr}.btc-transaction-flow{grid-template-columns:1fr}.btc-tx-arrow{transform:rotate(90deg)}.btc-tx-outputs{grid-template-columns:1fr}.btc-conflict-lab,.btc-role-lab,.btc-halving-lab{padding:16px}.btc-lab-controls .mode-button{min-width:100%}.btc-timeline{padding-left:23px}.btc-timeline-item{padding:15px 14px 15px 17px}}

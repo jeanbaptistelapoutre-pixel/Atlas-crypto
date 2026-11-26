@@ -55,6 +55,49 @@ function initLessonInteractions(){
     })));
     $('#quiz-reset').addEventListener('click',()=>{questions.forEach(q=>{delete q.dataset.answered;delete q.dataset.correct;q.querySelectorAll('button[data-correct]').forEach(b=>{b.disabled=false;b.classList.remove('answer-correct','answer-wrong')});const f=q.querySelector('.quiz-feedback');f.textContent='';f.className='quiz-feedback'});updateScore()});updateScore();
   }
+  const conflictButtons=[...document.querySelectorAll('[data-btc-conflict]')];
+  const conflictFeedback=$('#btc-conflict-feedback');
+  if(conflictButtons.length&&conflictFeedback){
+    const renderConflict=winner=>{
+      const loser=winner==='bob'?'Carol':'Bob';
+      const recipient=winner==='bob'?'Bob':'Carol';
+      conflictButtons.forEach(b=>{const active=b.dataset.btcConflict===winner;b.classList.toggle('active',active);b.setAttribute('aria-pressed',active?'true':'false')});
+      $('#btc-conflict-bob')?.classList.toggle('btc-conflict-selected',winner==='bob');
+      $('#btc-conflict-bob')?.classList.toggle('btc-conflict-rejected',winner==='carol');
+      $('#btc-conflict-carol')?.classList.toggle('btc-conflict-selected',winner==='carol');
+      $('#btc-conflict-carol')?.classList.toggle('btc-conflict-rejected',winner==='bob');
+      conflictFeedback.innerHTML=`<b>Dans ce scénario, le bloc retenu contient le paiement vers ${recipient}.</b><p>La transaction concurrente vers ${loser} tente de consommer la même sortie d’origine. Elle ne peut donc pas être validée en plus dans cette même chaîne.</p><small>À retenir : ce n’est pas un arbitre central qui choisit Bob ou Carol. Le réseau retient un historique de blocs valide selon les règles et le travail cumulé. Des nœuds peuvent temporairement observer des transactions différentes.</small>`;
+    };
+    conflictButtons.forEach(b=>b.addEventListener('click',()=>renderConflict(b.dataset.btcConflict)));
+    const reset=$('[data-btc-conflict-reset]');
+    if(reset)reset.addEventListener('click',()=>{conflictButtons.forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false')});['bob','carol'].forEach(k=>{const el=$('#btc-conflict-'+k);if(el)el.classList.remove('btc-conflict-selected','btc-conflict-rejected')});conflictFeedback.textContent='Choisis l’un des deux scénarios pour voir ce qu’il advient de l’autre transaction.'});
+  }
+  const roleButtons=[...document.querySelectorAll('[data-btc-role]')];
+  const roleDetail=$('#btc-role-detail');
+  if(roleButtons.length&&roleDetail){
+    const roleCopy={
+      wallet:'<b>Portefeuille</b><p>Il aide l’utilisateur à gérer ses clés et à préparer une transaction signée. Il peut la transmettre à un nœud ou à un service connecté. Un portefeuille ne vérifie pas nécessairement toute la chaîne : certains s’appuient sur des serveurs tiers.</p>',
+      node:'<b>Nœud complet</b><p>Il reçoit et vérifie les transactions et les blocs selon les règles qu’il applique. Il peut relayer les données valides à ses pairs. Son rôle est essentiel : il ne doit pas accepter un bloc simplement parce qu’un mineur l’a proposé.</p>',
+      miner:'<b>Mineur</b><p>Il sélectionne des transactions pour construire un bloc candidat et effectue la recherche de preuve de travail. Il propose un bloc au réseau. Il ne peut pas imposer une transaction invalide ni modifier unilatéralement les règles suivies par les nœuds.</p>'
+    };
+    roleButtons.forEach(b=>b.addEventListener('click',()=>{roleButtons.forEach(x=>{const active=x===b;x.classList.toggle('active',active);x.setAttribute('aria-pressed',active?'true':'false')});roleDetail.innerHTML=roleCopy[b.dataset.btcRole]||''}));
+  }
+  const halving=$('#btc-halving-era');
+  if(halving){
+    const count=$('#btc-halving-count'),reward=$('#btc-halving-reward'),reduction=$('#btc-halving-reduction'),explain=$('#btc-halving-explain');
+    const updateHalving=()=>{
+      const era=Math.max(0,Math.min(10,Math.floor(Number(halving.value)||0)));
+      const initialSatoshis=5000000000;
+      const subsidySatoshis=Math.floor(initialSatoshis/Math.pow(2,era));
+      const btc=subsidySatoshis/100000000;
+      const pct=(1-subsidySatoshis/initialSatoshis)*100;
+      count.textContent=String(era);
+      reward.textContent=btc.toLocaleString('fr-FR',{maximumFractionDigits:8})+' BTC';
+      reduction.textContent=pct.toLocaleString('fr-FR',{maximumFractionDigits:5})+' %';
+      explain.textContent=era===0?'Période initiale : la subvention théorique est de 50 BTC par bloc. À chaque période de 210 000 blocs, elle est divisée par deux. Les frais de transaction, s’il y en a, s’ajoutent mais correspondent à des BTC déjà existants.':`Après ${era} réduction${era>1?'s':''} par deux, la subvention théorique est de ${btc.toLocaleString('fr-FR',{maximumFractionDigits:8})} BTC par bloc. La période dure 210 000 blocs ; à un intervalle cible moyen de dix minutes, cela représente environ quatre ans, mais la durée réelle varie.`;
+    };
+    halving.addEventListener('input',updateHalving);updateHalving();
+  }
 }
 function route(){
   const m=location.hash.match(/^#chapitre-(\d+)$/);
