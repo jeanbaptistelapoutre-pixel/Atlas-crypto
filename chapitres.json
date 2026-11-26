@@ -1,0 +1,202 @@
+[
+  {
+    "part": "Fondations",
+    "title": "Pourquoi la monnaie existe-t-elle ?",
+    "lead": "La monnaie facilite les échanges en servant d’unité de compte, de réserve de valeur et de moyen de paiement.",
+    "detail": "Une monnaie n’a pas besoin d’être un objet précieux : elle repose aussi sur des règles, des institutions et la confiance des utilisateurs.",
+    "focus": "Comparer deux monnaies exige d’examiner leur stabilité, leur acceptation et les coûts de transaction.",
+    "caution": "Une monnaie volatile peut être utile à certains transferts sans être une bonne unité de compte."
+  },
+  {
+    "part": "Fondations",
+    "title": "Bitcoin : naissance d'une monnaie numérique",
+    "lead": "Bitcoin propose un registre partagé permettant de transférer des unités sans autorité centrale unique.",
+    "detail": "Le livre blanc publié en 2008 décrit une solution au problème de double dépense fondée sur un réseau pair-à-pair et la preuve de travail.",
+    "focus": "Le protocole définit des règles de validation ; son fonctionnement dépend aussi de logiciels, de mineurs, de nœuds et d’utilisateurs.",
+    "caution": "Décentralisé ne signifie ni gratuit, ni anonyme, ni sans risques."
+  },
+  {
+    "part": "Fondations",
+    "title": "Blockchain : comment fonctionne un registre ?",
+    "lead": "Une blockchain ordonne des blocs de transactions et relie leurs en-têtes par des empreintes cryptographiques.",
+    "detail": "Modifier un ancien bloc invalide les liens cryptographiques suivants, mais la résistance effective à une réécriture dépend du mécanisme de consensus.",
+    "focus": "Les nœuds vérifient les règles ; ils ne se contentent pas de faire confiance au producteur d’un bloc.",
+    "caution": "Une blockchain publique ne convient pas à tous les problèmes de stockage de données."
+  },
+  {
+    "part": "Fondations",
+    "title": "Clés privées, signatures et adresses",
+    "lead": "La clé privée permet d’autoriser une dépense ; la signature prouve cette autorisation sans révéler la clé.",
+    "detail": "Les adresses servent à recevoir des fonds, mais leur format et leur relation aux clés varient selon les réseaux.",
+    "focus": "Une phrase de récupération peut restaurer des clés dans les portefeuilles compatibles : sa divulgation peut suffire à voler les fonds.",
+    "caution": "Ne jamais saisir sa phrase de récupération sur un site ou dans un message."
+  },
+  {
+    "part": "Fondations",
+    "title": "Transactions, UTXO et frais",
+    "lead": "Sur Bitcoin, une transaction consomme des sorties non dépensées et en crée de nouvelles.",
+    "detail": "Les entrées doivent couvrir les sorties et les frais ; la différence entre les deux constitue les frais payés au mineur.",
+    "focus": "Les frais dépendent surtout de la taille virtuelle et de la demande d’espace dans les blocs, pas directement du montant transféré.",
+    "caution": "Un paiement confirmé reste soumis à un risque de réorganisation, décroissant généralement avec les confirmations."
+  },
+  {
+    "part": "Écosystème",
+    "title": "Ethereum et les contrats intelligents",
+    "lead": "Ethereum exécute des programmes déterministes appelés contrats intelligents sur un état partagé.",
+    "detail": "L’EVM, le gas et les transactions permettent de mesurer et payer les ressources de calcul consommées.",
+    "focus": "Un contrat peut appliquer automatiquement des règles, mais son code peut contenir des failles et ses données externes peuvent être manipulées.",
+    "caution": "Automatique ne veut pas dire juridiquement garanti ni économiquement sûr."
+  },
+  {
+    "part": "Écosystème",
+    "title": "Tokens, stablecoins et actifs numériques",
+    "lead": "Un token est une représentation numérique dont les droits et les usages dépendent du contrat et du contexte.",
+    "detail": "Les stablecoins tentent de maintenir une valeur de référence via réserves, collatéral crypto ou mécanismes algorithmiques.",
+    "focus": "La qualité des réserves, les droits de remboursement, la gouvernance et la liquidité déterminent une grande partie du risque.",
+    "caution": "Un stablecoin n’est pas nécessairement équivalent à un dépôt bancaire assuré."
+  },
+  {
+    "part": "Écosystème",
+    "title": "Finance décentralisée : prêts et échanges",
+    "lead": "La DeFi regroupe des protocoles permettant d’échanger, de prêter ou d’emprunter via des contrats intelligents.",
+    "detail": "Dans un teneur de marché automatisé, le prix dépend des réserves et de la fonction de tarification du pool.",
+    "focus": "Les risques comprennent les bugs, les oracles, les liquidations, la gouvernance et les pertes liées aux variations de prix.",
+    "caution": "Un rendement affiché ne renseigne pas à lui seul sur le risque de perte du capital."
+  },
+  {
+    "part": "Écosystème",
+    "title": "NFT, propriété et métadonnées",
+    "lead": "Un NFT est un token identifiable de manière distincte, souvent utilisé pour référencer un objet ou un droit.",
+    "detail": "Posséder un NFT ne signifie pas automatiquement posséder le droit d’auteur du contenu associé.",
+    "focus": "Les métadonnées peuvent être stockées sur une infrastructure externe ; leur disponibilité doit être vérifiée.",
+    "caution": "La rareté technique n’implique pas une demande économique durable."
+  },
+  {
+    "part": "Écosystème",
+    "title": "Couches 2, rollups et interopérabilité",
+    "lead": "Les solutions de couche 2 déplacent une partie de l’exécution hors de la chaîne principale tout en conservant certains liens de sécurité.",
+    "detail": "Les rollups publient des données ou des preuves selon des modèles différents ; leurs hypothèses de confiance ne sont pas identiques.",
+    "focus": "Les ponts entre chaînes ajoutent des dépendances techniques et parfois des gardiens ou des contrats complexes.",
+    "caution": "Comparer la sécurité d’une L2 exige d’examiner la disponibilité des données, les preuves et les mécanismes de retrait."
+  },
+  {
+    "part": "Marchés",
+    "title": "Offre, demande et formation des prix",
+    "lead": "Le prix d’un actif résulte de transactions marginales entre acheteurs et vendeurs, pas d’une valeur unanimement reconnue.",
+    "detail": "La liquidité décrit la capacité à échanger sans déplacer fortement le prix ; elle varie selon les plateformes et les périodes.",
+    "focus": "Une faible profondeur peut amplifier les mouvements et augmenter le coût réel d’exécution.",
+    "caution": "Capitalisation boursière et liquidité disponible sont deux notions distinctes."
+  },
+  {
+    "part": "Marchés",
+    "title": "Lire les chandeliers et les volumes",
+    "lead": "Un chandelier résume ouverture, maximum, minimum et clôture sur une période choisie.",
+    "detail": "Les volumes renseignent sur l’activité observée, mais leur définition varie entre plateformes et marchés spot ou dérivés.",
+    "focus": "Un même mouvement peut produire des interprétations opposées ; aucun motif graphique ne garantit une suite.",
+    "caution": "Toujours préciser la période, la source et les limites des données."
+  },
+  {
+    "part": "Marchés",
+    "title": "Carnet d'ordres et microstructure",
+    "lead": "Le carnet rassemble des intentions d’achat et de vente à différents prix, sous réserve des règles de la plateforme.",
+    "detail": "Un ordre au marché privilégie l’exécution, mais peut subir du slippage ; un ordre limite contrôle le prix sans garantir l’exécution.",
+    "focus": "Le spread et la profondeur contribuent au coût implicite d’une opération.",
+    "caution": "Les ordres visibles peuvent être annulés : ils ne représentent pas des transactions certaines."
+  },
+  {
+    "part": "Marchés",
+    "title": "Analyse fondamentale des cryptoactifs",
+    "lead": "Une analyse fondamentale étudie les usages, la sécurité, les incitations, la gouvernance et la capture éventuelle de valeur par le token.",
+    "detail": "La croissance d’un réseau ne se traduit pas automatiquement en hausse du prix de son actif natif.",
+    "focus": "Il faut examiner l’émission, les déblocages, les détenteurs concentrés, les revenus et la dépendance à des intermédiaires.",
+    "caution": "Une métrique isolée est rarement une preuve d’adoption durable."
+  },
+  {
+    "part": "Marchés",
+    "title": "Cycles, macroéconomie et corrélations",
+    "lead": "Les conditions de liquidité, les taux et l’appétit pour le risque peuvent influencer les cryptoactifs.",
+    "detail": "Les corrélations avec les actions ou d’autres actifs changent dans le temps et selon les périodes étudiées.",
+    "focus": "Les récits de cycles et les événements d’offre sont utiles à étudier, mais ne suffisent pas à prédire les prix.",
+    "caution": "Distinguer corrélation, causalité et coïncidence historique."
+  },
+  {
+    "part": "Trading",
+    "title": "Construire une méthode de trading",
+    "lead": "Une méthode décrit à l’avance le marché, les conditions d’entrée, la sortie, le risque et les coûts.",
+    "detail": "Sans règles mesurables, une performance historique peut refléter une sélection opportuniste d’exemples.",
+    "focus": "Le journal de trading aide à distinguer exécution, qualité de la décision et résultat aléatoire.",
+    "caution": "Une stratégie profitable sur le passé peut échouer en conditions réelles."
+  },
+  {
+    "part": "Trading",
+    "title": "Gestion du risque et taille de position",
+    "lead": "La taille de position doit tenir compte de la perte acceptable, de la distance au niveau d’invalidation et des frais.",
+    "detail": "Un risque de 1 % du capital par opération ne garantit pas une perte maximale de 1 % : gaps, slippage et liquidations peuvent l’excéder.",
+    "focus": "La diversification réduit certains risques spécifiques, sans supprimer les pertes simultanées en période de crise.",
+    "caution": "Préserver la capacité à continuer est souvent plus important qu’optimiser le rendement théorique."
+  },
+  {
+    "part": "Trading",
+    "title": "Levier, marge et liquidation",
+    "lead": "Le levier augmente l’exposition notionnelle relativement au capital immobilisé, amplifiant gains et pertes.",
+    "detail": "Une variation défavorable relativement faible peut épuiser la marge disponible ; les seuils dépendent du produit et de la plateforme.",
+    "focus": "Les frais de financement, la maintenance margin et les règles de liquidation doivent être compris avant toute position.",
+    "caution": "Un stop-loss n’est pas une garantie de sortie au prix prévu."
+  },
+  {
+    "part": "Trading",
+    "title": "Tester une stratégie sans se tromper",
+    "lead": "Le backtest applique des règles historiques à des données passées, avec des hypothèses d’exécution.",
+    "detail": "Les biais de sélection, de survivance, d’anticipation et le surajustement peuvent créer des résultats artificiellement bons.",
+    "focus": "Séparer données de conception et données de validation permet de réduire certaines illusions statistiques.",
+    "caution": "Une simulation ne prouve pas qu’une stratégie sera rentable demain."
+  },
+  {
+    "part": "Trading",
+    "title": "Psychologie et biais de décision",
+    "lead": "L’aversion aux pertes, l’excès de confiance et la recherche de confirmation influencent les décisions financières.",
+    "detail": "Les marchés rapides peuvent encourager le surtrading et les modifications impulsives des règles.",
+    "focus": "Une checklist et des limites de risque préétablies rendent les décisions plus cohérentes.",
+    "caution": "La discipline ne remplace ni une stratégie valide ni une gestion correcte des risques."
+  },
+  {
+    "part": "Sécurité & avenir",
+    "title": "Sécuriser ses actifs et ses accès",
+    "lead": "La sécurité repose sur la protection des clés, des appareils, des sauvegardes et des procédures de récupération.",
+    "detail": "Un portefeuille matériel réduit certains risques d’exposition des clés, mais n’empêche pas de signer une transaction malveillante.",
+    "focus": "L’authentification multifacteur et la vérification des destinations sont essentielles pour les comptes centralisés.",
+    "caution": "Tester une restauration de sauvegarde sans exposer sa phrase secrète."
+  },
+  {
+    "part": "Sécurité & avenir",
+    "title": "Arnaques, phishing et risques de plateforme",
+    "lead": "Les escroqueries utilisent souvent l’urgence, l’usurpation d’identité et la promesse de gains exceptionnels.",
+    "detail": "Le risque de conservation sur une plateforme inclut la faillite, le gel des retraits, les piratages et les défaillances opérationnelles.",
+    "focus": "Les permissions accordées à des contrats intelligents peuvent permettre des transferts non souhaités.",
+    "caution": "Ne jamais envoyer de fonds pour « débloquer » un retrait prétendument garanti."
+  },
+  {
+    "part": "Sécurité & avenir",
+    "title": "Régulation, fiscalité et conformité",
+    "lead": "Le traitement juridique et fiscal dépend du pays, du type d’opération et de la date.",
+    "detail": "Dans l’Union européenne, MiCA établit un cadre pour certaines activités et catégories de cryptoactifs, avec des dispositions et calendriers spécifiques.",
+    "focus": "Les règles nationales, obligations déclaratives et interprétations administratives doivent être vérifiées sur les sources officielles à jour.",
+    "caution": "Cette encyclopédie ne remplace pas un conseil juridique ou fiscal personnalisé."
+  },
+  {
+    "part": "Sécurité & avenir",
+    "title": "Énergie, gouvernance et compromis",
+    "lead": "Les réseaux blockchain arbitrent entre sécurité, capacité, coût, décentralisation et gouvernance.",
+    "detail": "La preuve de travail consomme de l’énergie ; son impact environnemental dépend notamment du mix électrique et des effets induits.",
+    "focus": "La preuve d’enjeu repose sur d’autres incitations et d’autres formes de concentration potentielle.",
+    "caution": "Évaluer un protocole demande de comparer des compromis, pas seulement des slogans."
+  },
+  {
+    "part": "Sécurité & avenir",
+    "title": "Scénarios futurs et esprit critique",
+    "lead": "L’avenir des cryptoactifs dépendra de choix techniques, de règles publiques, de l’adoption et des usages économiques.",
+    "detail": "Les innovations possibles incluent de meilleures preuves cryptographiques, des paiements plus efficaces et de nouvelles architectures.",
+    "focus": "Les scénarios doivent distinguer hypothèses plausibles, inconnues et affirmations spéculatives.",
+    "caution": "Une bonne analyse sait dire « nous ne savons pas » et réviser ses conclusions."
+  }
+]
