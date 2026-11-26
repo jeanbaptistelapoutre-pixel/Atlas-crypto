@@ -112,7 +112,8 @@ function atlasGlossaryEntries(chapterNumber, root){
       'Mempool (réserve de transactions en attente)':['mempool','réserve de transactions en attente'],
       'Transaction de génération (coinbase)':['transaction de génération','transactions de génération','coinbase','coinbase transaction'],
       'Signature numérique':['signature numérique','signatures numériques'],
-      'Cible de preuve de travail':['cible de preuve de travail','cible']
+      'Cible de preuve de travail':['cible de preuve de travail','cible'],
+      'Nonce':['nonce','nonces']
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];else if(extraAliases[entry.label])entry.aliases=extraAliases[entry.label];});
     entries.forEach(entry=>{if(!entry.aliases.length){entry.aliases=[entry.label];if(!/[s)]$/i.test(entry.label))entry.aliases.push(entry.label+'s');}});
@@ -345,6 +346,27 @@ function initLessonInteractions(chapterNumber){
       miner:'<b>Mineur</b><p>Il sélectionne des transactions pour construire un bloc candidat et effectue la recherche de preuve de travail. Il propose un bloc au réseau. Il ne peut pas imposer une transaction invalide ni modifier unilatéralement les règles suivies par les nœuds.</p>'
     };
     roleButtons.forEach(b=>b.addEventListener('click',()=>{roleButtons.forEach(x=>{const active=x===b;x.classList.toggle('active',active);x.setAttribute('aria-pressed',active?'true':'false')});roleDetail.innerHTML=roleCopy[b.dataset.btcRole]||''}));
+  }
+  const flowButtons=[...document.querySelectorAll('[data-btc-flow-step]')];
+  const flowDetail=$('#btc-flow-detail');
+  if(flowButtons.length&&flowDetail){
+    const flowCopy=[
+      {kicker:'ÉTAPE 01 / 07',title:'Le portefeuille prépare et signe',text:'Il construit une transaction à partir de sorties disponibles et utilise les clés nécessaires pour l’autoriser. Les bitcoins ne sont pas envoyés comme un fichier : la transaction demande que certaines sorties soient dépensées selon les règles prévues.'},
+      {kicker:'ÉTAPE 02 / 07',title:'La transaction est diffusée entre pairs',text:'Le portefeuille transmet la transaction signée à un ou plusieurs nœuds connectés. Ceux-ci peuvent la relayer à leurs propres pairs : il n’existe pas de serveur central unique qui distribue obligatoirement chaque transaction.'},
+      {kicker:'ÉTAPE 03 / 07',title:'Les nœuds vérifient les règles',text:'Un nœud complet contrôle notamment la structure de la transaction, les autorisations cryptographiques et le fait que les sorties utilisées soient encore dépensables dans l’état qu’il connaît. Il applique aussi ses propres règles locales pour décider si la transaction est relayée ou conservée en attente.'},
+      {kicker:'ÉTAPE 04 / 07',title:'La transaction peut attendre localement',text:'Si elle passe les contrôles et les politiques de relais du nœud, elle peut entrer dans son mempool. C’est une réserve locale de transactions non confirmées : les mempools de deux nœuds peuvent différer. Être dans un mempool ne signifie pas être confirmée.'},
+      {kicker:'ÉTAPE 05 / 07',title:'Un mineur sélectionne des transactions',text:'Un mineur choisit des transactions qu’il veut inclure, généralement depuis la vue des transactions en attente qu’il exploite, puis construit un bloc candidat. Il réalise ensuite la recherche de preuve de travail décrite dans la section suivante.'},
+      {kicker:'ÉTAPE 06 / 07',title:'Le bloc est diffusé puis revérifié',text:'Lorsqu’un bloc est trouvé, il est diffusé au réseau. Les nœuds complets vérifient indépendamment la preuve de travail, les transactions et le respect des règles de consensus. S’ils acceptent ce bloc dans la chaîne qu’ils retiennent, la transaction reçoit sa première confirmation.'},
+      {kicker:'ÉTAPE 07 / 07',title:'Les blocs suivants ajoutent des confirmations',text:'Chaque nouveau bloc construit au-dessus ajoute une confirmation et augmente le travail cumulé qui protège l’historique. Une réorganisation devient généralement plus coûteuse, mais le risque ne devient pas mathématiquement nul.'}
+    ];
+    const renderFlow=button=>{
+      const index=Math.max(0,Math.min(flowCopy.length-1,Number(button.dataset.btcFlowStep)||0));
+      flowButtons.forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-pressed',active?'true':'false')});
+      const info=flowCopy[index];
+      flowDetail.innerHTML='<span>'+info.kicker+'</span><b>'+info.title+'</b><p>'+info.text+'</p>';
+    };
+    flowButtons.forEach(button=>button.addEventListener('click',()=>renderFlow(button)));
+    renderFlow(flowButtons[0]);
   }
   const halving=$('#btc-halving-era');
   if(halving){
