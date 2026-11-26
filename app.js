@@ -10,7 +10,7 @@ function renderGeneric(c,i){
   const toc=[['comprendre','Comprendre'],['approfondir','Approfondir'],['retenir','À retenir'],['verifier','Vérifier ses acquis'],['sources','Sources']];
   $('#lesson-nav').innerHTML='<strong>Dans cette fiche</strong>'+toc.map(x=>'<a href="#'+x[0]+'">'+x[1]+'</a>').join('');
   $('#lesson-content').innerHTML=`
-    <section id="comprendre"><h2>Comprendre le principe</h2><p>${c.lead}</p><figure class="figure"><svg viewBox="0 0 680 240" role="img" aria-label="Schéma conceptuel : règle, mécanisme et limites"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#8a6336"/><stop offset="1" stop-color="#dfbd83"/></linearGradient></defs><path d="M140 120H540" stroke="#8b7355" stroke-width="2" stroke-dasharray="7 8"/><g fill="#241d16" stroke="url(#g)" stroke-width="2"><rect x="15" y="75" width="180" height="90" rx="12"/><rect x="250" y="75" width="180" height="90" rx="12"/><rect x="485" y="75" width="180" height="90" rx="12"/></g><g fill="#f1ddbc" font-family="Arial" font-size="20" text-anchor="middle"><text x="105" y="127">Règle</text><text x="340" y="127">Mécanisme</text><text x="575" y="127">Limites</text></g></svg><figcaption>Cadre d'analyse : comprendre les règles, le fonctionnement et les compromis.</figcaption></figure></section>
+    <section id="comprendre"><h2>Comprendre le principe</h2><p>${c.lead}</p><figure class="figure"><svg viewBox="0 0 680 240" role="img" aria-label="Schéma conceptuel : règle, mécanisme et limites"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#8a6336"/><stop offset="1" stop-color="#dfbd83"/></linearGradient></defs><path d="M140 120H540" stroke="#8b7355" stroke-width="2" stroke-dasharray="7 8"/><g fill="#241d16" stroke="url(#g)" stroke-width="2"><rect x="15" y="75" width="180" height="90" rx="12"/><rect x="250" y="75" width="180" height="90" rx="12"/><rect x="485" y="75" width="180" height="90" rx="12"/></g><g fill="#f1ddbc" font-family="Arial" font-size="20" text-anchor="middle"><text x="105" y="127">Règle</text><text x="340" y="127">Mécanisme</text><text x="575" y="127">Limites</text></g></svg><figcaption>Cadre d’analyse : comprendre les règles, le fonctionnement et les compromis.</figcaption></figure></section>
     <section id="approfondir"><h2>Approfondir le mécanisme</h2><p>${c.detail}</p><p>${c.focus}</p></section>
     <section id="retenir"><h2>À retenir</h2><div class="callout"><strong>Le point de vigilance</strong><p>${c.caution}</p></div></section>
     <section id="verifier"><h2>Vérifier ses acquis</h2><div class="quiz"><strong>Quel réflexe est le plus pertinent ?</strong><div><button data-generic-answer="0">Se fier à une promesse de rendement</button><button data-generic-answer="1">Vérifier le mécanisme et ses risques</button><button data-generic-answer="0">Ignorer les limites techniques</button></div><p id="feedback" role="status"></p></div></section>
@@ -20,63 +20,48 @@ function renderGeneric(c,i){
 }
 function initLessonInteractions(){
   const amount=$('#calc-amount'), inflation=$('#calc-inflation'), years=$('#calc-years');
-  const updateCalculator=()=>{
-    const a=Number(amount.value), r=Number(inflation.value), n=Number(years.value);
-    const valid=Number.isFinite(a)&&Number.isFinite(r)&&Number.isFinite(n)&&a>0&&r>=0&&r<=100&&n>=1&&n<=100;
-    if(!valid){$('#calc-result').textContent='—';$('#calc-explanation').textContent='Saisis un montant positif, un taux entre 0 et 100 % et une durée entre 1 et 100 ans.';return}
-    const real=a/Math.pow(1+r/100,n);
-    $('#calc-result').textContent=real.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
-    $('#calc-explanation').textContent=`Avec ces hypothèses, ${a.toLocaleString('fr-FR')} € conservés pendant ${n} an${n>1?'s':''} auraient un pouvoir d’achat équivalent à environ ${real.toLocaleString('fr-FR',{style:'currency',currency:'EUR'})} d’aujourd’hui.`;
-  };
-  [amount,inflation,years].forEach(el=>el.addEventListener('input',updateCalculator));
-  updateCalculator();
+  if(amount&&inflation&&years){
+    const updateCalculator=()=>{
+      const a=Number(amount.value), r=Number(inflation.value), n=Number(years.value);
+      const valid=Number.isFinite(a)&&Number.isFinite(r)&&Number.isFinite(n)&&a>0&&r>=0&&r<=100&&n>=1&&n<=100;
+      if(!valid){$('#calc-result').textContent='—';$('#calc-future-basket').textContent='—';$('#calc-explanation').textContent='Saisis un montant positif, un taux entre 0 et 100 % et une durée entre 1 et 100 ans.';return}
+      const real=a/Math.pow(1+r/100,n), future=a*Math.pow(1+r/100,n);
+      $('#calc-result').textContent=real.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+      $('#calc-future-basket').textContent=future.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+      $('#calc-explanation').textContent=`Avec ces hypothèses, ${a.toLocaleString('fr-FR')} € conservés pendant ${n} an${n>1?'s':''} auraient un pouvoir d’achat équivalent à environ ${real.toLocaleString('fr-FR',{style:'currency',currency:'EUR'})} d’aujourd’hui.`;
+    };
+    [amount,inflation,years].forEach(el=>el.addEventListener('input',updateCalculator));updateCalculator();
+  }
+  const barter=$('#barter-need');
+  if(barter){const out=$('#barter-result');const update=()=>{out.textContent=barter.value==='same'?'L’échange direct peut fonctionner : Léa veut précisément du pain et Amine peut lui en donner en échange de la réparation. Il faut encore s’entendre sur la quantité et la valeur de l’échange.':'L’échange direct bloque : Léa ne veut pas du pain. Amine doit trouver une autre personne ou proposer autre chose. Avec une monnaie acceptée, il peut vendre son pain puis payer Léa.'};barter.addEventListener('change',update);update();}
+  const loanAmount=$('#loan-amount');
+  if(loanAmount){
+    let mode='grant';const format=n=>Math.abs(n).toLocaleString('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+    const updateLoan=()=>{let n=Number(loanAmount.value);if(!Number.isFinite(n)||n<100||n>1000000){$('#loan-impact').textContent='Saisis un montant compris entre 100 € et 1 000 000 €.';return}n=Math.round(n/100)*100;const sign=mode==='grant'?'+':'−';$('#loan-bank-asset').textContent=sign+format(n);$('#loan-bank-liability').textContent=sign+format(n);$('#loan-bank-asset-note').textContent=mode==='grant'?'La créance de prêt augmente.':'La créance de prêt diminue du principal remboursé.';$('#loan-bank-liability-note').textContent=mode==='grant'?'Un dépôt est créé sur le compte du client.':'Le dépôt utilisé pour rembourser le principal est débité.';$('#loan-impact').textContent=mode==='grant'?'Octroi : un dépôt bancaire nouveau est créé dans cet exemple. Le client reçoit un actif monétaire et contracte simultanément une dette.':'Remboursement du principal : le dépôt utilisé est débité et le prêt restant dû diminue. Dans ce modèle simplifié, la monnaie scripturale correspondante est détruite.';document.querySelectorAll('[data-loan-mode]').forEach(b=>b.classList.toggle('active',b.dataset.loanMode===mode));};
+    loanAmount.addEventListener('input',updateLoan);document.querySelectorAll('[data-loan-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.loanMode;updateLoan()}));updateLoan();
+  }
+  document.querySelectorAll('[data-quick-choice]').forEach(b=>b.addEventListener('click',()=>{const good=b.dataset.quickChoice==='right';const feedback=$('#quick-feedback');feedback.textContent=good?'Exact. L’euro sert d’unité de compte lorsque le prix est exprimé en euros, même si le paiement final est effectué en bitcoin.':'Pas tout à fait. Le fait que le commerçant affiche ses prix en euros montre que l’euro sert d’unité de compte. Le moyen de paiement utilisé est une autre question.';feedback.className='quick-feedback '+(good?'feedback-correct':'feedback-wrong');document.querySelectorAll('[data-quick-choice]').forEach(x=>x.disabled=true)}));
   const questions=[...document.querySelectorAll('[data-question]')];
-  const updateScore=()=>{
-    const answered=questions.filter(q=>q.dataset.answered==='1').length;
-    const score=questions.filter(q=>q.dataset.correct==='1').length;
-    $('#quiz-summary').textContent=answered===questions.length?`Résultat : ${score} / ${questions.length} bonnes réponses. ${score===questions.length?'Excellent, tout est maîtrisé.':score>=5?'Très bon résultat. Revois les explications des questions manquées.':'Relis les sections correspondantes puis recommence : comprendre le raisonnement est le plus important.'}`:`${answered} / ${questions.length} réponses validées`;
-  };
-  questions.forEach(q=>{
-    q.querySelectorAll('button[data-correct]').forEach(btn=>btn.addEventListener('click',()=>{
-      if(q.dataset.answered==='1')return;
-      q.dataset.answered='1';
-      const correct=btn.dataset.correct==='true';
-      q.dataset.correct=correct?'1':'0';
-      q.querySelectorAll('button[data-correct]').forEach(b=>{b.disabled=true;if(b.dataset.correct==='true')b.classList.add('answer-correct')});
-      if(!correct)btn.classList.add('answer-wrong');
-      const feedback=q.querySelector('.quiz-feedback');
-      feedback.textContent=(correct?'Bonne réponse. ':'Réponse incorrecte. ')+btn.dataset.explanation;
-      feedback.classList.add(correct?'feedback-correct':'feedback-wrong');
-      updateScore();
-    }));
-  });
-  $('#quiz-reset').addEventListener('click',()=>{
-    questions.forEach(q=>{delete q.dataset.answered;delete q.dataset.correct;q.querySelectorAll('button[data-correct]').forEach(b=>{b.disabled=false;b.classList.remove('answer-correct','answer-wrong')});const f=q.querySelector('.quiz-feedback');f.textContent='';f.className='quiz-feedback'});
-    updateScore();
-  });
+  if(questions.length){
+    const updateScore=()=>{
+      const answered=questions.filter(q=>q.dataset.answered==='1').length;const score=questions.filter(q=>q.dataset.correct==='1').length;
+      $('#quiz-summary').textContent=answered===questions.length?`Résultat : ${score} / ${questions.length} bonnes réponses. ${score===questions.length?'Excellent, tout est maîtrisé.':score>=8?'Très bon résultat. Revois les explications des questions manquées.':score>=6?'Bon début. Relis les sections associées aux réponses incorrectes.':'Reprends les explications puis recommence : comprendre le raisonnement est le plus important.'}`:`${answered} / ${questions.length} réponses validées`;
+      const fill=$('#quiz-progress-fill'), label=$('#quiz-progress-label');if(fill)fill.style.width=(answered/questions.length*100)+'%';if(label)label.textContent=`${answered} / ${questions.length} réponses`;
+    };
+    questions.forEach(q=>q.querySelectorAll('button[data-correct]').forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.dataset.answered==='1')return;q.dataset.answered='1';const correct=btn.dataset.correct==='true';q.dataset.correct=correct?'1':'0';
+      q.querySelectorAll('button[data-correct]').forEach(b=>{b.disabled=true;if(b.dataset.correct==='true')b.classList.add('answer-correct')});if(!correct)btn.classList.add('answer-wrong');
+      const feedback=q.querySelector('.quiz-feedback');feedback.textContent=(correct?'Bonne réponse. ':'Réponse incorrecte. ')+btn.dataset.explanation;feedback.classList.add(correct?'feedback-correct':'feedback-wrong');updateScore();
+    })));
+    $('#quiz-reset').addEventListener('click',()=>{questions.forEach(q=>{delete q.dataset.answered;delete q.dataset.correct;q.querySelectorAll('button[data-correct]').forEach(b=>{b.disabled=false;b.classList.remove('answer-correct','answer-wrong')});const f=q.querySelector('.quiz-feedback');f.textContent='';f.className='quiz-feedback'});updateScore()});updateScore();
+  }
 }
 function route(){
   const m=location.hash.match(/^#chapitre-(\d+)$/);
-  if(!m){
-    const target=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;
-    if(target && target.closest('#reader')) return;
-    $('#home').hidden=false;$('#reader').classList.remove('active');return
-  }
-  const i=Number(m[1])-1;
-  if(!CHAPTERS[i]){location.hash='encyclopedie';return}
-  current=i;const c=CHAPTERS[i];
-  $('#home').hidden=true;$('#reader').classList.add('active');
-  $('#reader-part').textContent=c.part+' · Fiche '+(i+1)+' / 25';
-  $('#reader-title').textContent=c.title;$('#reader-lead').textContent=c.lead;
-  const lesson=window.ATLAS_LESSONS?.[i+1];
-  if(lesson){
-    $('#lesson-meta').textContent=lesson.level+' · '+lesson.minutes+' min de lecture';
-    $('#lesson-nav').innerHTML='<strong>Dans cette fiche</strong>'+lesson.toc.map(x=>'<a href="#'+x[0]+'">'+x[1]+'</a>').join('');
-    $('#lesson-content').innerHTML=lesson.html;
-    initLessonInteractions();
-  }else{renderGeneric(c,i)}
-  $('#next').textContent=i===24?'Revenir au début ↺':'Fiche suivante →';
-  window.scrollTo({top:0,behavior:'instant'});
+  if(!m){const target=location.hash?document.getElementById(decodeURIComponent(location.hash.slice(1))):null;if(target&&target.closest('#reader'))return;$('#home').hidden=false;$('#reader').classList.remove('active');return}
+  const i=Number(m[1])-1;if(!CHAPTERS[i]){location.hash='encyclopedie';return}current=i;const c=CHAPTERS[i];
+  $('#home').hidden=true;$('#reader').classList.add('active');$('#reader-part').textContent=c.part+' · Fiche '+(i+1)+' / 25';$('#reader-title').textContent=c.title;$('#reader-lead').textContent=c.lead;
+  const lesson=window.ATLAS_LESSONS?.[i+1];if(lesson){$('#lesson-meta').textContent=lesson.level+' · '+lesson.minutes+' min de lecture';$('#lesson-nav').innerHTML='<strong>Dans cette fiche</strong>'+lesson.toc.map(x=>'<a href="#'+x[0]+'">'+x[1]+'</a>').join('');$('#lesson-content').innerHTML=lesson.html;initLessonInteractions()}else{renderGeneric(c,i)}
+  $('#next').textContent=i===24?'Revenir au début ↺':'Fiche suivante →';window.scrollTo({top:0,behavior:'instant'});
 }
-window.addEventListener('hashchange',route);route();
-$('#next').onclick=()=>location.hash='chapitre-'+(current===24?1:current+2);
+window.addEventListener('hashchange',route);route();$('#next').onclick=()=>location.hash='chapitre-'+(current===24?1:current+2);
