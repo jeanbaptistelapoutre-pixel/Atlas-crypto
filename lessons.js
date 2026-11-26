@@ -459,7 +459,7 @@ window.ATLAS_LESSONS = {
         <div class="btc-three-defs">
           <article><span class="btc-symbol">₿</span><h3>Bitcoin</h3><p>Le nom usuel du protocole, du système et de l’écosystème construits autour des règles Bitcoin.</p><small>Exemple : « le protocole Bitcoin ».</small></article>
           <article><span class="btc-symbol">⇄</span><h3>Le réseau</h3><p>L’ensemble des logiciels et des machines connectés qui échangent des transactions et des blocs entre pairs.</p><small>Exemple : « un nœud se connecte au réseau ».</small></article>
-          <article><span class="btc-symbol">BTC</span><h3>Le bitcoin</h3><p>L’unité native du protocole Bitcoin. Un bitcoin se subdivise en 100 millions de satoshis.</p><small>Exemple : « envoyer 0,01 BTC ».</small></article>
+          <article><span class="btc-symbol btc-symbol-text">BTC</span><h3>Le bitcoin</h3><p>L’unité native du protocole Bitcoin. Un bitcoin se subdivise en 100 millions de satoshis.</p><small>Exemple : « envoyer 0,01 BTC ».</small></article>
         </div>
         <h3>Un protocole n’est pas une entreprise</h3>
         <p>Bitcoin ne possède pas de direction centrale qui pourrait, à elle seule, modifier les règles appliquées par tous les participants. Son code est développé et discuté publiquement, mais publier une modification ne suffit pas à l’imposer au réseau. Les opérateurs de nœuds choisissent les logiciels et les règles qu’ils acceptent ; les mineurs proposent des blocs ; les utilisateurs, entreprises et développeurs influencent l’adoption des changements.</p>
