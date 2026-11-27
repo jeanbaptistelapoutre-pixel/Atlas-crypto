@@ -1135,3 +1135,1004 @@
 #lesson-content #ch3-cas .ch3-case-questions ol{color:#334155!important}
 #lesson-content #ch3-choisir .ch3-choice-table>div:not(.head)>span:nth-child(2):before{color:#1d4ed8}
 #lesson-content #ch3-choisir .ch3-choice-table>div:not(.head)>span:nth-child(3):before{color:#0f766e}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   Palette harmonization — align Foundations 1–3 with Chapter 12.
+   Core system: warm-neutral paper, ink/slate typography, blue + teal accents.
+   Green/red are reserved for semantic states (valid/rejected, up/down).
+   Purple and decorative amber variants are intentionally removed.
+   ───────────────────────────────────────────────────────────────────── */
+#lesson-content{
+  --fc-ink:#172033;
+  --fc-body:#334155;
+  --fc-muted:#64748b;
+  --fc-line:#cbd5e1;
+  --fc-paper:#f8fafc;
+  --fc-paper-soft:#f1f5f9;
+  --fc-blue:#0369a1;
+  --fc-blue-deep:#075985;
+  --fc-blue-soft:#e0f2fe;
+  --fc-teal:#0f766e;
+  --fc-teal-deep:#115e59;
+  --fc-teal-soft:#e7f5f1;
+  --fc-green:#15803d;
+  --fc-green-soft:#f0fdf4;
+  --fc-red:#dc2626;
+  --fc-red-soft:#fef2f2;
+  --fc-dark:#111827;
+}
+#lesson-content .fc-light-panel{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border:1px solid var(--fc-line);
+}
+#lesson-content .fc-light-panel p{color:var(--fc-body)!important}
+
+/* Shared card grammar: one paper surface and one calm blue edge. */
+#lesson-content #fonctions .function-card,
+#lesson-content #confiance .trust-grid article,
+#lesson-content #confiance .three-column-note>div,
+#lesson-content #formes .money-type,
+#lesson-content #pouvoir-achat .two-column-note>div,
+#lesson-content #retenir .takeaway-grid>div,
+#lesson-content #btc-probleme .btc-analogy-grid article,
+#lesson-content #btc-definition .btc-three-defs article,
+#lesson-content #btc-histoire .btc-timeline-item,
+#lesson-content #btc-usages-limites .btc-pros-cons article,
+#lesson-content #btc-retenir .btc-takeaways article,
+#lesson-content #btc-reseau .btc-role-grid article,
+#lesson-content #ch3-registre .ch3-compare>article,
+#lesson-content #ch3-hachage .ch3-property-grid article,
+#lesson-content #ch3-noeuds .ch3-role-grid article,
+#lesson-content #ch3-consensus .ch3-consensus-compare article,
+#lesson-content #ch3-forks .ch3-three-terms>div,
+#lesson-content #ch3-retenir .ch3-takeaways article{
+  color:var(--fc-ink);
+  border-color:var(--fc-line);
+  background:var(--fc-paper);
+  box-shadow:0 6px 18px rgba(15,23,42,.055);
+}
+#lesson-content #fonctions .function-card,
+#lesson-content #confiance .trust-grid article,
+#lesson-content #confiance .three-column-note>div,
+#lesson-content #formes .money-type,
+#lesson-content #creation .process-steps>div,
+#lesson-content #pouvoir-achat .two-column-note>div,
+#lesson-content #retenir .takeaway-grid>div,
+#lesson-content #btc-probleme .btc-analogy-grid article,
+#lesson-content #btc-definition .btc-three-defs article,
+#lesson-content #btc-histoire .btc-timeline-item,
+#lesson-content #btc-reseau .btc-role-grid article,
+#lesson-content #btc-retenir .btc-takeaways article,
+#lesson-content #btc-preuve-travail .btc-pow-sequence>div,
+#lesson-content #ch3-registre .ch3-compare>article,
+#lesson-content #ch3-hachage .ch3-property-grid article,
+#lesson-content #ch3-noeuds .ch3-role-grid article,
+#lesson-content #ch3-consensus .ch3-consensus-compare article,
+#lesson-content #ch3-forks .ch3-three-terms>div,
+#lesson-content #ch3-cas .ch3-case-flow article,
+#lesson-content #ch3-retenir .ch3-takeaways article{
+  border-top:3px solid #0f766e;
+}
+#lesson-content #fonctions .function-card h3,
+#lesson-content #confiance .trust-grid h3,
+#lesson-content #formes .money-type h3,
+#lesson-content #creation .process-steps b,
+#lesson-content #pouvoir-achat .inflation-story h3,
+#lesson-content #btc-probleme .btc-analogy-grid h3,
+#lesson-content #btc-definition .btc-three-defs h3,
+#lesson-content #btc-histoire .btc-timeline-item h3,
+#lesson-content #btc-reseau .btc-role-grid h3,
+#lesson-content #btc-retenir .btc-takeaways h3,
+#lesson-content #ch3-registre .ch3-compare h3,
+#lesson-content #ch3-hachage .ch3-property-grid b,
+#lesson-content #ch3-noeuds .ch3-role-grid h3,
+#lesson-content #ch3-consensus .ch3-consensus-compare h3,
+#lesson-content #ch3-forks .ch3-three-terms b,
+#lesson-content #ch3-cas .ch3-case-flow b,
+#lesson-content #ch3-retenir .ch3-takeaways h3{
+  color:var(--fc-ink);
+}
+#lesson-content #fonctions .function-card p,
+#lesson-content #confiance .trust-grid p,
+#lesson-content #confiance .three-column-note p,
+#lesson-content #formes .money-type p,
+#lesson-content #pouvoir-achat .two-column-note p,
+#lesson-content #btc-probleme .btc-analogy-grid p,
+#lesson-content #btc-definition .btc-three-defs p,
+#lesson-content #btc-histoire .btc-timeline-item p,
+#lesson-content #btc-reseau .btc-role-grid p,
+#lesson-content #btc-retenir .btc-takeaways p,
+#lesson-content #ch3-registre .ch3-compare p,
+#lesson-content #ch3-hachage .ch3-property-grid p,
+#lesson-content #ch3-noeuds .ch3-role-grid p,
+#lesson-content #ch3-consensus .ch3-consensus-compare p,
+#lesson-content #ch3-forks .ch3-three-terms p,
+#lesson-content #ch3-cas .ch3-case-flow p,
+#lesson-content #ch3-retenir .ch3-takeaways p{
+  color:var(--fc-body)!important;
+}
+
+/* Chapter 1 — one blue/teal family across monetary concepts. */
+#lesson-content #fonctions .function-card .function-symbol,
+#lesson-content #formes .money-icon{
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+  color:var(--fc-blue-deep);
+}
+#lesson-content #fonctions .function-card:nth-child(2) .function-symbol,
+#lesson-content #fonctions .function-card:nth-child(3) .function-symbol,
+#lesson-content #formes .money-type:nth-child(n) .money-icon{
+  background:var(--fc-blue-soft);
+  color:var(--fc-blue-deep);
+}
+#lesson-content #fonctions .function-node{
+  background:var(--fc-paper);
+  border:1px solid #94a3b8;
+  color:var(--fc-ink);
+}
+#lesson-content #fonctions .function-node:first-child,
+#lesson-content #fonctions .function-node:nth-of-type(3),
+#lesson-content #fonctions .function-node:nth-of-type(5){
+  background:var(--fc-blue-soft);
+  border-color:#7dd3fc;
+}
+#lesson-content #fonctions .function-node span,
+#lesson-content #fonctions .function-node strong,
+#lesson-content #fonctions .function-node small{color:var(--fc-ink)}
+#lesson-content #fonctions .function-connector{color:#5eead4}
+#lesson-content #fonctions .comparison-note{
+  background:var(--fc-blue-soft);
+  border-color:#7dd3fc;
+  border-left-color:var(--fc-blue);
+}
+#lesson-content #fonctions .comparison-note>b{color:var(--fc-blue-deep)}
+#lesson-content #fonctions .comparison-note p{color:var(--fc-body)!important}
+
+#lesson-content #troc .story-card,
+#lesson-content #troc .lesson-figure,
+#lesson-content #troc .lesson-lab-box{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #troc .story-label,
+#lesson-content #troc .story-result b{color:var(--fc-blue-deep)}
+#lesson-content #troc .story-person{border-color:#dbe3ed}
+#lesson-content #troc .story-person .avatar{
+  background:var(--fc-blue-soft);
+  border-color:#7dd3fc;
+  color:var(--fc-blue-deep);
+}
+#lesson-content #troc .story-person b,
+#lesson-content #troc .story-person p,
+#lesson-content #troc .lesson-lab-box h3{color:var(--fc-ink)}
+#lesson-content #troc .story-person p,
+#lesson-content #troc .lesson-lab-box p,
+#lesson-content #troc .lesson-lab-box label{color:var(--fc-body)!important}
+#lesson-content #troc .story-result{
+  background:var(--fc-teal-soft);
+  color:var(--fc-teal-deep);
+}
+#lesson-content #troc .story-result p{color:var(--fc-teal-deep)!important}
+#lesson-content #troc .exchange-lane{background:var(--fc-paper-soft)}
+#lesson-content #troc .exchange-lane:last-child{background:#ecfdf5}
+#lesson-content #troc .lane-tag{color:var(--fc-blue-deep)}
+#lesson-content #troc .exchange-lane:last-child .lane-tag{color:var(--fc-teal-deep)}
+#lesson-content #troc .exchange-person{
+  color:var(--fc-ink);
+  border-color:var(--fc-line);
+  background:#fff;
+}
+#lesson-content #troc .exchange-person small,
+#lesson-content #troc .lane-note{color:var(--fc-body)!important}
+#lesson-content #troc .exchange-arrow{color:var(--fc-teal)}
+#lesson-content #troc .exchange-arrow.blocked{color:var(--fc-muted)}
+#lesson-content #troc .scenario-select{color:var(--fc-body)}
+#lesson-content #troc .scenario-select select{
+  color:var(--fc-ink);
+  background:#fff;
+  border-color:#94a3b8;
+}
+#lesson-content #troc .scenario-result{
+  color:var(--fc-teal-deep);
+  background:var(--fc-teal-soft);
+  border-left-color:var(--fc-teal);
+}
+
+#lesson-content #confiance .trust-grid article,
+#lesson-content #confiance .three-column-note>div,
+#lesson-content #confiance .trust-step{
+  border-color:var(--fc-line);
+  background:var(--fc-paper);
+}
+#lesson-content #confiance .trust-grid article>span,
+#lesson-content #confiance .three-column-note b,
+#lesson-content #confiance .trust-step b{color:var(--fc-blue-deep)}
+#lesson-content #confiance .trust-grid p,
+#lesson-content #confiance .three-column-note p,
+#lesson-content #confiance .trust-grid small,
+#lesson-content #confiance .trust-step small{color:var(--fc-body)!important}
+#lesson-content #confiance .trust-chain{
+  border-color:#334155;
+  background:var(--fc-dark);
+}
+#lesson-content #confiance .trust-step{
+  border:1px solid #7dd3fc;
+  background:var(--fc-blue-soft);
+}
+#lesson-content #confiance .trust-chain>span{color:#5eead4}
+#lesson-content #confiance .trust-chain>p{color:#cbd5e1!important}
+
+#lesson-content #formes .money-type{
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #formes .money-type>span{color:var(--fc-blue-deep)}
+#lesson-content #formes .distinction-panel{
+  background:var(--fc-blue-soft);
+  border-color:#7dd3fc;
+  border-left-color:var(--fc-blue);
+  color:var(--fc-ink);
+}
+#lesson-content #formes .distinction-panel h3{color:var(--fc-ink)}
+#lesson-content #formes .distinction-panel p{color:var(--fc-body)!important}
+#lesson-content #formes .flow-chip{
+  color:var(--fc-ink);
+  background:#fff;
+  border-color:#94a3b8;
+}
+#lesson-content #formes .flow-chip b{color:var(--fc-blue-deep)}
+#lesson-content #formes .flow-arrow{color:var(--fc-teal)}
+#lesson-content #formes .payment-steps>div{
+  background:var(--fc-paper);
+  border:1px solid var(--fc-line);
+}
+#lesson-content #formes .payment-steps b{color:var(--fc-blue-deep)}
+#lesson-content #formes .payment-steps span,
+#lesson-content #formes .flow-footnote{color:var(--fc-body)!important}
+#lesson-content #formes .layers-diagram .layer{
+  color:var(--fc-ink);
+  border:1px solid #7dd3fc;
+  background:var(--fc-blue-soft);
+}
+#lesson-content #formes .layers-diagram .layer.layer-bank{background:#e7f5f1;border-color:#99f6e4}
+#lesson-content #formes .layers-diagram .layer b{color:var(--fc-ink)}
+#lesson-content #formes .layers-diagram .layer span,
+#lesson-content #formes .layers-diagram .layer-link{color:var(--fc-body)}
+
+#lesson-content #creation .loan-example,
+#lesson-content #creation .loan-lab-box,
+#lesson-content #creation .process-steps>div{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #creation .loan-header h3{color:var(--fc-ink)}
+#lesson-content #creation .loan-header p{color:var(--fc-body)!important}
+#lesson-content #creation .balance-card,
+#lesson-content #creation .loan-columns>div{
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #creation .balance-card:nth-child(2),
+#lesson-content #creation .loan-columns>div:nth-child(2){
+  background:var(--fc-teal-soft);
+  border-color:#99f6e4;
+}
+#lesson-content #creation .balance-card>b,
+#lesson-content #creation .loan-columns span{color:var(--fc-blue-deep)}
+#lesson-content #creation .balance-card:nth-child(2)>b,
+#lesson-content #creation .loan-columns>div:nth-child(2) span{color:var(--fc-teal-deep)}
+#lesson-content #creation .balance-card .balance-line{border-color:#bae6fd;color:var(--fc-body)}
+#lesson-content #creation .balance-card:nth-child(2) .balance-line{border-color:#99f6e4}
+#lesson-content #creation .balance-card small,
+#lesson-content #creation .loan-columns small{color:var(--fc-body)}
+#lesson-content #creation .balance-line strong,
+#lesson-content #creation .loan-columns b{color:var(--fc-ink)}
+#lesson-content #creation .borrower-balance{
+  border-color:var(--fc-line);
+  background:var(--fc-paper-soft);
+}
+#lesson-content #creation .borrower-balance>b{color:var(--fc-blue-deep)}
+#lesson-content #creation .borrower-balance span{background:#fff;color:var(--fc-body);border:1px solid var(--fc-line)}
+#lesson-content #creation .borrower-balance small{color:var(--fc-body)}
+#lesson-content #creation .loan-result,
+#lesson-content #creation .loan-impact{
+  color:var(--fc-teal-deep);
+  background:var(--fc-teal-soft);
+  border-left:3px solid var(--fc-teal);
+}
+#lesson-content #creation .loan-result b{color:var(--fc-teal-deep)}
+#lesson-content #creation .process-steps>div{border-top:3px solid var(--fc-blue)}
+#lesson-content #creation .process-steps span{
+  color:var(--fc-blue-deep);
+  background:var(--fc-blue-soft);
+}
+#lesson-content #creation .process-steps b{color:var(--fc-ink)}
+#lesson-content #creation .process-steps p{color:var(--fc-body)!important}
+#lesson-content #creation .loan-controls label{color:var(--fc-body)}
+#lesson-content #creation .loan-controls input{
+  color:var(--fc-ink);
+  border-color:#94a3b8;
+  background:#fff;
+}
+#lesson-content #creation .mode-button{
+  color:var(--fc-body);
+  background:#fff;
+  border-color:#94a3b8;
+}
+#lesson-content #creation .mode-button.active{
+  color:#fff;
+  background:var(--fc-blue);
+  border-color:var(--fc-blue);
+}
+
+#lesson-content #pouvoir-achat .inflation-story{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #pouvoir-achat .inflation-story h3{color:var(--fc-ink)}
+#lesson-content #pouvoir-achat .inflation-story p{color:var(--fc-body)!important}
+#lesson-content #pouvoir-achat .price-sequence>div{
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #pouvoir-achat .price-sequence>div:nth-of-type(2),
+#lesson-content #pouvoir-achat .price-sequence>div:nth-of-type(3){
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #pouvoir-achat .price-sequence small{color:var(--fc-body)}
+#lesson-content #pouvoir-achat .price-sequence b{color:var(--fc-blue-deep)}
+#lesson-content #pouvoir-achat .price-sequence>span{color:var(--fc-teal)}
+#lesson-content #pouvoir-achat .inflation-calculator{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #pouvoir-achat .calculator-heading h3{color:var(--fc-ink)}
+#lesson-content #pouvoir-achat .calculator-heading p,
+#lesson-content #pouvoir-achat .calculator-fields label{color:var(--fc-body)!important}
+#lesson-content #pouvoir-achat .calculator-fields input{
+  color:var(--fc-ink);
+  border-color:#94a3b8;
+  background:#fff;
+}
+#lesson-content #pouvoir-achat .calculator-output{background:var(--fc-dark)}
+#lesson-content #pouvoir-achat .calculator-output span{color:#cbd5e1}
+#lesson-content #pouvoir-achat .calculator-output strong{color:#5eead4}
+#lesson-content #pouvoir-achat .calculator-output p{color:#e2e8f0!important}
+#lesson-content #pouvoir-achat .calculator-secondary{
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+  color:var(--fc-body);
+}
+#lesson-content #pouvoir-achat .calculator-secondary b{color:var(--fc-blue-deep)}
+#lesson-content #pouvoir-achat .calculator-note{color:var(--fc-muted)!important}
+#lesson-content #pouvoir-achat .two-column-note b{color:var(--fc-blue-deep)}
+#lesson-content #pouvoir-achat .two-column-note p{color:var(--fc-body)!important}
+#lesson-content #cas-pratique .case-table{background:var(--fc-paper)}
+#lesson-content #cas-pratique .case-table th{background:#e8eef6;color:var(--fc-blue-deep);border-color:var(--fc-line)}
+#lesson-content #cas-pratique .case-table td{background:#fff;color:var(--fc-body);border-color:#dbe3ed}
+#lesson-content #cas-pratique .case-table td b{color:var(--fc-blue-deep)}
+#lesson-content #retenir .takeaway-grid>div{border-left:3px solid var(--fc-teal)}
+#lesson-content #retenir .takeaway-grid>div>b{color:var(--fc-blue-deep)}
+#lesson-content #retenir .takeaway-grid p{color:var(--fc-body)!important}
+
+/* Chapter 2 — same blue/teal visual language; status colors only where meaningful. */
+#lesson-content #btc-probleme .btc-analogy-grid article,
+#lesson-content #btc-definition .btc-three-defs article,
+#lesson-content #btc-histoire .btc-timeline-item,
+#lesson-content #btc-usages-limites .btc-pros-cons article,
+#lesson-content #btc-reseau .btc-role-grid article,
+#lesson-content #btc-retenir .btc-takeaways article{
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #btc-probleme .btc-analogy-grid article:nth-child(n),
+#lesson-content #btc-definition .btc-three-defs article:nth-child(n),
+#lesson-content #btc-histoire .btc-timeline-item:nth-child(n),
+#lesson-content #btc-reseau .btc-role-grid article:nth-child(n),
+#lesson-content #btc-retenir .btc-takeaways article:nth-child(n){
+  border-top:3px solid var(--fc-teal);
+}
+#lesson-content #btc-probleme .btc-card-index,
+#lesson-content #btc-definition .btc-symbol,
+#lesson-content #btc-histoire .btc-date,
+#lesson-content #btc-reseau .btc-role-grid article>span,
+#lesson-content #btc-retenir .btc-takeaways article>span{
+  color:var(--fc-blue-deep);
+}
+#lesson-content #btc-definition .btc-symbol,
+#lesson-content #btc-reseau .btc-role-grid article>span,
+#lesson-content #btc-retenir .btc-takeaways article>span{
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #btc-histoire .btc-timeline{border-left-color:#94a3b8}
+#lesson-content #btc-histoire .btc-timeline-mark,
+#lesson-content #btc-histoire .btc-timeline-item:nth-child(n) .btc-timeline-mark{
+  color:#fff;
+  background:var(--fc-blue);
+  border-color:#dbeafe;
+  box-shadow:0 0 0 2px #7dd3fc;
+}
+#lesson-content #btc-histoire .btc-timeline-item h3{color:var(--fc-ink)}
+#lesson-content #btc-histoire .btc-timeline-item p{color:var(--fc-body)!important}
+#lesson-content #btc-histoire .btc-inline-link{color:var(--fc-blue-deep)}
+#lesson-content #btc-histoire .btc-timeline-item .btc-source-note{
+  color:var(--fc-body)!important;
+  background:var(--fc-blue-soft);
+  border-left-color:var(--fc-blue);
+}
+#lesson-content #btc-probleme .btc-contrast>div:not(.btc-contrast-arrow){
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border:1px solid var(--fc-line);
+}
+#lesson-content #btc-probleme .btc-contrast>div:first-child{border-top:3px solid #64748b}
+#lesson-content #btc-probleme .btc-contrast>div:last-child{border-top:3px solid var(--fc-teal)}
+#lesson-content #btc-probleme .btc-contrast h3{color:var(--fc-ink)}
+#lesson-content #btc-probleme .btc-contrast p{color:var(--fc-body)!important}
+#lesson-content #btc-probleme .btc-contrast .lesson-kicker{color:var(--fc-blue-deep)}
+#lesson-content #btc-probleme .btc-contrast-arrow{color:var(--fc-teal);background:transparent;border:0;box-shadow:none}
+#lesson-content #btc-probleme .btc-caveat,
+#lesson-content #btc-double-depense .btc-caveat,
+#lesson-content #btc-preuve-travail .btc-caveat,
+#lesson-content #btc-emission .btc-caveat,
+#lesson-content #btc-usages-limites .btc-caveat{
+  color:#334155;
+  background:var(--fc-paper-soft);
+  border-color:var(--fc-line);
+  border-left-color:#64748b;
+}
+#lesson-content .btc-key-point{
+  color:var(--fc-teal-deep);
+  background:var(--fc-teal-soft);
+  border-color:#99f6e4;
+  border-left-color:var(--fc-teal);
+}
+#lesson-content .btc-key-point>b{color:var(--fc-teal-deep)}
+#lesson-content .btc-key-point p{color:var(--fc-teal-deep)!important}
+
+#lesson-content #btc-double-depense .btc-conflict-lab,
+#lesson-content #btc-reseau .btc-role-lab,
+#lesson-content #btc-parcours-transaction .btc-flow-lab,
+#lesson-content #btc-emission .btc-halving-lab{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border:1px solid var(--fc-line);
+}
+#lesson-content #btc-double-depense .btc-lab-heading h3,
+#lesson-content #btc-reseau .btc-role-lab h3,
+#lesson-content #btc-parcours-transaction .btc-lab-heading h3,
+#lesson-content #btc-emission .btc-halving-lab h3{color:var(--fc-ink)}
+#lesson-content #btc-double-depense .btc-lab-heading p,
+#lesson-content #btc-reseau .btc-role-lab>p,
+#lesson-content #btc-parcours-transaction .btc-lab-heading p,
+#lesson-content #btc-emission .btc-halving-lab>p{color:var(--fc-body)!important}
+#lesson-content #btc-double-depense .btc-conflict-origin{
+  color:var(--fc-ink);
+  background:var(--fc-blue-soft);
+  border-color:#7dd3fc;
+}
+#lesson-content #btc-double-depense .btc-conflict-origin span{color:var(--fc-blue-deep)}
+#lesson-content #btc-double-depense .btc-conflict-origin strong{color:var(--fc-ink)}
+#lesson-content #btc-double-depense .btc-conflict-origin small{color:var(--fc-body)}
+#lesson-content #btc-double-depense .btc-conflict-branch{
+  color:var(--fc-ink);
+  background:#fff;
+  border-color:var(--fc-line);
+}
+#lesson-content #btc-double-depense .btc-conflict-branch>b{color:var(--fc-ink)}
+#lesson-content #btc-double-depense .btc-conflict-branch>strong{color:var(--fc-blue-deep)}
+#lesson-content #btc-double-depense .btc-conflict-branch>small{color:var(--fc-body)}
+#lesson-content #btc-double-depense .btc-conflict-selected{
+  border-color:var(--fc-green);
+  background:var(--fc-green-soft);
+}
+#lesson-content #btc-double-depense .btc-conflict-rejected{
+  border-color:var(--fc-red);
+  background:var(--fc-red-soft);
+}
+#lesson-content #btc-double-depense .btc-lab-controls .mode-button,
+#lesson-content #btc-reseau .btc-role-lab .mode-button,
+#lesson-content #btc-parcours-transaction .btc-flow-lab .mode-button{
+  color:var(--fc-body);
+  border-color:#cbd5e1;
+  background:#fff;
+}
+#lesson-content #btc-double-depense .btc-lab-controls .mode-button.active,
+#lesson-content #btc-reseau .btc-role-lab .mode-button.active,
+#lesson-content #btc-parcours-transaction .btc-flow-lab .mode-button.active{
+  color:#fff;
+  border-color:var(--fc-blue);
+  background:var(--fc-blue);
+  box-shadow:0 0 0 2px #bae6fd;
+}
+#lesson-content #btc-double-depense .btc-conflict-result,
+#lesson-content #btc-reseau .btc-role-detail{
+  color:var(--fc-teal-deep);
+  background:var(--fc-teal-soft);
+  border-left-color:var(--fc-teal);
+}
+#lesson-content #btc-double-depense .btc-conflict-result p,
+#lesson-content #btc-double-depense .btc-conflict-result small,
+#lesson-content #btc-reseau .btc-role-detail p{color:var(--fc-teal-deep)!important}
+#lesson-content #btc-double-depense .btc-reset-button{
+  color:var(--fc-blue-deep);
+  border-color:#bae6fd;
+  background:#fff;
+}
+#lesson-content #btc-reseau .btc-network-figure{background:var(--fc-dark);border-color:#334155}
+#lesson-content #btc-reseau .btc-role-grid article>span{color:var(--fc-blue-deep)}
+#lesson-content #btc-reseau .btc-role-grid p{color:var(--fc-body)!important}
+#lesson-content #btc-parcours-transaction .btc-flow-steps{gap:8px}
+#lesson-content #btc-parcours-transaction .btc-flow-step{
+  color:var(--fc-body);
+  border:1px solid var(--fc-line);
+  background:#fff;
+}
+#lesson-content #btc-parcours-transaction .btc-flow-step span{
+  color:var(--fc-blue-deep);
+  background:var(--fc-blue-soft);
+}
+#lesson-content #btc-parcours-transaction .btc-flow-step.active{
+  color:#fff;
+  border-color:var(--fc-blue);
+  background:var(--fc-blue);
+}
+#lesson-content #btc-parcours-transaction .btc-flow-step.active span{color:var(--fc-blue-deep);background:#fff}
+#lesson-content #btc-parcours-transaction .btc-flow-step:last-child.active{
+  background:var(--fc-green);
+  border-color:var(--fc-green);
+}
+#lesson-content #btc-parcours-transaction .btc-flow-detail{
+  color:var(--fc-ink);
+  background:var(--fc-blue-soft);
+  border:1px solid #bae6fd;
+  border-left:3px solid var(--fc-blue);
+}
+#lesson-content #btc-parcours-transaction .btc-flow-detail b{color:var(--fc-blue-deep)}
+#lesson-content #btc-parcours-transaction .btc-flow-detail p{color:var(--fc-body)!important}
+#lesson-content #btc-parcours-transaction .btc-flow-note{
+  color:var(--fc-teal-deep)!important;
+  background:var(--fc-teal-soft);
+  border-left-color:var(--fc-teal);
+}
+
+#lesson-content #btc-preuve-travail .btc-pow-sequence>div{
+  color:var(--fc-ink);
+  border-color:var(--fc-line);
+  background:var(--fc-paper);
+}
+#lesson-content #btc-preuve-travail .btc-pow-sequence>div:nth-of-type(n){border-top:3px solid var(--fc-blue)}
+#lesson-content #btc-preuve-travail .btc-pow-sequence>div span{color:var(--fc-blue-deep)}
+#lesson-content #btc-preuve-travail .btc-pow-sequence>div b{color:var(--fc-ink)}
+#lesson-content #btc-preuve-travail .btc-pow-sequence>div small{color:var(--fc-body)}
+#lesson-content #btc-preuve-travail .btc-pow-sequence>i{color:var(--fc-teal)}
+#lesson-content #btc-emission .btc-halving-lab label{color:var(--fc-body)}
+#lesson-content #btc-emission .btc-halving-lab input[type=range]{accent-color:var(--fc-blue)}
+#lesson-content #btc-emission .btc-halving-readout>div{
+  color:var(--fc-ink);
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #btc-emission .btc-halving-readout>div:nth-child(n){background:var(--fc-blue-soft);border-color:#bae6fd}
+#lesson-content #btc-emission .btc-halving-readout span{color:var(--fc-body)}
+#lesson-content #btc-emission .btc-halving-readout strong{color:var(--fc-blue-deep)}
+#lesson-content #btc-emission .btc-halving-explain{
+  color:var(--fc-teal-deep);
+  background:var(--fc-teal-soft);
+  border-left-color:var(--fc-teal);
+}
+#lesson-content #btc-emission .btc-current-subsidy{
+  color:var(--fc-teal-deep);
+  border-color:#99f6e4;
+  background:var(--fc-teal-soft);
+}
+#lesson-content #btc-emission .btc-current-subsidy span,
+#lesson-content #btc-emission .btc-current-subsidy b,
+#lesson-content #btc-emission .btc-current-subsidy a{color:var(--fc-teal-deep)}
+#lesson-content #btc-emission .btc-current-subsidy p{color:var(--fc-teal-deep)!important}
+
+#lesson-content #btc-usages-limites .btc-pros-cons article:first-child,
+#lesson-content #btc-usages-limites .btc-pros-cons article:last-child{
+  background:var(--fc-paper);
+  border-top:3px solid var(--fc-teal);
+}
+#lesson-content #btc-usages-limites .btc-pros-cons article:nth-child(n) .btc-card-index{color:var(--fc-blue-deep)}
+#lesson-content #btc-usages-limites .btc-pros-cons h3,
+#lesson-content #btc-usages-limites .btc-pros-cons ul,
+#lesson-content #btc-usages-limites .btc-pros-cons li{color:var(--fc-ink)}
+#lesson-content #btc-cas-reel .btc-transaction-card{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #btc-cas-reel .btc-transaction-head{
+  color:var(--fc-blue-deep);
+  border-color:var(--fc-line);
+}
+#lesson-content #btc-cas-reel .btc-transaction-head b{color:var(--fc-ink)}
+#lesson-content #btc-cas-reel .btc-transaction-flow>div:first-child{
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #btc-cas-reel .btc-transaction-flow small,
+#lesson-content #btc-cas-reel .btc-transaction-flow span{color:var(--fc-body)}
+#lesson-content #btc-cas-reel .btc-transaction-flow strong{color:var(--fc-blue-deep)}
+#lesson-content #btc-cas-reel .btc-tx-outputs>div:first-child,
+#lesson-content #btc-cas-reel .btc-tx-outputs>div:last-child{
+  background:var(--fc-teal-soft);
+  border-color:#99f6e4;
+}
+#lesson-content #btc-cas-reel .btc-tx-outputs>div:first-child strong,
+#lesson-content #btc-cas-reel .btc-tx-outputs>div:last-child strong{color:var(--fc-teal-deep)}
+#lesson-content #btc-cas-reel .btc-transaction-card>p{color:var(--fc-body)!important}
+#lesson-content #btc-cas-reel .btc-tx-arrow{color:var(--fc-blue)}
+#lesson-content #btc-cas-reel .btc-inline-link{color:var(--fc-blue-deep)}
+#lesson-content #btc-retenir .btc-takeaways article>span{
+  color:var(--fc-blue-deep);
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #btc-retenir .btc-takeaways h3{color:var(--fc-ink)}
+#lesson-content #btc-retenir .btc-takeaways p{color:var(--fc-body)!important}
+
+/* Chapter 3 — technical diagrams stay on navy canvases; labels stay blue/teal. */
+#lesson-content #ch3-registre .ch3-compare>article{
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #ch3-registre .ch3-compare>article:first-child{border-top:3px solid #64748b}
+#lesson-content #ch3-registre .ch3-compare>article:last-child{border-top:3px solid var(--fc-teal)}
+#lesson-content #ch3-registre .ch3-card-kicker{color:var(--fc-blue-deep)}
+#lesson-content #ch3-registre .ch3-central-diagram,
+#lesson-content #ch3-registre .ch3-network-diagram{
+  background:var(--fc-dark);
+  border-color:#334155;
+}
+#lesson-content #ch3-registre .ch3-user{
+  color:var(--fc-ink);
+  background:var(--fc-blue-soft);
+  border-color:#7dd3fc;
+}
+#lesson-content #ch3-registre .ch3-database{
+  color:#fff;
+  background:var(--fc-blue);
+  border-color:#7dd3fc;
+}
+#lesson-content #ch3-registre .ch3-database small{color:#dbeafe}
+#lesson-content #ch3-registre .ch3-network-node,
+#lesson-content #ch3-registre .ch3-network-node.n1,
+#lesson-content #ch3-registre .ch3-network-node.n2,
+#lesson-content #ch3-registre .ch3-network-node.n3,
+#lesson-content #ch3-registre .ch3-network-node.n4{
+  color:#fff;
+  background:var(--fc-blue);
+  border-color:#7dd3fc;
+}
+#lesson-content #ch3-registre .ch3-network-node.n2,
+#lesson-content #ch3-registre .ch3-network-node.n4{background:var(--fc-teal);border-color:#5eead4}
+#lesson-content #ch3-registre .ch3-network-diagram svg{stroke:#5eead4}
+
+#lesson-content #ch3-architecture .ch3-block-anatomy{
+  border-color:#334155;
+  background:var(--fc-dark);
+}
+#lesson-content #ch3-architecture .ch3-block-top{
+  background:linear-gradient(110deg,#1e3a5f,#0f766e);
+  border-color:#334155;
+}
+#lesson-content #ch3-architecture .ch3-block-top span,
+#lesson-content #ch3-architecture .ch3-block-body>div>span{color:#bae6fd}
+#lesson-content #ch3-architecture .ch3-block-top b,
+#lesson-content #ch3-architecture .ch3-block-body>div:first-child b{color:#fff}
+#lesson-content #ch3-architecture .ch3-header-grid>div{
+  border-color:var(--fc-line);
+  background:var(--fc-paper);
+}
+#lesson-content #ch3-architecture .ch3-header-grid small{color:var(--fc-blue-deep)}
+#lesson-content #ch3-architecture .ch3-header-grid strong{color:var(--fc-ink)}
+#lesson-content #ch3-architecture .ch3-header-grid em{color:var(--fc-body)}
+#lesson-content #ch3-architecture .ch3-block-body{border-color:#334155}
+#lesson-content #ch3-architecture .ch3-block-body>div:first-child small{color:#cbd5e1}
+#lesson-content #ch3-architecture .ch3-records i{
+  color:var(--fc-blue-deep);
+  border-color:#bae6fd;
+  background:var(--fc-blue-soft);
+}
+#lesson-content #ch3-architecture .ch3-records i:nth-child(n){background:var(--fc-blue-soft);border-color:#bae6fd}
+#lesson-content #ch3-architecture .ch3-records i.ch3-record-more{
+  color:#475569;
+  border:1px dashed #94a3b8;
+  background:#e2e8f0;
+  font-weight:700;
+}
+#lesson-content #ch3-architecture .ch3-block-caption{color:#cbd5e1;border-color:#334155}
+#lesson-content #ch3-architecture .ch3-fact-row>div{
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #ch3-architecture .ch3-fact-row>div:nth-child(2){
+  background:var(--fc-teal-soft);
+  border-color:#99f6e4;
+}
+#lesson-content #ch3-architecture .ch3-fact-row b{color:var(--fc-blue-deep)}
+#lesson-content #ch3-architecture .ch3-fact-row>div:nth-child(2) b{color:var(--fc-teal-deep)}
+#lesson-content #ch3-architecture .ch3-fact-row span{color:var(--fc-body)}
+
+#lesson-content #ch3-hachage .ch3-hash-flow>div:not(.ch3-hash-arrow){
+  border-color:var(--fc-line);
+  background:var(--fc-paper);
+}
+#lesson-content #ch3-hachage .ch3-hash-input{
+  border-top:3px solid var(--fc-blue)!important;
+  background:var(--fc-blue-soft)!important;
+}
+#lesson-content #ch3-hachage .ch3-hash-function{
+  border-top:3px solid #64748b!important;
+  background:var(--fc-paper-soft)!important;
+}
+#lesson-content #ch3-hachage .ch3-hash-output{
+  border-top:3px solid var(--fc-teal)!important;
+  background:var(--fc-teal-soft)!important;
+}
+#lesson-content #ch3-hachage .ch3-hash-flow span,
+#lesson-content #ch3-hachage .ch3-hash-flow small{color:var(--fc-body)}
+#lesson-content #ch3-hachage .ch3-hash-flow b{color:var(--fc-ink)}
+#lesson-content #ch3-hachage .ch3-hash-arrow{color:var(--fc-teal)}
+#lesson-content #ch3-hachage .ch3-property-grid article{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+  border-left:3px solid var(--fc-teal);
+}
+#lesson-content #ch3-hachage .ch3-property-grid b{color:var(--fc-ink)}
+#lesson-content #ch3-hachage .ch3-property-grid p{color:var(--fc-body)!important}
+#lesson-content #ch3-hachage .ch3-warning{
+  color:#334155;
+  background:var(--fc-paper-soft);
+  border-color:var(--fc-line);
+  border-left-color:#64748b;
+}
+#lesson-content #ch3-hachage .ch3-warning>b{color:var(--fc-ink)}
+#lesson-content #ch3-hachage .ch3-warning p{color:var(--fc-body)!important}
+
+#lesson-content #ch3-chainage .ch3-chain-block{
+  background:var(--fc-blue-soft);
+  border-color:#7dd3fc;
+}
+#lesson-content #ch3-chainage .ch3-chain-block:nth-of-type(3){background:var(--fc-blue-soft);border-color:#7dd3fc}
+#lesson-content #ch3-chainage .ch3-chain-block:nth-of-type(5){background:var(--fc-teal-soft);border-color:#99f6e4}
+#lesson-content #ch3-chainage .ch3-chain-block small{color:var(--fc-blue-deep)}
+#lesson-content #ch3-chainage .ch3-chain-block b{color:var(--fc-ink)}
+#lesson-content #ch3-chainage .ch3-chain-block span{color:var(--fc-body)}
+#lesson-content #ch3-chainage .ch3-chain-link i,
+#lesson-content #ch3-chainage .ch3-chain-link i:after,
+#lesson-content #ch3-chainage .ch3-chain-link small{color:var(--fc-teal);background-color:var(--fc-teal)}
+
+#lesson-content #ch3-chain-lab,
+#lesson-content #ch3-merkle-lab{
+  color:var(--fc-ink);
+  border-color:var(--fc-line);
+  background:var(--fc-paper);
+}
+#lesson-content #ch3-chain-lab .ch3-lab-head strong,
+#lesson-content #ch3-merkle-lab .ch3-lab-head strong{color:var(--fc-ink)}
+#lesson-content #ch3-chain-lab .ch3-lab-head>p,
+#lesson-content #ch3-merkle-lab .ch3-lab-head>p{color:var(--fc-body)!important}
+#lesson-content #ch3-chain-lab .ch3-input-label,
+#lesson-content #ch3-merkle-lab .ch3-merkle-inputs label{color:var(--fc-body)}
+#lesson-content #ch3-chain-lab input,
+#lesson-content #ch3-merkle-lab input{
+  color:var(--fc-ink);
+  border-color:#94a3b8;
+  background:#fff;
+}
+#lesson-content #ch3-chain-lab .ch3-hash-readouts>div,
+#lesson-content #ch3-merkle-lab .ch3-merkle-output>div{
+  background:var(--fc-dark);
+  border-color:#334155;
+}
+#lesson-content #ch3-chain-lab .ch3-hash-readouts small,
+#lesson-content #ch3-merkle-lab .ch3-merkle-output small{color:#bae6fd}
+#lesson-content #ch3-chain-lab .ch3-hash-readouts code,
+#lesson-content #ch3-merkle-lab .ch3-hash-pills code{color:#5eead4}
+#lesson-content #ch3-chain-lab .ch3-lab-status,
+#lesson-content #ch3-merkle-lab .ch3-lab-status{
+  color:var(--fc-teal-deep);
+  background:var(--fc-teal-soft);
+  border-left-color:var(--fc-teal);
+}
+#lesson-content #ch3-chain-lab .ch3-lab-status.is-ok,
+#lesson-content #ch3-merkle-lab .ch3-lab-status.is-ok{
+  color:#14532d;background:var(--fc-green-soft);border-left-color:var(--fc-green);
+}
+#lesson-content #ch3-chain-lab .ch3-lab-status.is-alert,
+#lesson-content #ch3-merkle-lab .ch3-lab-status.is-alert{
+  color:#991b1b;background:var(--fc-red-soft);border-left-color:var(--fc-red);
+}
+#lesson-content #ch3-chain-lab .ch3-lab-note,
+#lesson-content #ch3-merkle-lab .ch3-lab-note{color:var(--fc-muted)!important}
+#lesson-content #ch3-chain-lab .ch3-lab-actions .quiz-reset,
+#lesson-content #ch3-merkle-lab .ch3-lab-actions .quiz-reset{
+  color:var(--fc-blue-deep);
+  background:#fff;
+  border-color:#bae6fd;
+}
+#lesson-content #ch3-chain-lab .ch3-lab-actions .quiz-reset:hover,
+#lesson-content #ch3-merkle-lab .ch3-lab-actions .quiz-reset:hover{
+  color:#fff;background:var(--fc-blue);border-color:var(--fc-blue);
+}
+
+#lesson-content #ch3-merkle .ch3-merkle-static{
+  border-color:#334155;
+  background:radial-gradient(circle at 50% 0%,#1e3a5f,#101827 72%);
+}
+#lesson-content #ch3-merkle .ch3-merkle-level.root b{
+  color:#fff;background:var(--fc-teal);border-color:#5eead4;
+}
+#lesson-content #ch3-merkle .ch3-merkle-level.middle span{
+  color:#fff;background:var(--fc-blue);border-color:#7dd3fc;
+}
+#lesson-content #ch3-merkle .ch3-merkle-level.middle span:last-child{
+  background:var(--fc-teal);border-color:#5eead4;
+}
+#lesson-content #ch3-merkle .ch3-merkle-level.leaves span{
+  color:var(--fc-blue-deep);
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #ch3-merkle .ch3-merkle-level.leaves span:nth-child(n){
+  color:var(--fc-blue-deep);
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #ch3-merkle .ch3-merkle-connectors,
+#lesson-content #ch3-merkle .ch3-merkle-connectors i{border-color:#5eead4;background-color:#5eead4}
+#lesson-content #ch3-merkle .ch3-merkle-static>small{color:#dbeafe}
+#lesson-content #ch3-merkle-lab .ch3-hash-pills code{
+  color:#dbeafe;
+  background:#1e3a5f;
+}
+#lesson-content #ch3-merkle-lab .ch3-hash-pills code:nth-child(n){background:#1e3a5f}
+#lesson-content #ch3-merkle-lab .ch3-merkle-root{
+  background:#134e4a!important;
+  border-color:#5eead4!important;
+}
+#lesson-content #ch3-merkle-lab .ch3-merkle-root small{color:#ccfbf1}
+#lesson-content #ch3-merkle-lab .ch3-merkle-root code{color:#fff}
+
+/* Roles / consensus / fork visualization: consistent blue/teal, status green/red. */
+#lesson-content #ch3-noeuds .ch3-role-grid article,
+#lesson-content #ch3-consensus .ch3-consensus-compare article{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #ch3-noeuds .ch3-role-grid article:nth-child(n){border-top:3px solid var(--fc-teal)}
+#lesson-content #ch3-noeuds .ch3-role-grid article>span{
+  color:var(--fc-blue-deep);
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #ch3-noeuds .ch3-role-grid h3{color:var(--fc-ink)}
+#lesson-content #ch3-noeuds .ch3-role-grid p{color:var(--fc-body)!important}
+#lesson-content #ch3-noeuds .ch3-role-grid small{color:var(--fc-body);border-color:var(--fc-line)}
+#lesson-content #ch3-consensus .ch3-consensus-compare article:first-child{border-top:3px solid var(--fc-blue)}
+#lesson-content #ch3-consensus .ch3-consensus-compare article:last-child{border-top:3px solid var(--fc-teal)}
+#lesson-content #ch3-consensus .ch3-consensus-compare h3{color:var(--fc-ink)}
+#lesson-content #ch3-consensus .ch3-consensus-compare p{color:var(--fc-body)!important}
+#lesson-content #ch3-consensus .ch3-consensus-compare small{color:var(--fc-blue-deep)}
+#lesson-content #ch3-consensus .ch3-consensus-visual.pow{
+  background:var(--fc-blue-soft);border:1px solid #bae6fd;
+}
+#lesson-content #ch3-consensus .ch3-consensus-visual.pos{
+  background:var(--fc-teal-soft);border:1px solid #99f6e4;
+}
+#lesson-content #ch3-consensus .ch3-consensus-visual i{
+  color:var(--fc-ink);border-color:var(--fc-line);background:#fff;
+}
+#lesson-content #ch3-consensus .ch3-consensus-visual b{color:var(--fc-teal)}
+#lesson-content #ch3-consensus .ch3-distinction{
+  color:var(--fc-teal-deep);background:var(--fc-teal-soft);border-left-color:var(--fc-teal);
+}
+#lesson-content #ch3-consensus .ch3-distinction b,
+#lesson-content #ch3-consensus .ch3-distinction span{color:var(--fc-teal-deep)}
+#lesson-content #ch3-forks .ch3-fork-diagram{
+  border-color:#334155;background:var(--fc-dark);
+}
+#lesson-content #ch3-forks .ch3-fork-common{
+  color:var(--fc-ink);background:var(--fc-blue-soft);border-color:#7dd3fc;
+}
+#lesson-content #ch3-forks .ch3-fork-common b{color:var(--fc-blue-deep)}
+#lesson-content #ch3-forks .ch3-fork-common small{color:var(--fc-body)}
+#lesson-content #ch3-forks .ch3-fork-split i{background:#5eead4}
+#lesson-content #ch3-forks .ch3-fork-branches>div{background:#172336;border-color:#475569}
+#lesson-content #ch3-forks .ch3-fork-branches .branch-a{border-top:3px solid var(--fc-green)}
+#lesson-content #ch3-forks .ch3-fork-branches .branch-b{border-top:3px solid var(--fc-red)}
+#lesson-content #ch3-forks .ch3-fork-branches b{color:#f8fafc}
+#lesson-content #ch3-forks .ch3-fork-branches span{color:#e2e8f0;background:#243448;border-color:#475569}
+#lesson-content #ch3-forks .ch3-fork-branches .branch-a em{color:#86efac}
+#lesson-content #ch3-forks .ch3-fork-branches .branch-b em{color:#fca5a5}
+#lesson-content #ch3-forks .ch3-three-terms>div{
+  color:var(--fc-ink);background:var(--fc-paper);border-color:var(--fc-line);
+}
+#lesson-content #ch3-forks .ch3-three-terms b{color:var(--fc-blue-deep)}
+#lesson-content #ch3-forks .ch3-three-terms p{color:var(--fc-body)!important}
+
+#lesson-content #ch3-limites .ch3-guarantee-grid article{
+  color:var(--fc-teal-deep);
+  background:var(--fc-teal-soft);
+  border-color:#99f6e4;
+}
+#lesson-content #ch3-limites .ch3-guarantee-grid article.caution{
+  color:var(--fc-body);
+  background:var(--fc-paper-soft);
+  border-color:var(--fc-line);
+}
+#lesson-content #ch3-limites .ch3-guarantee-grid article>span{color:var(--fc-teal-deep)}
+#lesson-content #ch3-limites .ch3-guarantee-grid .caution>span{color:var(--fc-blue-deep)}
+#lesson-content #ch3-limites .ch3-guarantee-grid h3{color:var(--fc-ink)}
+#lesson-content #ch3-limites .ch3-guarantee-grid ul{color:var(--fc-body)}
+#lesson-content #ch3-limites .ch3-warning{
+  background:var(--fc-paper-soft);
+  border-color:var(--fc-line);
+  border-left-color:#64748b;
+}
+#lesson-content #ch3-limites .ch3-warning>b{color:var(--fc-ink)}
+#lesson-content #ch3-limites .ch3-warning p{color:var(--fc-body)!important}
+#lesson-content #ch3-choisir .ch3-choice-table{
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+}
+#lesson-content #ch3-choisir .ch3-choice-table .head b{
+  color:#fff;background:var(--fc-blue-deep);
+}
+#lesson-content #ch3-choisir .ch3-choice-table b{
+  color:var(--fc-ink);background:#e8eef6;border-color:var(--fc-line);
+}
+#lesson-content #ch3-choisir .ch3-choice-table span{
+  color:var(--fc-body);background:#fff;border-color:#dbe3ed;
+}
+#lesson-content #ch3-choisir .ch3-choice-check{
+  color:var(--fc-teal-deep);
+  background:var(--fc-teal-soft);
+  border-color:#99f6e4;
+}
+#lesson-content #ch3-choisir .ch3-choice-check strong{color:var(--fc-teal-deep)}
+#lesson-content #ch3-choisir .ch3-choice-check p{color:var(--fc-teal-deep)!important}
+#lesson-content #ch3-cas .ch3-case-flow article{
+  color:var(--fc-ink);
+  background:var(--fc-paper);
+  border-color:var(--fc-line);
+  border-top:3px solid var(--fc-teal);
+}
+#lesson-content #ch3-cas .ch3-case-flow article>span{color:var(--fc-blue-deep)}
+#lesson-content #ch3-cas .ch3-case-flow b{color:var(--fc-ink)}
+#lesson-content #ch3-cas .ch3-case-flow p{color:var(--fc-body)!important}
+#lesson-content #ch3-cas .ch3-case-questions{
+  color:var(--fc-body);
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
+#lesson-content #ch3-cas .ch3-case-questions>b{color:var(--fc-blue-deep)}
+#lesson-content #ch3-cas .ch3-case-questions ol{color:var(--fc-body)!important}
+
+/* Match the chapter 2 glossary treatment exactly: dark cards, ivory terms, muted definitions. */
+#lesson-content #ch3-glossaire .btc-glossary details{
+  background:#1d1914;
+  border-color:#51432f;
+}
+#lesson-content #ch3-glossaire .btc-glossary summary{color:#ead8bd}
+#lesson-content #ch3-glossaire .btc-glossary details[open]{
+  background:#211b14;
+  border-color:#92754a;
+}
+#lesson-content #ch3-glossaire .btc-glossary details p{color:#d1c2ad!important}
+#lesson-content #ch3-retenir .ch3-takeaways article>span{color:var(--fc-blue-deep)}
