@@ -1,0 +1,315 @@
+/* Atlas Crypto — standalone Bitcoin laboratory visual harmonization.
+   Shared palette: navy data canvases, slate ink, blue/teal structure,
+   semantic green/red states. Keep the narrative editorial and the labs clear. */
+:root{
+  --lab-ink:#172033;
+  --lab-body:#334155;
+  --lab-muted:#64748b;
+  --lab-line:#cbd5e1;
+  --lab-paper:#f8fafc;
+  --lab-blue:#0369a1;
+  --lab-blue-deep:#075985;
+  --lab-blue-soft:#e0f2fe;
+  --lab-teal:#0f766e;
+  --lab-teal-deep:#115e59;
+  --lab-teal-soft:#e7f5f1;
+  --lab-green:#15803d;
+  --lab-green-soft:#f0fdf4;
+  --lab-red:#dc2626;
+  --lab-red-soft:#fef2f2;
+  --lab-night:#101923;
+  --lab-night-panel:#172336;
+}
+body{background:#0f172a;color:#f1f5f9}
+.edition-ribbon{
+  color:#bae6fd;
+  background:#0b2332;
+  border-bottom:1px solid #164e63;
+}
+nav{
+  background:rgba(15,23,42,.96);
+  border-bottom:1px solid #334155;
+}
+.logo{color:#7dd3fc}
+.navlinks a{color:#cbd5e1}
+.navlinks a:hover{color:#5eead4}
+.pill{
+  color:#fff;
+  border-color:#0284c7;
+  background:#0369a1;
+}
+.pill:hover{background:#075985;border-color:#7dd3fc}
+.ghost{color:#bae6fd;background:transparent;border-color:#38bdf8}
+.ghost:hover{color:#fff;background:#164e63}
+
+/* Hero and editorial artwork use a restrained blue/teal atmosphere. */
+.hero{
+  background:radial-gradient(ellipse at 80% 40%,#164e63 0%,#172336 38%,#0f172a 75%);
+}
+.eyebrow{color:#7dd3fc}
+.hero p{color:#dbe7f0}
+.hero-art .orb{
+  border-color:#38bdf8;
+  background:radial-gradient(circle at 35% 28%,#164e63 0%,#0f172a 72%);
+  box-shadow:0 0 90px rgba(56,189,248,.16),inset 0 0 55px rgba(45,212,191,.1);
+}
+.hero-art .orb span{color:#7dd3fc;text-shadow:0 0 30px rgba(56,189,248,.28)}
+.hero-art .orbit{border-color:rgba(56,189,248,.42)}
+.hero-art .orbit:before,.hero-art .orbit:after{background:#5eead4;box-shadow:0 0 18px rgba(45,212,191,.45)}
+.actions .pill{border-color:#38bdf8}
+.stats{background:#334155;border-color:#334155}
+.stats>div{background:#142033}
+.stats strong,.stats b{color:#5eead4}
+.stats small{color:#cbd5e1}
+
+/* Reading panels and conceptual illustrations. */
+.intro{color:#f1f5f9}
+.intro p{color:#cbd5e1}
+.chapter{background:#111b2a}
+.sidebar{color:#cbd5e1}
+.sidebar a{color:#cbd5e1}
+.sidebar a:hover{color:#5eead4}
+.number{color:#7dd3fc}
+.feature{
+  color:var(--lab-ink);
+  background:var(--lab-blue-soft);
+  border:1px solid #bae6fd;
+  border-left:4px solid var(--lab-blue);
+  border-radius:10px;
+}
+.feature strong{color:var(--lab-blue-deep)}
+.feature p{color:var(--lab-body)}
+.visual{
+  background:var(--lab-night);
+  border:1px solid #334155;
+  border-radius:12px;
+}
+.nodes .node{
+  color:#fff;
+  background:#075985;
+  border:1px solid #7dd3fc;
+  box-shadow:0 0 22px rgba(56,189,248,.13);
+}
+.nodes .node:nth-of-type(2){background:#115e59;border-color:#5eead4}
+.wire{background:#5eead4}
+.wire:after{background:#7dd3fc}
+.chapter-cover{
+  border:1px solid #334155;
+  border-radius:14px;
+  background:radial-gradient(circle at 50% 35%,#1e3a5f,#101923 75%);
+}
+.cover-caption{color:#cbd5e1}
+.chapter-cover .cover-constellation g[stroke]{stroke:#5eead4}
+.chapter-cover .cover-constellation g[fill] circle{
+  fill:#172336;
+  stroke:#7dd3fc;
+}
+.chapter-cover .cover-constellation circle:last-of-type{stroke:#5eead4}
+.chapter-cover .cover-constellation text{fill:#bae6fd}
+
+/* Interactive figures: the actual controls and explanations sit on clear paper. */
+.interactive-figure{
+  color:var(--lab-ink);
+  background:var(--lab-paper);
+  border:1px solid var(--lab-line);
+  border-top:3px solid var(--lab-teal);
+  border-radius:14px;
+  box-shadow:0 10px 28px rgba(15,23,42,.1);
+}
+.interactive-figure>p,
+.interactive-figure .fineprint,
+.interactive-figure .source-note{color:var(--lab-body)}
+.figure-head h3,.interactive-figure h3{color:var(--lab-ink)}
+.figure-kicker{color:var(--lab-blue-deep)}
+.badge{
+  color:var(--lab-teal-deep);
+  border:1px solid #99f6e4;
+  background:var(--lab-teal-soft);
+}
+.controls{
+  border:1px solid #dbe3ed;
+  border-radius:10px;
+  background:#f1f5f9;
+}
+.controls label{color:var(--lab-body)}
+.controls input{accent-color:#0284c7}
+.metric{color:var(--lab-blue-deep)}
+.utxo-layout{color:var(--lab-ink)}
+.utxo-box{
+  color:var(--lab-ink);
+  border:1px solid #7dd3fc;
+  background:var(--lab-blue-soft);
+}
+.utxo-box strong{color:var(--lab-blue-deep)}
+.utxo-box small{color:var(--lab-body)}
+.utxo-output .utxo-box{
+  border-color:#99f6e4;
+  background:var(--lab-teal-soft);
+}
+.utxo-output .utxo-box strong{color:var(--lab-teal-deep)}
+.utxo-arrow{color:var(--lab-teal)}
+.fineprint{color:var(--lab-muted)}
+.source-note{
+  color:#536174;
+  border-top:1px solid #dbe3ed;
+}
+
+/* Network / Merkle figures retain deep technical canvases and cool node colors. */
+.visual-essay{
+  border:1px solid #334155;
+  border-radius:12px;
+  background:#111b2a;
+}
+.essay-art{background:var(--lab-night)}
+.essay-art svg g{stroke:#5eead4}
+.essay-art svg circle{fill:#172336;stroke:#7dd3fc}
+.essay-art svg text{fill:#bae6fd}
+.essay-copy{color:#f1f5f9}
+.essay-copy h3{color:#f8fafc}
+.essay-copy p{color:#cbd5e1}
+.chapter-badge{
+  color:#bae6fd;
+  border:1px solid #164e63;
+  background:#102a3a;
+}
+.merkle-svg{
+  border:1px solid #334155;
+  border-radius:10px;
+  background:radial-gradient(circle at 50% 0%,#1e3a5f,#101923 72%);
+}
+.merkle-svg line{stroke:#5eead4}
+.merkle-svg rect{fill:#172336;stroke:#38bdf8}
+.merkle-svg text{fill:#dbeafe}
+.merkle-svg .changed rect{fill:#134e4a;stroke:#5eead4}
+.merkle-svg .changed text{fill:#ccfbf1}
+.merkle-controls button{
+  color:var(--lab-blue-deep);
+  border:1px solid #bae6fd;
+  background:#fff;
+}
+.merkle-controls button:hover,
+.merkle-controls button[aria-pressed=true]{
+  color:#fff;
+  border-color:var(--lab-blue);
+  background:var(--lab-blue);
+}
+
+/* Proof-of-work panel, hash output and probability meter. */
+.hash-panel{
+  color:#e2e8f0;
+  border:1px solid #334155;
+  border-radius:10px;
+  background:var(--lab-night);
+}
+.hash-panel code{color:#5eead4}
+.lab button,
+.interactive-figure button{
+  color:#fff;
+  border:1px solid var(--lab-blue);
+  border-radius:7px;
+  background:var(--lab-blue);
+}
+.lab button:hover,
+.interactive-figure button:hover{background:var(--lab-blue-deep);border-color:#38bdf8}
+.lab button.secondary-action,
+.interactive-figure button.secondary-action{
+  color:var(--lab-blue-deep);
+  border-color:#bae6fd;
+  background:#fff;
+}
+.lab button.secondary-action:hover,
+.interactive-figure button.secondary-action:hover{
+  color:#fff;background:var(--lab-blue-deep);
+}
+.mini-meter{background:#dbe3ed}
+.mini-meter span{background:linear-gradient(90deg,#0284c7,#0f766e)}
+.stat-strip{gap:9px;background:transparent}
+.stat-strip>div{
+  border:1px solid #bae6fd;
+  border-radius:9px;
+  background:var(--lab-blue-soft);
+}
+.stat-strip>div:nth-child(2){border-color:#99f6e4;background:var(--lab-teal-soft)}
+.stat-strip b{color:var(--lab-blue-deep)}
+.stat-strip small{color:var(--lab-body)}
+
+/* Expandable technical notes and chapter navigation. */
+.learning-level{
+  color:var(--lab-ink);
+  border:1px solid var(--lab-line);
+  border-left:4px solid var(--lab-teal);
+  border-radius:10px;
+  background:var(--lab-paper);
+}
+.learning-level summary{color:var(--lab-teal-deep)}
+.learning-level p{color:var(--lab-body)}
+.chapter-map{
+  color:#e2e8f0;
+  border:1px solid #334155;
+  border-radius:12px;
+  background:var(--lab-night);
+}
+.chapter-map>div{border-color:#334155}
+.chapter-map strong{color:#7dd3fc}
+.chapter-map span{color:#cbd5e1}
+.toc-card{
+  color:var(--lab-ink);
+  border:1px solid var(--lab-line);
+  border-top:4px solid var(--lab-blue);
+  border-radius:12px;
+  background:var(--lab-paper);
+}
+.toc-card h3{color:var(--lab-ink)}
+.toc-card p{color:var(--lab-body)}
+.toc-card .chapter-badge{color:var(--lab-blue-deep);background:var(--lab-blue-soft);border-color:#bae6fd}
+.toc-card .stat-strip>div{background:var(--lab-blue-soft)}
+.toc-card .stat-strip>div:nth-child(2){background:var(--lab-teal-soft)}
+.editorial-quote{
+  color:#dbeafe;
+  border-left:3px solid var(--lab-teal);
+}
+.quiz-option{
+  color:var(--lab-ink);
+  border:1px solid var(--lab-line);
+  background:#fff;
+}
+.quiz-option:hover{border-color:#38bdf8;background:var(--lab-blue-soft)}
+.quiz-option[aria-pressed=true]{color:var(--lab-blue-deep);border-color:var(--lab-blue);background:var(--lab-blue-soft)}
+.feedback{
+  color:var(--lab-teal-deep);
+  border:1px solid #99f6e4;
+  background:var(--lab-teal-soft);
+}
+.sources a{
+  color:var(--lab-ink);
+  border:1px solid var(--lab-line);
+  background:var(--lab-paper);
+}
+.sources a:hover{border-color:#38bdf8;background:var(--lab-blue-soft)}
+footer{
+  color:#94a3b8;
+  border-top:1px solid #334155;
+  background:#0b1220;
+}
+.reading-progress{background:linear-gradient(90deg,#0284c7,#0f766e)}
+.skip-link:focus{outline:3px solid #38bdf8}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{
+  outline:3px solid #38bdf8;
+  outline-offset:3px;
+}
+
+/* Small screens: keep the same color hierarchy and prevent cramped controls. */
+@media(max-width:850px){
+  .hero{background:radial-gradient(ellipse at 65% 35%,#164e63 0%,#172336 38%,#0f172a 75%)}
+  .navlinks{background:#0f172a}
+}
+@media(max-width:650px){
+  .interactive-figure{padding:16px}
+  .utxo-layout{gap:8px}
+  .utxo-box{min-width:0;padding:12px}
+  .stat-strip{grid-template-columns:1fr 1fr}
+  .stat-strip>div:last-child{grid-column:1/-1}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-art .orb,.reading-progress,.mini-meter span{animation:none!important;transition:none!important}
+}
