@@ -1070,3 +1070,28 @@
   #lesson-content .fc-light-panel,
   #lesson-content #btc-double-depense .btc-conflict-branch{transition:none!important}
 }
+
+/* Small-screen grid guard: prevent the chapter 1 navigation rail from imposing
+   its intrinsic flex width on the reader's single-column layout. */
+@media(max-width:800px){
+  .reader-grid>.side,
+  .reader-grid>.prose{
+    min-width:0;
+    width:100%;
+    max-width:100%;
+  }
+  #lesson-content,
+  #lesson-content .lesson-section,
+  #lesson-content .function-grid,
+  #lesson-content .btc-analogy-grid,
+  #lesson-content .ch3-compare{
+    min-width:0;
+    max-width:100%;
+  }
+  #lesson-content .case-table-wrap{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    overflow-x:auto;
+  }
+}
