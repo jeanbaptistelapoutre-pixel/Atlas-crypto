@@ -313,3 +313,33 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 @media(prefers-reduced-motion:reduce){
   .hero-art .orb,.reading-progress,.mini-meter span{animation:none!important;transition:none!important}
 }
+
+/* Mobile overflow and remaining inline accent cleanup. */
+.hero>div:first-child,
+.hero-art{min-width:0;width:100%;max-width:100%}
+.hero h1 span[style]{color:#5eead4!important}
+.hero-art{overflow:hidden}
+@media(max-width:650px){
+  .hero{
+    grid-template-columns:minmax(0,1fr);
+    width:100%;
+    min-width:0;
+    padding:56px 16px 30px;
+    gap:8px;
+    overflow:hidden;
+  }
+  .hero>div:first-child{min-width:0;width:100%;max-width:100%}
+  .hero .eyebrow{max-width:100%;overflow-wrap:anywhere;letter-spacing:.14em}
+  .hero h1{max-width:100%;overflow-wrap:anywhere;font-size:clamp(2.7rem,13vw,3.5rem)}
+  .hero p{max-width:100%;overflow-wrap:anywhere}
+  .hero-art{min-height:270px;max-width:100%;overflow:hidden}
+  .hero-art .orb{width:260px;height:260px;min-width:0;min-height:0;max-width:100%}
+  .hero-art .orbit{width:92%;max-width:100%}
+  .hero .stats{flex-wrap:wrap;gap:12px 20px}
+  nav{min-width:0}
+  .navlinks{max-width:100%;min-width:0}
+}
+.step{border-color:#cbd5e1;background:#f8fafc;color:#334155}
+.step.active{border-color:#0f766e;background:#e7f5f1;color:#115e59}
+.feedback{border-left:3px solid #0f766e}
+.feedback.error,.feedback.incorrect,.feedback.wrong{color:#991b1b;border-color:#fecaca;background:#fef2f2}
