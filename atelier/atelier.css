@@ -285,3 +285,7 @@ tbody tr:last-child td{border-bottom:0}
 .history-status{margin:10px 0 0;color:#8f9bab;font-size:9px;line-height:1.7}
 @media(max-width:720px){.performance-stats{gap:6px}.performance-stats>div{padding:11px}.performance-stats strong{font-size:19px}.performance-toolbar{align-items:flex-start;flex-direction:column}.performance-toolbar>span{text-align:left}}
 @media(max-width:480px){.performance-stats{grid-template-columns:1fr 1fr}.performance-stats>div:last-child{grid-column:1/-1}.performance-chart-wrap{overflow-x:auto}#performance-chart{min-width:610px}}
+
+.history-toolbar-actions{display:flex;align-items:center;gap:17px;justify-content:flex-end}
+.history-toolbar-actions>span{color:#8995a6;font-size:8px;text-align:right}
+@media(max-width:720px){.history-toolbar-actions{align-items:flex-start;justify-content:space-between;width:100%;flex-wrap:wrap}.history-toolbar-actions>span{text-align:left}}
