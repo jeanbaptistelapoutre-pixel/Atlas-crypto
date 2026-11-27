@@ -24,9 +24,11 @@
       </button>
       <nav id="primary-nav" aria-label="Navigation principale">
         <a href="#parcours">Parcours</a>
+        <a href="#boussole">Boussole</a>
+        <a href="#market-lab">Marchés</a>
+        <a href="#ma-progression">Progression</a>
         <a href="#encyclopedie">Encyclopédie</a>
-        <a href="#laboratoire">Laboratoire</a>
-        <a href="#methode">Notre méthode</a>
+        <a href="#laboratoire">Laboratoire Bitcoin</a>
       </nav>
       <a class="pill" href="#parcours">Choisir un parcours ↗</a>
     </div>
@@ -90,6 +92,73 @@
         </div>
       </section>
 
+      
+      <section class="section guide-section" id="boussole">
+        <div class="container">
+          <div class="eyebrow">Votre itinéraire pédagogique</div>
+          <h2>La boussole Atlas.</h2>
+          <p class="sub">Trois réponses suffisent pour vous proposer un point de départ. Vous pourrez changer de direction à tout moment : ce parcours est un conseil de lecture, pas un programme obligatoire.</p>
+
+          <div class="guide-panel">
+            <form id="guide-form" class="guide-form">
+              <div class="guide-question">
+                <label for="guide-goal"><span>01</span> Quel est votre objectif principal ?</label>
+                <select id="guide-goal" required>
+                  <option value="foundations">Comprendre les fondamentaux de la crypto</option>
+                  <option value="technical">Comprendre les mécanismes techniques</option>
+                  <option value="markets">Comprendre les marchés et le trading</option>
+                </select>
+              </div>
+              <div class="guide-question">
+                <label for="guide-level"><span>02</span> Où en êtes-vous aujourd'hui ?</label>
+                <select id="guide-level" required>
+                  <option value="beginner">Je débute, je pars de zéro</option>
+                  <option value="familiar">Je connais déjà Bitcoin et les bases</option>
+                  <option value="trader">Je suis déjà les marchés ou je trade</option>
+                </select>
+              </div>
+              <div class="guide-question">
+                <label for="guide-interest"><span>03</span> Quel sujet vous attire le plus ?</label>
+                <select id="guide-interest" required>
+                  <option value="bitcoin">Bitcoin et son fonctionnement</option>
+                  <option value="ecosystem">Ethereum et l'écosystème crypto</option>
+                  <option value="orderflow">Microstructure, carnet d'ordres et order flow</option>
+                </select>
+              </div>
+              <button class="cta guide-submit" type="submit">Construire mon parcours <span aria-hidden="true">→</span></button>
+            </form>
+            <div class="guide-result" id="guide-result" role="status" aria-live="polite" aria-atomic="true">
+              <span class="guide-result-kicker">VOTRE PARCOURS APPARAÎTRA ICI</span>
+              <h3>Un chemin clair, à votre rythme.</h3>
+              <p>Répondez aux trois questions pour obtenir une recommandation de lecture adaptée à votre objectif et à votre niveau.</p>
+              <div class="guide-result-mark" aria-hidden="true">◈</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section progress-section" id="ma-progression">
+        <div class="container progress-layout">
+          <div class="progress-intro">
+            <div class="eyebrow">Votre espace personnel</div>
+            <h2>Votre progression, pas à pas.</h2>
+            <p class="sub">Retrouvez vos chapitres lus, vos réussites aux quiz et les définitions consultées. Votre progression est enregistrée uniquement dans ce navigateur.</p>
+            <p class="progress-privacy"><span aria-hidden="true">◆</span> Sans compte · Sans synchronisation · Stockage local sur cet appareil</p>
+            <button class="progress-reset" type="button" id="progress-reset">Réinitialiser ma progression</button>
+          </div>
+          <div class="progress-panel">
+            <div class="progress-topline"><span>AVANCEMENT DE L'ENCYCLOPÉDIE</span><strong id="progress-percent">0 %</strong></div>
+            <div class="progress-track" id="progress-bar" role="progressbar" aria-label="Chapitres lus" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0"><span id="progress-fill"></span></div>
+            <div class="progress-count"><strong id="progress-read">0</strong><span>chapitre(s) lu(s) sur 25</span></div>
+            <div class="progress-metrics">
+              <div><strong id="progress-quiz">0</strong><span>réussites aux quiz</span></div>
+              <div><strong id="progress-concepts">0</strong><span>notions consultées</span></div>
+            </div>
+            <p class="progress-footnote" id="progress-message" aria-live="polite">Votre parcours commencera dès que vous marquerez un chapitre comme lu.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="section catalog" id="encyclopedie">
         <div class="container">
           <div class="eyebrow">Bibliothèque du savoir</div>
@@ -101,6 +170,66 @@
           </div>
           <p id="search-status" class="search-status" role="status" aria-live="polite">25 chapitres au programme</p>
           <div id="cards" class="cards"></div>
+        </div>
+      </section>
+
+      
+      <section class="section market-lab-section" id="market-lab">
+        <div class="container">
+          <div class="eyebrow">Comprendre la microstructure</div>
+          <h2>Un ordre. Un carnet. Un prix d'exécution.</h2>
+          <p class="sub">Un marché ne se résume pas au dernier prix affiché. Le carnet d'ordres montre des quantités proposées à différents niveaux. Modifiez le sens et la taille d'un ordre pour voir comment il consomme la liquidité disponible.</p>
+
+          <div class="market-lab">
+            <div class="market-lab-heading">
+              <div><span class="market-tag">SIMULATION PÉDAGOGIQUE · DONNÉES FICTIVES</span><h3>Explorer un carnet d'ordres</h3></div>
+              <span class="market-live-indicator"><i></i> Marché simulé</span>
+            </div>
+
+            <div class="market-overview">
+              <div><span>Meilleur achat · Bid</span><strong id="market-best-bid">99,98 €</strong></div>
+              <div><span>Spread</span><strong id="market-spread">0,04 €</strong></div>
+              <div><span>Meilleure vente · Ask</span><strong id="market-best-ask">100,02 €</strong></div>
+            </div>
+
+            <div class="market-workspace">
+              <div class="market-book">
+                <div class="market-book-head"><strong>Carnet d'ordres</strong><span>Prix fictifs en EUR · Quantités en unités</span></div>
+                <div class="market-book-labels"><span>Vendeurs · ASK</span><span>Prix</span><span>Quantité</span></div>
+                <div id="market-asks" class="market-book-levels asks" aria-label="Niveaux vendeurs du carnet d'ordres"></div>
+                <div class="market-mid-price"><span>Prix médian indicatif</span><strong id="market-mid">100,00 €</strong></div>
+                <div class="market-book-labels"><span>Acheteurs · BID</span><span>Prix</span><span>Quantité</span></div>
+                <div id="market-bids" class="market-book-levels bids" aria-label="Niveaux acheteurs du carnet d'ordres"></div>
+                <p class="market-book-note">Les barres illustrent les quantités disponibles. Les surbrillances indiquent les niveaux consommés par l'ordre simulé.</p>
+              </div>
+
+              <div class="market-order-panel">
+                <span class="market-panel-kicker">VOTRE ORDRE SIMULÉ</span>
+                <h3>Que souhaitez-vous faire ?</h3>
+                <div class="market-side-toggle" role="group" aria-label="Sens de l'ordre">
+                  <button type="button" data-market-side="buy" aria-pressed="true">Acheter au marché</button>
+                  <button type="button" data-market-side="sell" aria-pressed="false">Vendre au marché</button>
+                </div>
+                <label class="market-quantity-label" for="market-quantity">Quantité à exécuter <strong id="market-quantity-label">1,0 unité</strong></label>
+                <input id="market-quantity" type="range" min="0.1" max="8" step="0.1" value="1" aria-label="Quantité de l'ordre simulé">
+                <div class="market-range-ends"><span>0,1 unité</span><span>8 unités</span></div>
+
+                <div class="market-execution" aria-live="polite" aria-atomic="true">
+                  <span class="market-panel-kicker">RÉSULTAT ESTIMÉ</span>
+                  <div class="market-execution-main"><span>Prix moyen d'exécution</span><strong id="market-average">100,02 €</strong></div>
+                  <div class="market-result-row"><span>Valeur de l'ordre</span><strong id="market-notional">100,02 €</strong></div>
+                  <div class="market-result-row"><span>Slippage estimé</span><strong id="market-slippage">0,000 %</strong></div>
+                  <div class="market-result-row"><span>Quantité exécutée</span><strong id="market-filled">1,0 unité</strong></div>
+                  <p id="market-explanation" class="market-explanation">À cette taille, l'ordre consomme uniquement le premier niveau vendeur.</p>
+                </div>
+              </div>
+            </div>
+            <div class="market-learning-note">
+              <strong>Ce qu'il faut observer</strong>
+              <p>Un ordre au marché privilégie l'exécution, pas la garantie d'un prix précis. Plus il traverse de niveaux du carnet, plus son prix moyen peut s'écarter du meilleur prix affiché : c'est le slippage. Un carnet réel évolue en permanence et peut être annulé ou modifié par ses participants.</p>
+            </div>
+          </div>
+          <p class="market-disclaimer">Cette expérience utilise un carnet fictif et statique. Elle n'est connectée à aucune plateforme et ne constitue ni un signal, ni une recommandation d'achat ou de vente.</p>
         </div>
       </section>
 
@@ -146,6 +275,7 @@
         <aside class="side" id="lesson-nav"><strong>Dans cette fiche</strong></aside>
         <div class="prose">
           <div id="lesson-meta" class="lesson-meta"></div>
+          <div class="reader-progress-control"><button type="button" id="mark-read" aria-pressed="false">Marquer cette fiche comme lue</button><span id="chapter-read-feedback" role="status" aria-live="polite"></span></div>
           <div id="lesson-content"></div>
           <div class="actions">
             <button class="cta" id="next">Fiche suivante →</button>
