@@ -500,7 +500,7 @@ function initChapter6GasLab(chapterNumber){
   const burned=$('#e6-burned'),tip=$('#e6-tip'),status=$('#e6-fee-status');
   if(!usedInput||!baseInput||!tipInput||!totalPrice||!totalCost||!gweiOutput||!burned||!tip||!status)return;
   const formatETH=value=>value.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:9})+' ETH';
-  const formatGwei=value=>Math.round(value).toLocaleString('fr-FR')+' gwei';
+  const formatGwei=value=>value.toLocaleString('fr-FR',{maximumFractionDigits:1})+' gwei';
   const update=()=>{
     const used=Number(usedInput.value),base=Number(baseInput.value),priority=Number(tipInput.value);
     const valid=Number.isInteger(used)&&used>=21000&&used<=1000000&&Number.isFinite(base)&&base>=0&&base<=1000&&Number.isFinite(priority)&&priority>=0&&priority<=100;
