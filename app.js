@@ -494,7 +494,7 @@ function initChapter5TransactionLab(chapterNumber){
 function initChapter6GasLab(chapterNumber){
   if(chapterNumber!==6)return;
   const usedInput=$('#e6-gas-used'),baseInput=$('#e6-base-fee'),tipInput=$('#e6-priority-fee');
-  const totalPrice=$('#e6-total-price'),totalCost=$('#e6-total-cost'),gweiOutput=$('#e6-total-cost-eur');
+  const totalPrice=$('#e6-total-price'),totalCost=$('#e6-total-cost'),gweiOutput=$('#e6-total-cost-gwei');
   const burned=$('#e6-burned'),tip=$('#e6-tip'),status=$('#e6-fee-status');
   if(!usedInput||!baseInput||!tipInput||!totalPrice||!totalCost||!gweiOutput||!burned||!tip||!status)return;
   const formatETH=value=>value.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:9})+' ETH';
