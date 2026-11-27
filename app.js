@@ -217,7 +217,7 @@ function atlasGlossaryEntries(chapterNumber, root){
       'Slippage':['slippage','slippages'],
       'Ordre au marché (market order)':["ordre au marché","ordres au marché","market order","market orders"],
       'Ordre limite (limit order)':["ordre limite","ordres limites","ordre à cours limité","ordres à cours limité","limit order","limit orders"],
-      'Capitalisation boursière (market cap)':["capitalisation boursière","capitalisations boursières","market cap","market capitalization"]
+      'Capitalisation boursière (market cap)':["capitalisation","capitalisations","capitalisation boursière","capitalisations boursières","market cap","market capitalization"]
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
   }
