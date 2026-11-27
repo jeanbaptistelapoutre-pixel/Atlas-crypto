@@ -2677,3 +2677,145 @@
   #lesson-content #ch4-glossaire .btc-glossary details p{padding:0 10px 12px}
 }
 
+
+
+/* Chapter 5 — transaction flow, UTXO model and fee calculator. */
+#lesson-content .ch5-mental-model{display:grid;grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr);align-items:center;gap:14px;margin:24px 0;padding:20px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc}
+#lesson-content .ch5-model-node{padding:18px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;text-align:center}
+#lesson-content .ch5-model-node>span{display:block;color:#64748b;font-size:9px;font-weight:800;letter-spacing:.13em}
+#lesson-content .ch5-model-node>b{display:block;margin:9px 0;color:#172033;font-size:14px}
+#lesson-content .ch5-model-node>strong{display:block;color:#0369a1;font-size:19px;font-weight:800}
+#lesson-content .ch5-model-node>small{display:block;margin-top:8px;color:#64748b;font-size:11px;line-height:1.5}
+#lesson-content .ch5-model-output>strong{color:#0f766e}
+#lesson-content .ch5-model-arrow{text-align:center;color:#0369a1}
+#lesson-content .ch5-model-arrow>span{display:block;font-size:34px;font-weight:700}
+#lesson-content .ch5-model-arrow>small{display:block;color:#64748b;font-size:10px}
+#lesson-content .ch5-anatomy{display:grid;grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr);gap:13px;align-items:stretch;margin:24px 0}
+#lesson-content .ch5-anatomy-column{display:grid;gap:9px;align-content:start}
+#lesson-content .ch5-anatomy-label{color:#0369a1;font-size:10px;font-weight:800;letter-spacing:.12em}
+#lesson-content .ch5-anatomy-column article{padding:15px;border:1px solid #d5deea;border-radius:9px;background:#f8fafc}
+#lesson-content .ch5-anatomy-column article>b{display:block;color:#172033;font-size:13px}
+#lesson-content .ch5-anatomy-column article p{margin:7px 0 0;color:#475569!important;font-size:12px!important;line-height:1.6!important}
+#lesson-content .ch5-anatomy-note{padding:11px;border-left:3px solid #0f766e;background:#f0fdfa;color:#115e59;font-size:11px;line-height:1.5}
+#lesson-content .ch5-anatomy-center{display:grid;place-content:center;min-height:210px;border:1px solid #0f766e;border-radius:10px;background:#e0f2fe;color:#075985;text-align:center;font-size:12px;font-weight:800;letter-spacing:.08em}
+#lesson-content .ch5-anatomy-center span{color:#0f766e;font-size:10px;font-weight:600;letter-spacing:0}
+#lesson-content .ch5-example-code{display:grid;grid-template-columns:1fr 45px 1fr;gap:12px;align-items:center;margin:22px 0;padding:17px;border:1px solid #d5deea;border-radius:10px;background:#f8fafc}
+#lesson-content .ch5-example-code>div:not(.ch5-example-arrow){display:grid;gap:6px}
+#lesson-content .ch5-example-code span{color:#64748b;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .ch5-example-code b{color:#172033;font-size:17px}
+#lesson-content .ch5-example-code small{color:#475569;font-size:11px}
+#lesson-content .ch5-example-arrow{color:#0369a1;text-align:center;font-size:25px}
+#lesson-content .ch5-utxo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:21px 0}
+#lesson-content .ch5-utxo-grid article{padding:17px;border:1px solid #99f6e4;border-radius:9px;background:#f0fdfa}
+#lesson-content .ch5-utxo-grid article>span{display:block;color:#0f766e;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .ch5-utxo-grid article>b{display:block;margin:9px 0;color:#134e4a;font-size:19px}
+#lesson-content .ch5-utxo-grid article>small{display:block;color:#475569;font-size:11px}
+#lesson-content .ch5-utxo-grid article>em{display:inline-block;margin-top:12px;padding:4px 8px;border-radius:20px;background:#ccfbf1;color:#115e59;font-size:10px;font-style:normal;font-weight:700}
+#lesson-content .ch5-utxo-grid .ch5-utxo-spent{border-color:#fecaca;background:#fef2f2}
+#lesson-content .ch5-utxo-grid .ch5-utxo-spent>span{color:#b91c1c}
+#lesson-content .ch5-utxo-grid .ch5-utxo-spent>b{color:#7f1d1d}
+#lesson-content .ch5-utxo-grid .ch5-utxo-spent>em{background:#fee2e2;color:#991b1b}
+#lesson-content .ch5-analogy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+#lesson-content .ch5-analogy-grid>div{padding:17px;border:1px solid #d5deea;border-radius:9px;background:#f8fafc}
+#lesson-content .ch5-analogy-grid span{display:block;color:#0369a1;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .ch5-analogy-grid b{display:block;margin:8px 0;color:#172033;font-size:14px}
+#lesson-content .ch5-analogy-grid p{margin:0;color:#475569!important;font-size:12px!important;line-height:1.6!important}
+#lesson-content .ch5-payment-table{display:grid;grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);gap:12px;align-items:center;margin:24px 0}
+#lesson-content .ch5-payment-side{display:grid;gap:8px}
+#lesson-content .ch5-payment-side>span{color:#0369a1;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .ch5-payment-side>div{display:flex;justify-content:space-between;gap:8px;padding:12px;border:1px solid #d5deea;border-radius:8px;background:#f8fafc}
+#lesson-content .ch5-payment-side>div b{color:#172033;font-size:13px}
+#lesson-content .ch5-payment-side>div small{color:#64748b;font-size:10px;text-align:right}
+#lesson-content .ch5-payment-side>strong{padding:10px 12px;background:#e0f2fe;color:#075985;font-size:12px}
+#lesson-content .ch5-payment-math{color:#0369a1;text-align:center;font-size:24px;font-weight:800}
+#lesson-content .ch5-fee-concepts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0}
+#lesson-content .ch5-fee-concepts article{padding:17px;border:1px solid #d5deea;border-radius:9px;background:#f8fafc}
+#lesson-content .ch5-fee-concepts article>span{display:block;color:#0369a1;font-size:10px;font-weight:800}
+#lesson-content .ch5-fee-concepts article>b{display:block;margin:8px 0;color:#172033;font-size:15px}
+#lesson-content .ch5-fee-concepts article p{margin:0;color:#475569!important;font-size:12px!important;line-height:1.6!important}
+#lesson-content .ch5-formula{display:grid;gap:6px;margin:22px 0;padding:20px;border:1px solid #0f766e;border-radius:10px;background:#f0fdfa;text-align:center}
+#lesson-content .ch5-formula>span{color:#0f766e;font-size:10px;font-weight:800;letter-spacing:.1em}
+#lesson-content .ch5-formula>strong{color:#134e4a;font-size:21px}
+#lesson-content .ch5-formula>small{color:#475569;font-size:12px}
+#lesson-content .ch5-fee-lab{margin:25px 0;padding:22px;border:1px solid #cbd5e1;border-radius:12px;background:#101923;color:#e2e8f0}
+#lesson-content .ch5-fee-lab .lesson-kicker{color:#7dd3fc}
+#lesson-content .ch5-fee-lab-head h3{margin:8px 0;color:#f8fafc;font:22px/1.35 'Playfair Display',serif}
+#lesson-content .ch5-fee-lab-head p{color:#cbd5e1!important;font-size:12px!important}
+#lesson-content .ch5-fee-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+#lesson-content .ch5-fee-controls label{display:grid;gap:8px;color:#cbd5e1;font-size:11px;font-weight:700}
+#lesson-content .ch5-fee-controls input{width:100%;padding:11px 12px;border:1px solid #475569;border-radius:7px;background:#172336;color:#f8fafc;font:inherit;font-size:14px}
+#lesson-content .ch5-fee-controls input:focus-visible{outline:3px solid #38bdf8;outline-offset:2px}
+#lesson-content .ch5-fee-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#lesson-content .ch5-fee-results>div{padding:15px;border:1px solid #334155;border-radius:8px;background:#172336}
+#lesson-content .ch5-fee-results span{display:block;color:#94a3b8;font-size:10px}
+#lesson-content .ch5-fee-results b{display:block;margin:7px 0;color:#7dd3fc;font-size:20px}
+#lesson-content .ch5-fee-results small{color:#cbd5e1;font-size:11px}
+#lesson-content .ch5-fee-equation{margin:12px 0;padding:13px;border-left:3px solid #0f766e;background:#1c2c35;color:#d1fae5;font-size:12px;line-height:1.6}
+#lesson-content .ch5-fee-status{margin:10px 0;color:#a7f3d0!important;font-size:12px!important;line-height:1.6!important}
+#lesson-content .ch5-fee-status.is-alert{color:#fecaca!important}
+#lesson-content .ch5-lab-reset{padding:9px 13px;border:1px solid #475569;border-radius:7px;background:#172336;color:#e2e8f0;font-size:11px}
+#lesson-content .ch5-lab-reset:hover{border-color:#7dd3fc;color:#7dd3fc}
+#lesson-content .ch5-fee-footnote{margin:14px 0 0;color:#94a3b8!important;font-size:10px!important;line-height:1.6!important}
+#lesson-content .ch5-timeline{display:grid;gap:10px;margin:23px 0}
+#lesson-content .ch5-timeline article{display:grid;grid-template-columns:44px 1fr;gap:13px;align-items:start;padding:15px;border:1px solid #d5deea;border-radius:9px;background:#f8fafc}
+#lesson-content .ch5-timeline article>span{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#e0f2fe;color:#0369a1;font-size:12px;font-weight:800}
+#lesson-content .ch5-timeline b{display:block;color:#172033;font-size:13px}
+#lesson-content .ch5-timeline p{margin:5px 0 0;color:#475569!important;font-size:12px!important;line-height:1.6!important}
+#lesson-content .ch5-risk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:22px 0}
+#lesson-content .ch5-risk-grid article{padding:16px;border:1px solid #d5deea;border-radius:9px;background:#f8fafc}
+#lesson-content .ch5-risk-grid article>span{display:block;color:#0369a1;font-size:9px;font-weight:800;letter-spacing:.08em}
+#lesson-content .ch5-risk-grid article>b{display:block;margin:8px 0;color:#172033;font-size:14px}
+#lesson-content .ch5-risk-grid article p{margin:0;color:#475569!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .ch5-case-steps{display:grid;gap:9px;margin:23px 0}
+#lesson-content .ch5-case-steps article{position:relative;padding:15px 16px 15px 145px;border:1px solid #d5deea;border-radius:9px;background:#f8fafc}
+#lesson-content .ch5-case-steps article>span{position:absolute;left:16px;top:18px;color:#0369a1;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .ch5-case-steps b{display:block;color:#172033;font-size:13px}
+#lesson-content .ch5-case-steps p{margin:5px 0 0;color:#475569!important;font-size:12px!important;line-height:1.6!important}
+#lesson-content #ch5-glossaire .btc-glossary{display:grid;gap:8px;margin:20px 0}
+#lesson-content #ch5-glossaire .btc-glossary details{margin:0;padding:0 14px;border:1px solid #55432e;border-radius:7px;background:#1d1914;color:#f3eee5}
+#lesson-content #ch5-glossaire .btc-glossary summary{padding:12px 14px;color:#ecd09b;font-size:12px;font-weight:700;cursor:pointer}
+#lesson-content #ch5-glossaire .btc-glossary details[open]{border-color:#806640;background:#211b14}
+#lesson-content #ch5-glossaire .btc-glossary details p{margin:0;padding:0 14px 14px;color:#d6cabe!important;font-size:13px!important;line-height:1.7!important}
+#lesson-content #ch5-retenir .ch5-takeaways{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:22px 0}
+#lesson-content .ch5-takeaways article{padding:16px;border:1px solid #d5deea;border-left:4px solid #0369a1;border-radius:8px;background:#f8fafc}
+#lesson-content .ch5-takeaways article:nth-child(2){border-left-color:#0f766e}
+#lesson-content .ch5-takeaways article:nth-child(3){border-left-color:#0891b2}
+#lesson-content .ch5-takeaways article:nth-child(4){border-left-color:#64748b}
+#lesson-content .ch5-takeaways article:nth-child(5){border-left-color:#d97706}
+#lesson-content .ch5-takeaways article:nth-child(6){border-left-color:#475569}
+#lesson-content .ch5-takeaways b{color:#0369a1;font-size:12px}
+#lesson-content .ch5-takeaways p{margin:7px 0 0;color:#475569!important;font-size:12px!important;line-height:1.6!important}
+#lesson-content #ch5-quiz .btc-quiz-set{display:grid;gap:12px}
+#lesson-content #ch5-quiz .quiz-question{padding:20px;border:1px solid #41382d;border-radius:10px;background:#1d1915;color:#f3eee5}
+#lesson-content #ch5-quiz .quiz-question h3{margin:9px 0 15px;color:#f3eee5;font:20px/1.4 'DM Sans',sans-serif}
+#lesson-content #ch5-quiz .quiz-options{display:grid;gap:8px}
+#lesson-content #ch5-quiz .quiz-options button{padding:12px 14px;border:1px solid #554632;border-radius:7px;background:#29231c;color:#f0e5d7;text-align:left;font:inherit;font-size:13px;line-height:1.5}
+#lesson-content #ch5-quiz .quiz-options button:hover:not(:disabled){border-color:var(--gold,#d9b77e);background:#30291f}
+#lesson-content #ch5-quiz .quiz-options button:disabled{opacity:.88}
+#lesson-content #ch5-quiz .quiz-options button.answer-correct{border-color:#83b69a;background:#1b3025;color:#e3f3e9}
+#lesson-content #ch5-quiz .quiz-options button.answer-wrong{border-color:#bd8175;background:#35201d;color:#f4ded8}
+#lesson-content #ch5-quiz .quiz-feedback{margin:10px 0 0!important;color:#d6cabe!important;font-size:13px!important;line-height:1.65!important}
+#lesson-content #ch5-quiz .quiz-feedback.feedback-correct{color:#a6d2b5!important}
+#lesson-content #ch5-quiz .quiz-feedback.feedback-wrong{color:#e6a99d!important}
+#lesson-content #ch5-quiz .quiz-summary{padding:15px;border-left:3px solid var(--gold,#d9b77e);background:#2a2117;color:#f1dfc4!important;font-weight:700}
+#lesson-content #ch5-quiz .quiz-reset{justify-self:start;margin-top:10px;padding:12px 14px;border:1px solid #554632;border-radius:7px;background:#29231c;color:var(--gold,#d9b77e);text-align:left}
+#lesson-content #ch5-quiz button:focus-visible,#lesson-content #ch5-glossaire summary:focus-visible{outline:3px solid #0ea5e9;outline-offset:2px}
+@media(max-width:760px){
+  #lesson-content .ch5-mental-model{grid-template-columns:1fr;gap:8px}
+  #lesson-content .ch5-model-arrow>span{transform:rotate(90deg)}
+  #lesson-content .ch5-anatomy{grid-template-columns:1fr}
+  #lesson-content .ch5-anatomy-center{min-height:72px}
+  #lesson-content .ch5-anatomy-center br{display:none}
+  #lesson-content .ch5-example-code{grid-template-columns:1fr}
+  #lesson-content .ch5-example-arrow{transform:rotate(90deg)}
+  #lesson-content .ch5-payment-table{grid-template-columns:1fr}
+  #lesson-content .ch5-payment-math{transform:rotate(90deg)}
+  #lesson-content .ch5-case-steps article{padding:15px}
+  #lesson-content .ch5-case-steps article>span{position:static;display:block;margin-bottom:6px}
+}
+@media(max-width:560px){
+  #lesson-content .ch5-utxo-grid,#lesson-content .ch5-analogy-grid,#lesson-content .ch5-fee-concepts,#lesson-content .ch5-fee-controls,#lesson-content .ch5-fee-results,#lesson-content .ch5-risk-grid,#lesson-content #ch5-retenir .ch5-takeaways{grid-template-columns:1fr}
+  #lesson-content .ch5-fee-lab{padding:16px}
+  #lesson-content #ch5-glossaire .btc-glossary summary{padding:12px 10px}
+  #lesson-content #ch5-glossaire .btc-glossary details p{padding:0 10px 12px}
+}
