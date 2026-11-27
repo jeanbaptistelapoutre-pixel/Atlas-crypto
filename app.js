@@ -166,7 +166,7 @@ function atlasGlossaryEntries(chapterNumber, root){
     };
     const extraAliases={
       'Bloc':['bloc','blocs'],
-      'Empreinte cryptographique (hash)':['empreinte cryptographique','empreintes cryptographiques','hash','hashes'],
+      'Empreinte cryptographique (hash)':['empreinte cryptographique','empreintes cryptographiques','empreinte de son en-tête','empreinte de l’en-tête','empreinte du bloc','hash','hashes'],
       'Sortie de transaction':['sortie de transaction','sorties de transaction'],
       'Mempool (réserve de transactions en attente)':['mempool','réserve de transactions en attente'],
       'Transaction de génération (coinbase)':['transaction de génération','transactions de génération','coinbase','coinbase transaction'],
