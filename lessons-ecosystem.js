@@ -146,6 +146,12 @@ Object.assign(window.ATLAS_LESSONS, {
   </div>
   <div class="lesson-callout lesson-callout-muted"><strong>Une subtilité utile</strong><p>Une fonction dite <em>view</em> ou <em>pure</em> indique qu’elle ne modifie pas l’état lorsqu’elle est appelée de cette manière. Elle peut toutefois être exécutée à l’intérieur d’une autre transaction ; dans ce contexte, son calcul participe à la consommation de gas de l’opération globale.</p></div>
   <p>Une fois diffusée, la transaction est vérifiée et peut être incluse dans un bloc. Les nœuds exécutent les opérations selon les règles du protocole. Si le résultat est valide, le bloc fait évoluer l’état partagé. Le nombre de confirmations et la finalité dépendent ensuite du mécanisme de consensus d’Ethereum.</p>
+  <div class="e6-pos-note">
+    <span>QUI CONTRIBUE À SÉCURISER LE RÉSEAU ?</span>
+    <h3>Ethereum fonctionne avec la preuve d’enjeu (Proof of Stake).</h3>
+    <p>Depuis 2022, Ethereum n’utilise plus le minage par preuve de travail pour produire ses blocs. Des validateurs immobilisent de l’ETH en garantie et participent au processus : certains proposent des blocs, d’autres attestent que les blocs observés respectent les règles. Des récompenses encouragent la participation correcte ; des pénalités peuvent sanctionner certains comportements interdits.</p>
+    <p>Détenir de l’ETH ne fait pas automatiquement de chaque utilisateur un validateur. La validation suppose une participation technique et économique au mécanisme de preuve d’enjeu.</p>
+  </div>
 </section>
 
 <section class="lesson-section" id="e6-gas">
