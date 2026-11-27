@@ -2149,3 +2149,34 @@
   border-color:#816541;
 }
 #lesson-content #ch3-glossaire .btc-glossary details p{color:#c8baa8!important}
+
+/* Final accent cleanup: remove the remaining legacy purple/orange labels so
+   the only saturated states are the shared blue/teal accents and semantic
+   green/red statuses used by Chapter 12. */
+#lesson-content #confiance .trust-grid article:nth-child(n)>span,
+#lesson-content #confiance .trust-step:nth-of-type(n) b,
+#lesson-content #confiance .three-column-note>div:nth-child(n) b,
+#lesson-content #creation .process-steps>div:nth-child(n) span,
+#lesson-content #btc-probleme .btc-analogy-grid article:nth-child(n) .btc-card-index,
+#lesson-content #btc-reseau .btc-role-grid article:nth-child(n)>span,
+#lesson-content #ch3-noeuds .ch3-role-grid article:nth-child(n)>span{
+  color:var(--fc-blue-deep)!important;
+}
+#lesson-content #creation .process-steps>div:nth-child(n) span{
+  background:var(--fc-blue-soft);
+}
+#lesson-content #confiance .trust-step:nth-of-type(n){
+  background:var(--fc-blue-soft);
+  border-color:#7dd3fc;
+}
+#lesson-content #confiance .three-column-note>div:nth-child(n){
+  border-top:3px solid var(--fc-teal);
+}
+#lesson-content #btc-probleme .btc-analogy-grid article:nth-child(n) .btc-card-index{
+  color:var(--fc-blue-deep)!important;
+}
+#lesson-content #btc-reseau .btc-role-grid article:nth-child(n)>span,
+#lesson-content #ch3-noeuds .ch3-role-grid article:nth-child(n)>span{
+  background:var(--fc-blue-soft);
+  border-color:#bae6fd;
+}
