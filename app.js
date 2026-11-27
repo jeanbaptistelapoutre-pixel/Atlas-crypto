@@ -764,9 +764,9 @@ function atlasInitMarketLab(){
     const ordreLabel=buy?'d’achat':'de vente';
     const depth=execution.levelsTouched;
     let message='';
-    if(execution.remaining>0)message='La profondeur disponible ne suffit pas à exécuter toute la quantité demandée dans ce carnet fictif.';
-    else if(depth===1)message='À cette taille, ton ordre consomme uniquement le meilleur niveau du côté '+(buy?'vendeur':'acheteur')+'.';
-    else message='Ton ordre traverse '+depth+' niveaux de prix. Le prix moyen s’éloigne du meilleur prix affiché : c’est le slippage.';
+    if(execution.remaining>0)message='la profondeur disponible ne suffit pas à exécuter toute la quantité demandée dans ce carnet fictif.';
+    else if(depth===1)message='à cette taille, ton ordre consomme uniquement le meilleur niveau du côté '+(buy?'vendeur':'acheteur')+'.';
+    else message='ton ordre traverse '+depth+' niveaux de prix. Le prix moyen s’éloigne du meilleur prix affiché : c’est le slippage.';
     $('#market-explanation').textContent='Pour ton ordre '+ordreLabel+', '+message;
     document.querySelectorAll('[data-market-side]').forEach(button=>{
       const selected=button.dataset.marketSide===side;
