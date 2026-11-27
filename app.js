@@ -539,4 +539,217 @@ function route(){
   readerTitle.focus({preventScroll:true});
   window.scrollTo({top:0,behavior:'instant'});
 }
+
+function atlasLoadProgress(){
+  const empty={readChapters:[],quizSuccess:[],concepts:[]};
+  try{
+    const saved=JSON.parse(localStorage.getItem('atlas-crypto-progress-v1')||'null');
+    if(!saved||typeof saved!=='object')return empty;
+    return {
+      readChapters:Array.isArray(saved.readChapters)?[...new Set(saved.readChapters.filter(n=>Number.isInteger(n)&&n>=1&&n<=25))]:[],
+      quizSuccess:Array.isArray(saved.quizSuccess)?[...new Set(saved.quizSuccess.filter(x=>typeof x==='string'))]:[],
+      concepts:Array.isArray(saved.concepts)?[...new Set(saved.concepts.filter(x=>typeof x==='string'))]:[]
+    };
+  }catch(error){return empty;}
+}
+let atlasProgress=atlasLoadProgress();
+function atlasSaveProgress(){
+  try{localStorage.setItem('atlas-crypto-progress-v1',JSON.stringify(atlasProgress));}
+  catch(error){/* Le suivi reste disponible pendant la session si le stockage local est bloqué. */}
+  atlasRenderProgress();
+}
+function atlasRenderProgress(){
+  const read=atlasProgress.readChapters.length;
+  const percent=Math.round(read/25*100);
+  const readEl=$('#progress-read'),quizEl=$('#progress-quiz'),conceptEl=$('#progress-concepts');
+  const percentEl=$('#progress-percent'),bar=$('#progress-bar'),fill=$('#progress-fill'),message=$('#progress-message');
+  if(readEl)readEl.textContent=read;
+  if(quizEl)quizEl.textContent=atlasProgress.quizSuccess.length;
+  if(conceptEl)conceptEl.textContent=atlasProgress.concepts.length;
+  if(percentEl)percentEl.textContent=percent+' %';
+  if(bar)bar.setAttribute('aria-valuenow',String(read));
+  if(fill)fill.style.width=percent+'%';
+  if(message){
+    if(read===0&&atlasProgress.quizSuccess.length===0&&atlasProgress.concepts.length===0)message.textContent='Votre parcours commencera dès que vous marquerez un chapitre comme lu.';
+    else if(read===25)message.textContent='Les 25 chapitres sont marqués comme lus. Vous pouvez continuer à revoir les notions et les quiz.';
+    else message.textContent='Continuez à votre rythme : votre progression reste enregistrée sur cet appareil.';
+  }
+}
+function atlasRenderChapterReadControl(chapterNumber){
+  const button=$('#mark-read'),status=$('#chapter-read-feedback');
+  if(!button)return;
+  const isRead=atlasProgress.readChapters.includes(chapterNumber);
+  button.setAttribute('aria-pressed',String(isRead));
+  button.textContent=isRead?'Chapitre lu ✓':'Marquer cette fiche comme lue';
+  button.classList.toggle('is-complete',isRead);
+  if(status)status.textContent=isRead?'Enregistré dans votre progression locale.':'Vous pourrez retrouver ce chapitre dans votre progression.';
+}
+function atlasTrackQuizAnswer(button){
+  const chapterNumber=current+1;
+  const question=button.closest('[data-question]');
+  let key=null;
+  if(question&&question.dataset.correct==='1'){
+    const questions=[...document.querySelectorAll('#lesson-content [data-question]')];
+    key=chapterNumber+':question-'+(questions.indexOf(question)+1);
+  }else if(button.dataset.genericAnswer==='1'){
+    key=chapterNumber+':generic-question-1';
+  }
+  if(key&&!atlasProgress.quizSuccess.includes(key)){
+    atlasProgress.quizSuccess.push(key);
+    atlasSaveProgress();
+  }
+}
+function atlasTrackConcept(button){
+  const termId=button.dataset.termId;
+  if(!termId)return;
+  const key=(current+1)+':'+termId;
+  if(!atlasProgress.concepts.includes(key)){
+    atlasProgress.concepts.push(key);
+    atlasSaveProgress();
+  }
+}
+function atlasInitProgressTracking(){
+  const markButton=$('#mark-read');
+  markButton?.addEventListener('click',()=>{
+    const chapterNumber=current+1;
+    const index=atlasProgress.readChapters.indexOf(chapterNumber);
+    if(index>=0)atlasProgress.readChapters.splice(index,1);
+    else atlasProgress.readChapters.push(chapterNumber);
+    atlasSaveProgress();
+    atlasRenderChapterReadControl(chapterNumber);
+  });
+  $('#progress-reset')?.addEventListener('click',()=>{
+    if(!window.confirm('Réinitialiser les chapitres lus, les réussites aux quiz et les notions consultées sur cet appareil ?'))return;
+    atlasProgress={readChapters:[],quizSuccess:[],concepts:[]};
+    try{localStorage.removeItem('atlas-crypto-progress-v1');}catch(error){}
+    atlasRenderProgress();
+    atlasRenderChapterReadControl(current+1);
+  });
+  document.addEventListener('click',event=>{
+    const answer=event.target.closest?.('button[data-correct],button[data-generic-answer]');
+    if(answer)atlasTrackQuizAnswer(answer);
+    const term=event.target.closest?.('button.atlas-term');
+    if(term)atlasTrackConcept(term);
+  });
+  atlasRenderProgress();
+}
+function atlasInitGuide(){
+  const form=$('#guide-form'),result=$('#guide-result');
+  if(!form||!result)return;
+  const chapterLink=(number,label)=>'<a class="guide-chapter-link" href="#chapitre-'+number+'"><span>Chapitre '+String(number).padStart(2,'0')+'</span><b>'+label+'</b><span aria-hidden="true">↗</span></a>';
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    const goal=$('#guide-goal').value,level=$('#guide-level').value,interest=$('#guide-interest').value;
+    let title='',description='',steps=[];
+    if(goal==='foundations'){
+      title='Construire des bases solides.';
+      description='Commencez par comprendre le rôle de la monnaie, puis découvrez la proposition de Bitcoin. Les détails techniques pourront venir ensuite.';
+      steps=[[1,'Pourquoi la monnaie existe-t-elle ?'],[2,'Bitcoin : naissance d’une monnaie numérique']];
+      if(interest==='ecosystem')steps.push([6,'Ethereum et les contrats intelligents']);
+      if(interest==='orderflow')steps.push([11,'Offre, demande et formation des prix']);
+      if(interest==='bitcoin')steps.push([3,'Blockchain : comment fonctionne un registre ?']);
+    }else if(goal==='technical'){
+      if(interest==='ecosystem'){
+        title='Explorer l’écosystème et ses briques.';
+        description='Après une première compréhension du registre partagé, découvrez les contrats intelligents et les architectures qui composent l’écosystème.';
+        steps=[[3,'Blockchain : comment fonctionne un registre ?'],[6,'Ethereum et les contrats intelligents'],[10,'Couches 2, rollups et interopérabilité']];
+      }else if(interest==='orderflow'){
+        title='Comprendre la mécanique des marchés.';
+        description='Pour comprendre le carnet d’ordres et l’order flow, partez de la formation des prix puis avancez vers les chandeliers et la microstructure.';
+        steps=[[11,'Offre, demande et formation des prix'],[12,'Lire les chandeliers et les volumes'],[13,'Carnet d’ordres et microstructure']];
+      }else{
+        title='Entrer dans les coulisses de Bitcoin.';
+        description='Explorez progressivement la structure du registre, les clés qui autorisent les dépenses et les transactions qui déplacent les bitcoins.';
+        steps=[[3,'Blockchain : comment fonctionne un registre ?'],[4,'Clés privées, signatures et adresses'],[5,'Transactions, UTXO et frais']];
+      }
+    }else{
+      title=level==='beginner'?'Découvrir les marchés sans brûler les étapes.':'Structurer votre compréhension des marchés.';
+      description=level==='beginner'
+        ?'Comme vous débutez, les chapitres 1 et 2 donnent le contexte essentiel. Vous pourrez ensuite commencer directement l’étude des marchés au chapitre 11, sans devoir terminer tous les chapitres techniques.'
+        :'Vous pouvez commencer par la formation des prix, puis étudier les volumes et le carnet d’ordres. Les notions techniques avancées resteront accessibles au fil du parcours.';
+      steps=level==='beginner'?[[1,'Pourquoi la monnaie existe-t-elle ?'],[2,'Bitcoin : naissance d’une monnaie numérique'],[11,'Offre, demande et formation des prix']]:[[11,'Offre, demande et formation des prix'],[12,'Lire les chandeliers et les volumes'],[13,'Carnet d’ordres et microstructure']];
+      if(interest==='ecosystem')steps.push([6,'Ethereum et les contrats intelligents']);
+      if(interest==='bitcoin'&&level!=='beginner')steps.push([2,'Bitcoin : naissance d’une monnaie numérique']);
+    }
+    const levelText=level==='beginner'?'Débutant':level==='familiar'?'Déjà familier des bases':'Déjà actif sur les marchés';
+    result.innerHTML='<span class="guide-result-kicker">VOTRE ITINÉRAIRE RECOMMANDÉ · '+levelText.toUpperCase()+'</span><h3>'+title+'</h3><p>'+description+'</p><div class="guide-recommendations">'+steps.map(step=>chapterLink(step[0],step[1])).join('')+'</div><p class="guide-result-foot">Vous gardez la liberté de parcourir les 25 chapitres dans l’ordre qui vous convient.</p>';
+  });
+}
+function atlasInitMarketLab(){
+  const quantityInput=$('#market-quantity');
+  const asksEl=$('#market-asks'),bidsEl=$('#market-bids');
+  if(!quantityInput||!asksEl||!bidsEl)return;
+  const book={
+    asks:[{price:100.02,quantity:1.5},{price:100.05,quantity:2.5},{price:100.10,quantity:4.0}],
+    bids:[{price:99.98,quantity:2.0},{price:99.95,quantity:3.0},{price:99.90,quantity:5.0}]
+  };
+  let side='buy';
+  const fmtQty=value=>value.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1});
+  const fmtPrice=value=>value.toLocaleString('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2});
+  const fillLevels=(levels,quantity)=>{
+    let remaining=quantity,filled=0,notional=0,levelsTouched=0;
+    const usage=levels.map(level=>{
+      const used=Math.min(level.quantity,remaining);
+      if(used>0){levelsTouched++;remaining-=used;filled+=used;notional+=used*level.price;}
+      return used;
+    });
+    return {usage,filled,remaining,notional,average:filled?notional/filled:0,levelsTouched};
+  };
+  const renderBook=(element,levels,usage,kind)=>{
+    element.replaceChildren();
+    const max= Math.max(...levels.map(level=>level.quantity));
+    levels.forEach((level,index)=>{
+      const used=usage[index]||0;
+      const row=document.createElement('div');
+      row.className='market-book-row'+(used>=level.quantity?' is-consumed':used>0?' is-partial':'');
+      const bar=document.createElement('span');bar.className='market-depth-bar';bar.setAttribute('aria-hidden','true');
+      const barFill=document.createElement('i');barFill.style.width=(level.quantity/max*100)+'%';bar.append(barFill);
+      const price=document.createElement('strong');price.textContent=fmtPrice(level.price);
+      const quantity=document.createElement('span');quantity.textContent=fmtQty(level.quantity);
+      const executed=document.createElement('em');executed.textContent=used>0?'−'+fmtQty(used):'';
+      row.append(bar,price,quantity,executed);
+      row.setAttribute('aria-label',(kind==='ask'?'Vente ':'Achat ')+fmtQty(level.quantity)+' unités à '+fmtPrice(level.price)+(used>0?', quantité consommée '+fmtQty(used):''));
+      element.append(row);
+    });
+  };
+  const update=()=>{
+    const quantity=Number(quantityInput.value);
+    const buy=side==='buy';
+    const activeLevels=buy?book.asks:book.bids;
+    const passiveLevels=buy?book.bids:book.asks;
+    const execution=fillLevels(activeLevels,quantity);
+    const refPrice=activeLevels[0].price;
+    const slippage=execution.filled?Math.abs(execution.average-refPrice)/refPrice*100:0;
+    renderBook(asksEl,book.asks,buy?execution.usage:[], 'ask');
+    renderBook(bidsEl,book.bids,buy?[]:execution.usage,'bid');
+    $('#market-quantity-label').textContent=fmtQty(quantity)+' unités';
+    $('#market-average').textContent=fmtPrice(execution.average);
+    $('#market-notional').textContent=fmtPrice(execution.notional);
+    $('#market-slippage').textContent=slippage.toLocaleString('fr-FR',{minimumFractionDigits:3,maximumFractionDigits:3})+' %';
+    $('#market-filled').textContent=fmtQty(execution.filled)+' / '+fmtQty(quantity)+' unités';
+    const direction=buy?'achat':'vente';
+    const depth=execution.levelsTouched;
+    let message='';
+    if(execution.remaining>0)message='La profondeur disponible ne suffit pas à exécuter toute la quantité demandée dans ce carnet fictif.';
+    else if(depth===1)message='À cette taille, ton ordre consomme uniquement le meilleur niveau du côté '+(buy?'vendeur':'acheteur')+'.';
+    else message='Ton ordre traverse '+depth+' niveaux de prix. Le prix moyen s’éloigne du meilleur prix affiché : c’est le slippage.';
+    $('#market-explanation').textContent='Pour cet ordre de '+direction+', '+message;
+    document.querySelectorAll('[data-market-side]').forEach(button=>{
+      const selected=button.dataset.marketSide===side;
+      button.setAttribute('aria-pressed',String(selected));
+      button.classList.toggle('active',selected);
+    });
+  };
+  document.querySelectorAll('[data-market-side]').forEach(button=>button.addEventListener('click',()=>{side=button.dataset.marketSide;update();}));
+  quantityInput.addEventListener('input',update);
+  $('#market-best-bid').textContent=fmtPrice(book.bids[0].price);
+  $('#market-best-ask').textContent=fmtPrice(book.asks[0].price);
+  $('#market-spread').textContent=fmtPrice(book.asks[0].price-book.bids[0].price);
+  $('#market-mid').textContent=fmtPrice((book.asks[0].price+book.bids[0].price)/2);
+  update();
+}
+atlasInitProgressTracking();
+atlasInitGuide();
+atlasInitMarketLab();
+
 window.addEventListener('hashchange',route);route();$('#next').onclick=()=>location.hash='chapitre-'+(current===24?1:current+2);
