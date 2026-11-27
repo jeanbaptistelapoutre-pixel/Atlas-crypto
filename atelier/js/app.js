@@ -240,7 +240,7 @@
     $('#history-source-label').textContent=historyInfo?.source||'Binance Spot · UTC';
   }
 
-  async function refreshPerformanceHistory() {
+  async function refreshPerformanceHistory(force=false) {
     if(!portfolio)return;
     if(historyBusy){historyRefreshQueued=true;return;}
     historyBusy=true;
@@ -248,7 +248,7 @@
     const requestedPortfolio=portfolio;
     $('#history-status-label').textContent='CHARGEMENT…';
     try {
-      const loadedHistory=await window.AtlasHistoryData.getDailyHistory(requestedPortfolio);
+      const loadedHistory=await window.AtlasHistoryData.getDailyHistory(requestedPortfolio,{force});
       if(portfolio!==requestedPortfolio){historyRefreshQueued=true;return;}
       historyInfo=loadedHistory;
       historyPoints=engine.buildDailyPerformance(requestedPortfolio,historyInfo.candlesBySymbol,historyInfo.rangeStart);
@@ -512,6 +512,7 @@
     catch(error){alert(error.message);}
   }));
   $('#refresh-prices').addEventListener('click',()=>refreshMarkets(true));
+  $('#refresh-history').addEventListener('click',()=>refreshPerformanceHistory(true));
   document.querySelectorAll('[data-history-range]').forEach(button=>button.addEventListener('click',()=>{
     historyRange=button.dataset.historyRange;
     renderPerformancePanel();
