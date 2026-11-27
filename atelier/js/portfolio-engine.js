@@ -156,10 +156,66 @@
     const totalPnl=complete?totalValue-BigInt(portfolio.initialCapitalMicro):null;
     return {positions,marketValueMicro:marketValue.toString(),cashMicro:cash.toString(),totalValueMicro:totalValue?.toString()??null,realizedPnlMicro:portfolio.realizedPnlMicro,unrealizedPnlMicro:unrealized.toString(),totalPnlMicro:totalPnl?.toString()??null,complete};
   }
+  function buildDailyPerformance(portfolio, candlesBySymbol, rangeStart=0) {
+    const txs=[...portfolio.transactions].sort((a,b)=>Date.parse(a.timestamp)-Date.parse(b.timestamp));
+    const priceMaps={};
+    const timestamps=new Set();
+    for(const [symbol,candles] of Object.entries(candlesBySymbol||{})) {
+      const map=new Map();
+      for(const candle of candles||[]) {
+        const closeTime=Number(candle[0]);
+        const closePrice=String(candle[1]);
+        if(Number.isFinite(closeTime)&&closeTime>0&&/^\\d+(?:[.]\\d{1,8})?$/.test(closePrice)) {
+          map.set(closeTime,closePrice);
+          timestamps.add(closeTime);
+        }
+      }
+      priceMaps[symbol]=map;
+    }
+    const orderedTimes=[...timestamps].sort((a,b)=>a-b);
+    let cash=BigInt(portfolio.initialCapitalMicro);
+    const holdings={};
+    let txIndex=0;
+    const points=[];
+    const createdAt=Date.parse(portfolio.createdAt);
+    if(Number.isFinite(createdAt)&&createdAt>=rangeStart&&createdAt<=Date.now()) {
+      points.push({timestamp:createdAt,valueMicro:portfolio.initialCapitalMicro,kind:'start'});
+    }
+    for(const timestamp of orderedTimes) {
+      while(txIndex<txs.length&&Date.parse(txs[txIndex].timestamp)<=timestamp) {
+        const tx=txs[txIndex++];
+        const qty=parseUnits(tx.quantity,8);
+        const net=BigInt(tx.netMicro);
+        if(tx.side==='buy') {
+          cash-=net;
+          holdings[tx.symbol]=(holdings[tx.symbol]||0n)+qty;
+        } else {
+          cash+=net;
+          const current=holdings[tx.symbol]||0n;
+          if(qty>current)throw new Error('L’historique des ventes dépasse les quantités acquises dans le journal des opérations.');
+          holdings[tx.symbol]=current-qty;
+        }
+      }
+      if(timestamp<rangeStart||timestamp>Date.now())continue;
+      let value=cash;
+      let complete=true;
+      for(const [symbol,qty] of Object.entries(holdings)) {
+        if(qty<=0n)continue;
+        const price=priceMaps[symbol]?.get(timestamp);
+        if(!price) {
+          complete=false;
+          break;
+        }
+        value+=notionalMicro(qty,parseUnits(price,8));
+      }
+      if(complete)points.push({timestamp,valueMicro:value.toString(),kind:'daily-close'});
+    }
+    return points.filter((point,index,array)=>index===0||point.timestamp>array[index-1].timestamp);
+  }
   function setFeeBps(portfolio, value) {
     const percent=parseUnits(value,2,{allowZero:true});
     if(percent>200n)throw new Error('La commission doit être comprise entre 0 et 2 %.');
     return {...portfolio,feeBps:Number(percent)};
   }
-  window.AtlasPortfolioEngine={MONEY_SCALE,ASSET_SCALE,PRICE_SCALE,parseUnits,unitsToString,notionalMicro,quantityUnits,feeMicro,createPortfolio,previewBuy,previewSell,applyTrade,valuePortfolio,setFeeBps,safePortfolio};
+  window.AtlasPortfolioEngine={MONEY_SCALE,ASSET_SCALE,PRICE_SCALE,parseUnits,unitsToString,notionalMicro,quantityUnits,feeMicro,createPortfolio,previewBuy,previewSell,applyTrade,valuePortfolio,buildDailyPerformance,setFeeBps,safePortfolio};
 })();
