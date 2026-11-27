@@ -17,7 +17,7 @@ Object.assign(window.ATLAS_LESSONS, {
     ],
     toc: [
       ['e6-demarrer', 'Avant de commencer'],
-      ['e6-principe', 'Ethereum : un registre qui exécute du code'],
+      ['e6-principe', 'Ethereum, un réseau programmable'],
       ['e6-comptes', 'Les comptes sur Ethereum'],
       ['e6-contrat', 'Le contrat intelligent'],
       ['e6-evm', 'La machine virtuelle Ethereum'],
@@ -145,13 +145,14 @@ Object.assign(window.ATLAS_LESSONS, {
     <article><span>ÉCRITURE</span><b>Je réserve une place.</b><p>La fonction vérifie la disponibilité et modifie les données du contrat. Une transaction doit être envoyée et les ressources consommées sont facturées.</p><strong>Transaction et frais de gas</strong></article>
   </div>
   <div class="lesson-callout lesson-callout-muted"><strong>Une subtilité utile</strong><p>Une fonction dite <em>view</em> ou <em>pure</em> indique qu’elle ne modifie pas l’état lorsqu’elle est appelée de cette manière. Elle peut toutefois être exécutée à l’intérieur d’une autre transaction ; dans ce contexte, son calcul participe à la consommation de gas de l’opération globale.</p></div>
-  <p>Une fois diffusée, la transaction est vérifiée et peut être incluse dans un bloc. Les nœuds exécutent les opérations selon les règles du protocole. Si le résultat est valide, le bloc fait évoluer l’état partagé. Le nombre de confirmations et la finalité dépendent ensuite du mécanisme de consensus d’Ethereum.</p>
+  <p>Une fois diffusée, la transaction est vérifiée et peut être incluse dans un bloc. Les nœuds exécutent les opérations selon les règles du protocole. Si le résultat est valide, le bloc fait évoluer l’état partagé. Le nombre de confirmations et la finalité dépendent ensuite du mécanisme de consensus d’Ethereum. Une transaction peut donc être incluse dans un bloc sans que ce bloc soit déjà finalisé.</p>
   <div class="e6-pos-note">
     <span>QUI CONTRIBUE À SÉCURISER LE RÉSEAU ?</span>
     <h3>Ethereum fonctionne avec la preuve d’enjeu (Proof of Stake).</h3>
-    <p>Depuis 2022, Ethereum n’utilise plus le minage par preuve de travail pour produire ses blocs. Des validateurs immobilisent de l’ETH en garantie et participent au processus : certains proposent des blocs, d’autres attestent que les blocs observés respectent les règles. Des récompenses encouragent la participation correcte ; des pénalités peuvent sanctionner certains comportements interdits.</p>
+    <p>Depuis 2022, Ethereum n’utilise plus le minage par preuve de travail pour produire ses blocs. Des validateurs immobilisent de l’ETH en garantie et participent au processus. À chaque créneau, le protocole sélectionne un validateur chargé de proposer un bloc ; des validateurs désignés attestent ensuite les blocs qu’ils considèrent valides. Il ne s’agit pas de deux groupes permanents : un même validateur peut proposer un bloc à un moment et attester à un autre. Des récompenses encouragent la participation correcte ; des pénalités peuvent sanctionner certains comportements interdits.</p>
     <p>Détenir de l’ETH ne fait pas automatiquement de chaque utilisateur un validateur. La validation suppose une participation technique et économique au mécanisme de preuve d’enjeu.</p>
   </div>
+  <div class="lesson-callout lesson-callout-muted"><strong>Inclusion et finalité, ce n’est pas la même chose</strong><p>L’inclusion signifie que la transaction apparaît dans un bloc. La finalité intervient lorsque le mécanisme de preuve d’enjeu a obtenu un accord d’au moins deux tiers de l’ETH mis en jeu sur les points de contrôle concernés. Le bloc est alors considéré comme solidement établi : revenir dessus impliquerait de lourdes pénalités économiques pour les validateurs responsables.</p></div>
 </section>
 
 <section class="lesson-section" id="e6-gas">
@@ -216,11 +217,11 @@ Object.assign(window.ATLAS_LESSONS, {
     <article><span>02 · DEMANDE</span><b>L’utilisateur demande une réservation</b><p>Son portefeuille prépare une transaction signée qui appelle la fonction de réservation, avec les paramètres nécessaires.</p></article>
     <article><span>03 · EXÉCUTION</span><b>Le contrat applique ses conditions</b><p>L’EVM exécute le code. Si une place reste disponible, le contrat met à jour son état. Sinon, la demande échoue.</p></article>
     <article><span>04 · GAS</span><b>Le calcul est facturé</b><p>Le gas mesure les ressources consommées par l’exécution. Les frais sont payés en ETH, même si la réservation est annulée après une erreur.</p></article>
-    <article><span>05 · VALIDATION</span><b>Le réseau enregistre le résultat</b><p>Les nœuds vérifient le bloc et la transaction. Une fois le bloc accepté, l’état mis à jour devient celui que le réseau suit.</p></article>
+    <article><span>05 · VALIDATION</span><b>Le réseau enregistre le résultat</b><p>Le validateur sélectionné propose le bloc et peut y inclure la transaction. Les autres nœuds réexécutent les opérations pour vérifier qu’elles respectent les règles. Une fois le bloc accepté dans la chaîne retenue, l’état partagé évolue ; cela ne signifie pas nécessairement que le bloc est déjà finalisé.</p></article>
   </div>
   <div class="e6-case-result"><span>LE RÉSULTAT À COMPRENDRE</span><b>Le contrat applique une règle partagée ; il ne remplace pas tous les acteurs du monde réel.</b><p>Il peut empêcher deux réservations de consommer la même place dans son propre état. Il ne garantit pas que l’organisateur ouvrira la salle, que l’identité du participant est correcte ou que l’événement aura lieu.</p></div>
   <h3>Ce que cet exemple permet de distinguer</h3>
-  <ul class="check-list"><li><b>Le portefeuille</b> prépare et signe l’instruction.</li><li><b>La transaction</b> transporte la demande vers le réseau.</li><li><b>L’EVM</b> exécute le code prévu par le contrat.</li><li><b>Le gas</b> mesure le travail consommé et sert au calcul des frais.</li><li><b>Les validateurs et les nœuds</b> contribuent à vérifier et à inclure les opérations selon les règles d’Ethereum.</li></ul>
+  <ul class="check-list"><li><b>Le portefeuille</b> prépare et signe l’instruction.</li><li><b>La transaction</b> transporte la demande vers le réseau.</li><li><b>L’EVM</b> exécute le code prévu par le contrat.</li><li><b>Le gas</b> mesure le travail consommé et sert au calcul des frais.</li><li><b>Le validateur sélectionné</b> propose le bloc et peut y inclure la transaction ; les autres nœuds réexécutent les opérations pour en vérifier la validité.</li></ul>
 </section>
 
 <section class="lesson-section" id="e6-glossaire">
@@ -238,6 +239,7 @@ Object.assign(window.ATLAS_LESSONS, {
     <details><summary>Déploiement</summary><p>Opération qui publie un nouveau contrat sur un réseau. Sur Ethereum, elle prend la forme d’une transaction et consomme du gas.</p></details>
     <details><summary>EVM</summary><p>Ethereum Virtual Machine : environnement d’exécution qui définit comment le code des contrats est interprété et comment l’état évolue.</p></details>
     <details><summary>Transaction</summary><p>Instruction signée et envoyée au réseau pour transférer de l’ETH ou déclencher une opération, par exemple l’appel d’un contrat.</p></details>
+          <details><summary>Nonce</summary><p>Compteur associé à un compte. Pour les transactions classiques envoyées par un compte contrôlé par une clé, il aide à imposer leur ordre et empêche la réutilisation d’un même numéro de transaction.</p></details>
     <details><summary>Gas</summary><p>Unité qui mesure les ressources nécessaires à l’exécution des opérations sur Ethereum.</p></details>
     <details><summary>Gas limit</summary><p>Quantité maximale de gas que l’expéditeur autorise pour une transaction donnée.</p></details>
     <details><summary>Gwei</summary><p>Sous-unité de l’ETH utilisée notamment pour exprimer les prix du gas. Un gwei vaut 0,000000001 ETH.</p></details>
@@ -246,7 +248,8 @@ Object.assign(window.ATLAS_LESSONS, {
     <details><summary>Storage</summary><p>Espace où un contrat conserve des données persistantes dans l’état du réseau.</p></details>
     <details><summary>Événement (event)</summary><p>Information émise par un contrat dans les journaux d’une transaction pour que des applications puissent repérer certaines actions.</p></details>
     <details><summary>Oracle</summary><p>Service ou mécanisme qui transmet à un contrat une information issue de l’extérieur de la blockchain.</p></details>
-    <details><summary>Validateur</summary><p>Participant qui met de l’ETH en jeu selon les règles du protocole et contribue à proposer ou attester des blocs dans le mécanisme de preuve d’enjeu.</p></details>
+    <details><summary>Validateur</summary><p>Participant qui met de l’ETH en jeu selon les règles du protocole. Selon le créneau et son rôle, il peut être sélectionné pour proposer un bloc ou être désigné pour attester un bloc.</p></details>
+          <details><summary>Finalité</summary><p>Propriété du consensus indiquant qu’un bloc est considéré comme solidement établi dans l’historique d’Ethereum. Elle repose sur l’accord d’au moins deux tiers de l’ETH mis en jeu sur les points de contrôle concernés ; revenir sur un bloc finalisé entraînerait de lourdes pénalités économiques.</p></details>
     <details><summary>Preuve d’enjeu (Proof of Stake)</summary><p>Mécanisme de consensus dans lequel des validateurs immobilisent une mise et peuvent subir des pénalités s’ils enfreignent certaines règles.</p></details>
     <details><summary>Composabilité</summary><p>Capacité de contrats à appeler et réutiliser les fonctions d’autres contrats pour former des applications plus complexes.</p></details>
     <details><summary>Réversion (revert)</summary><p>Annulation des changements d’état d’une exécution lorsqu’une condition provoque l’échec du contrat. Le gas déjà consommé reste dû.</p></details>
