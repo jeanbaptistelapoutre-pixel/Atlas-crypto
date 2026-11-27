@@ -206,6 +206,20 @@ function atlasGlossaryEntries(chapterNumber, root){
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
     entries.forEach(entry=>{if(!entry.aliases.length){entry.aliases=[entry.label];if(!/[s)]$/i.test(entry.label))entry.aliases.push(entry.label+'s');}});
+  } else if(chapterNumber===11){
+    const aliases={
+      'Carnet d’ordres (order book)':["carnet d’ordres","carnet d'ordres","carnet d ordres","order book","carnets d’ordres"],
+      'Bid':['bid','bids','meilleur bid','meilleurs bids'],
+      'Ask':['ask','asks','meilleur ask','meilleurs asks'],
+      'Spread':['spread','spreads','écart bid-ask','écart acheteur-vendeur'],
+      'Liquidité':['liquidité'],
+      'Profondeur (depth)':['profondeur','profondeurs','depth','profondeur du carnet','profondeur cumulée'],
+      'Slippage':['slippage','slippages'],
+      'Ordre au marché (market order)':["ordre au marché","ordres au marché","market order","market orders"],
+      'Ordre limite (limit order)':["ordre limite","ordres limites","ordre à cours limité","ordres à cours limité","limit order","limit orders"],
+      'Capitalisation boursière (market cap)':["capitalisation boursière","capitalisations boursières","market cap","market capitalization"]
+    };
+    entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
   }
   return entries;
 }
