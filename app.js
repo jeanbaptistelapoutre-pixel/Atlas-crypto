@@ -534,6 +534,7 @@ function route(){
   const i=Number(m[1])-1;if(!CHAPTERS[i]){location.hash='encyclopedie';return}current=i;const c=CHAPTERS[i];
   $('#home').hidden=true;$('#reader').classList.add('active');$('#reader-part').textContent=c.part+' · Fiche '+(i+1)+' / 25';$('#reader-title').textContent=c.title;$('#reader-lead').textContent=c.lead;
   const lesson=window.ATLAS_LESSONS?.[i+1];if(lesson){$('#lesson-meta').textContent=lesson.level+' · '+lesson.minutes+' min de lecture';$('#lesson-nav').innerHTML='<strong>Dans cette fiche</strong>'+lesson.toc.map(x=>'<a href="#'+x[0]+'">'+x[1]+'</a>').join('');$('#lesson-content').innerHTML=lesson.html;initLessonInteractions(i+1)}else{renderGeneric(c,i)}
+  atlasRenderChapterReadControl(i+1);
   $('#next').textContent=i===24?'Revenir au début ↺':'Fiche suivante →';
   const readerTitle=$('#reader-title');
   readerTitle.focus({preventScroll:true});
