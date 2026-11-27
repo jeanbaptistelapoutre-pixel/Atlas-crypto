@@ -247,7 +247,7 @@ function atlasDecorateTerms(chapterNumber, root){
   });
   if(!patternParts.length)return;
   const expression=new RegExp(`(?<![\\p{L}\\p{N}_])(?:${patternParts.join('|')})(?![\\p{L}\\p{N}_])`,'giu');
-  const excluded='a,button,summary,script,style,code,pre,textarea,input,select,option,.glossary-list,.btc-glossary,.quiz-question,.quiz-options,.quiz-suite,.btc-quiz-set,.atlas-term,svg';
+  const excluded='a,button,summary,script,style,code,pre,textarea,input,select,option,.glossary-list,.btc-glossary,.market-glossary,.quiz-question,.quiz-options,.quiz-suite,.btc-quiz-set,.atlas-term,svg';
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
     acceptNode(node){
       if(!node.nodeValue||!node.nodeValue.trim())return NodeFilter.FILTER_REJECT;
