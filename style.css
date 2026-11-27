@@ -345,7 +345,7 @@
 .market-book-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:15px}
 .market-book-head strong{color:#ebdfcd;font:18px 'Playfair Display',serif}
 .market-book-head span{color:#948979;font-size:9px}
-.market-book-labels,.market-book-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 65px;align-items:center;gap:8px}
+.market-book-labels,.market-book-row{display:grid;grid-template-columns:38px minmax(0,1fr) 75px;align-items:center;gap:8px}
 .market-book-labels{padding:7px 4px;color:#a99b88;font-size:9px}
 .market-book-labels span:first-child{grid-column:1}
 .market-book-labels span:nth-child(2),.market-book-labels span:nth-child(3){text-align:right}
@@ -355,7 +355,7 @@
 .market-book-row .market-depth-bar i{height:100%;background:#9b7145}
 .market-book-row strong,.market-book-row>span:not(.market-depth-bar){position:relative;z-index:1}
 .market-book-row strong{font-weight:600;text-align:right;color:#d9c6a9}
-.market-book-row>span:nth-of-type(2){text-align:right}
+.market-book-row>span.market-level-side{text-align:left;color:#8e8375;font-size:8px;font-weight:700;letter-spacing:.07em}.market-book-row>span:last-of-type{text-align:right}
 .market-book-row em{position:absolute;left:7px;bottom:1px;z-index:2;color:#f2d59e;font-size:8px;font-style:normal}
 .market-book-row.is-consumed{border-color:#9b784b;background:#302418}
 .market-book-row.is-consumed .market-depth-bar i,.market-book-row.is-partial .market-depth-bar i{background:#d7ad68;opacity:.9}
@@ -405,7 +405,7 @@
   .market-book,.market-order-panel{padding:12px}
   .market-overview>div{padding:11px 8px}
   .market-overview strong{font-size:17px}
-  .market-book-labels,.market-book-row{grid-template-columns:minmax(0,1fr) 82px 54px;gap:5px}
+  .market-book-labels,.market-book-row{grid-template-columns:32px minmax(0,1fr) 75px;gap:5px}
   .market-book-row{font-size:9px}
   .market-book-head span{font-size:8px}
   .market-execution-main strong{font-size:21px}
