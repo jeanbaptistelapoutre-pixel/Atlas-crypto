@@ -454,3 +454,7 @@
 #lesson-content .m11-price-anatomy{
   margin-bottom:0;
 }
+
+/* Accessibility audit: titles and methodological notes on pale surfaces. */
+#lesson-content .m11-two-col article>b{color:#075985}
+#lesson-content .m11-sim-method{color:#536174!important}
