@@ -87,3 +87,28 @@ Un test technique a été effectué depuis un environnement Vercel avec un en-t�
 Cette validation confirme le fonctionnement de l'endpoint et l'en-tête CORS au moment du test ; elle ne garantit ni une disponibilité permanente, ni une limite de requêtes illimitée. Le code doit continuer à gérer les erreurs et les données périmées.
 
 CoinGecko reste une piste future pour une valorisation agrégée multi-plateformes, à envisager avec un proxy serveur et un plan dont les conditions autorisent clairement l'usage par Atlas Crypto.
+
+## 7. Validation des données historiques pour le track record (28 novembre 2026)
+
+La première implémentation du track record utilise `GET /api/v3/klines` avec `interval=1d`, via `https://data-api.binance.vision`. La documentation Binance classe cette URL parmi les endpoints publics de Market Data Only, qui ne nécessitent pas de clé API, et liste explicitement l'endpoint Klines. Les bougies sont identifiées par leur heure d'ouverture ; la réponse fournit notamment l'heure de clôture et le prix de clôture. Sources :
+- https://github.com/binance/binance-spot-api-docs/blob/master/faqs/market_data_only.md
+- https://github.com/binance/binance-spot-api-docs/blob/master/rest-api.md#klinecandlestick-data
+
+**Test réel depuis l'environnement Vercel**
+- Requête avec un en-tête `Origin: https://atlas-crypto-three.vercel.app`.
+- Les 8 paires du MVP ont répondu HTTP 200 : BTCUSDC, ETHUSDC, SOLUSDC, XRPUSDC, BNBUSDC, DOGEUSDC, ADAUSDC et LINKUSDC.
+- En-tête `Access-Control-Allow-Origin: *` observé sur les 8 réponses.
+- Chaque réponse testée a renvoyé des chandeliers journaliers, dont les clôtures achevées peuvent être filtrées à partir de leur `closeTime`.
+
+**Méthode de valorisation**
+- Le moteur rejoue chaque transaction dans l'ordre chronologique. Un achat réduit le cash du débit net ; une vente l'augmente du crédit net ; les quantités détenues sont ajustées.
+- À chaque clôture journalière UTC, il valorise les quantités encore détenues avec les prix de clôture correspondants.
+- Si le prix d'un actif détenu manque à une date, le point du portefeuille n'est pas affiché comme complet.
+- La journée UTC en cours n'est pas traitée comme une clôture définitive.
+- Le navigateur conserve localement un cache des chandeliers, limité aux 1 000 dernières clôtures journalières par actif. Les données historiques sont mises à jour de manière incrémentale ; un échec d'actualisation doit rester signalé même lorsqu'un cache antérieur existe.
+
+**Limites connues**
+- Les cours et bougies proviennent d'une seule plateforme, Binance Spot ; ils ne représentent pas une moyenne multi-exchanges.
+- Le prix de clôture journalier est une valorisation indicative, pas un prix d'exécution.
+- Le benchmark BTC/ETH, les exports du track record et les données intraday ne sont pas encore intégrés.
+- Les chandeliers quotidiens ne fournissent pas une courbe intraday ni une reconstitution du slippage réel.
