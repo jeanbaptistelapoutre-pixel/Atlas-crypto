@@ -234,6 +234,7 @@
     if(historyInfo?.truncated)notices.push('Affichage limité aux 1 000 dernières clôtures journalières.');
     if(historyInfo?.errors?.length)notices.push('Données historiques manquantes pour '+historyInfo.errors.map(item=>item.symbol).join(', ')+'. Certains jours peuvent être absents.');
     if(!notices.length)notices.push('Valeurs reconstruites à partir des transactions enregistrées et des clôtures journalières UTC de Binance Spot. Les journées non terminées ne sont pas affichées.');
+    if(historyInfo?.updatedAt)notices.push('Dernière réception de données : '+fmt.formatDate(historyInfo.updatedAt)+'.');
     status.textContent=notices.join(' ');
     statusLabel.textContent=(historyInfo?.truncated||historyInfo?.errors?.length)?'HISTORIQUE PARTIEL':'CLÔTURES JOURNALIÈRES';
     $('#history-source-label').textContent=historyInfo?.source||'Binance Spot · UTC';
@@ -412,6 +413,7 @@
       portfolio=engine.createPortfolio($('#initial-capital').value);
       save();
       renderMode();
+      refreshPerformanceHistory();
       setMarketState(markets.length?'success':'loading',markets.length?'Portefeuille créé. Les cours de référence sont disponibles.':'Portefeuille créé. En attente des cours de référence.');
     } catch(error) {
       alert(error.message);
@@ -520,4 +522,5 @@
   refreshMarkets(true);
   if(portfolio)refreshPerformanceHistory();
   window.setInterval(()=>refreshMarkets(true),window.AtlasMarketData.refreshInterval);
+  window.setInterval(()=>{if(portfolio)refreshPerformanceHistory();},60*60*1000);
 })();
