@@ -35,7 +35,7 @@
   }
   function safePortfolio(portfolio) {
     if (!portfolio || portfolio.schemaVersion !== 1 || !Array.isArray(portfolio.transactions) || !portfolio.assets || typeof portfolio.assets !== 'object') return false;
-    if (!/^\\d+$/.test(String(portfolio.realizedPnlMicro)) || !/^\\d+$/.test(String(portfolio.totalFeesMicro)) || !Number.isInteger(portfolio.feeBps) || portfolio.feeBps < 0 || portfolio.feeBps > 200) return false;
+    if (!/^\d+$/.test(String(portfolio.realizedPnlMicro)) || !/^\d+$/.test(String(portfolio.totalFeesMicro)) || !Number.isInteger(portfolio.feeBps) || portfolio.feeBps < 0 || portfolio.feeBps > 200) return false;
     if (!/^\d+$/.test(String(portfolio.cashMicro)) || !/^\d+$/.test(String(portfolio.initialCapitalMicro))) return false;
     for (const [symbol, holding] of Object.entries(portfolio.assets)) {
       if (!/^[A-Z0-9]{2,15}$/.test(symbol) || !/^\d+$/.test(String(holding.quantityUnits)) || !/^\d+$/.test(String(holding.costBasisMicro))) return false;
