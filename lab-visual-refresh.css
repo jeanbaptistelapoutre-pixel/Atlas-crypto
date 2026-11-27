@@ -377,3 +377,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 /* Clip only the document's stray horizontal overflow; inner horizontal
    navigation rails remain independently scrollable. */
 html{overflow-x:clip}
+
+body{overflow-x:hidden}
