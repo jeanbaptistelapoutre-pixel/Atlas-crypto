@@ -244,12 +244,16 @@
     if(historyBusy){historyRefreshQueued=true;return;}
     historyBusy=true;
     historyError=null;
+    const requestedPortfolio=portfolio;
     $('#history-status-label').textContent='CHARGEMENT…';
     try {
-      historyInfo=await window.AtlasHistoryData.getDailyHistory(portfolio);
-      historyPoints=engine.buildDailyPerformance(portfolio,historyInfo.candlesBySymbol,historyInfo.rangeStart);
+      const loadedHistory=await window.AtlasHistoryData.getDailyHistory(requestedPortfolio);
+      if(portfolio!==requestedPortfolio){historyRefreshQueued=true;return;}
+      historyInfo=loadedHistory;
+      historyPoints=engine.buildDailyPerformance(requestedPortfolio,historyInfo.candlesBySymbol,historyInfo.rangeStart);
       renderPerformancePanel();
     } catch(error) {
+      if(portfolio!==requestedPortfolio){historyRefreshQueued=true;return;}
       console.warn('Atelier : historique de valorisation indisponible.',error);
       historyError=error.message;
       historyPoints=[];
