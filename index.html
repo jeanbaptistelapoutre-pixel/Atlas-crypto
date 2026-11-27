@@ -1,1 +1,299 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#100f0e"><meta name="description" content="Atlas Crypto : encyclopédie gratuite et interactive pour comprendre Bitcoin, la blockchain, les marchés et les risques."><title>Atlas Crypto — L'encyclopédie interactive</title><link rel="stylesheet" href="style.css"></head><body><a class="skip" href="#main">Aller au contenu</a><header class="top"><div class="container"><a class="brand" href="#accueil">ATLAS <span>CRYPTO</span></a><nav aria-label="Navigation principale"><a href="#encyclopedie">Encyclopédie</a><a href="#laboratoire">Laboratoire</a><a href="#methode">Notre méthode</a></nav><a class="pill" href="#encyclopedie">Explorer ↗</a></div></header><main id="main"><div id="home"><section class="hero" id="accueil"><div class="container"><div class="eyebrow">Une nouvelle manière d'apprendre · Édition libre</div><h1>Comprendre l'invisible.<br><em>Maîtriser l'essentiel.</em></h1><p>Bitcoin, blockchain, finance décentralisée et marchés : une exploration progressive, rigoureuse et visuelle des technologies qui transforment la notion de valeur.</p><div class="actions"><a class="cta" href="#encyclopedie">Découvrir les 25 chapitres →</a><a class="pill" href="#laboratoire">Explorer le laboratoire</a></div></div></section><div class="stats"><div><strong>05</strong><small>grandes parties</small></div><div><strong>25</strong><small>fiches pédagogiques</small></div><div><strong>100 %</strong><small>gratuit et public</small></div></div><section class="section catalog" id="encyclopedie"><div class="container"><div class="eyebrow">Bibliothèque du savoir</div><h2>Une progression sans raccourcis.</h2><p class="sub">Explorez 25 sujets répartis en cinq parties. Les fiches 1 et 2 inaugurent le format approfondi : explications pas à pas, exemples, schémas, simulations et quiz corrigés. Les autres fiches seront enrichies progressivement selon le même niveau d’exigence.</p><div class="toolbar"><input id="search" class="search" type="search" aria-label="Rechercher un chapitre" placeholder="Rechercher un sujet, une notion…"><div id="filters" aria-label="Filtrer par partie"></div></div><div id="cards" class="cards"></div></div></section><section class="section" id="laboratoire"><div class="container lab"><div><div class="eyebrow">Expérimenter pour comprendre</div><h2>Le laboratoire Bitcoin.</h2><p class="sub">Explorez les transactions UTXO, les empreintes, les arbres de Merkle et la preuve de travail à travers des démonstrations interactives.</p><p>Les simulations simplifient volontairement certains paramètres et ne remplacent pas un nœud Bitcoin réel.</p><a class="cta" href="laboratoire-bitcoin.html">Ouvrir le laboratoire complet ↗</a></div><div class="lab-card" aria-hidden="true"><div class="coin">₿</div><p style="text-align:center;color:#c9bba8">Cryptographie · Consensus · Vérification</p></div></div></section><section class="section catalog" id="methode"><div class="container"><div class="eyebrow">Notre engagement</div><h2>La clarté, sans sacrifier la vérité.</h2><div class="cards"><div class="chapter"><div class="index">I.</div><h3>Des sources traçables</h3><p>Documentation des protocoles et sources officielles privilégiées. Les affirmations susceptibles d'évoluer doivent être datées.</p></div><div class="chapter"><div class="index">II.</div><h3>Des limites explicites</h3><p>Les simulations, hypothèses et incertitudes sont signalées. Aucun rendement n'est présenté comme garanti.</p></div><div class="chapter"><div class="index">III.</div><h3>Un apprentissage actif</h3><p>Analogies, schémas, exemples et questions de vérification pour construire une compréhension durable.</p></div></div></div></section></div><article id="reader" class="reader" aria-live="polite"><div class="reader-head"><div class="container"><a href="#encyclopedie" id="back" class="eyebrow">← Retour à l'encyclopédie</a><p id="reader-part" class="eyebrow"></p><h1 id="reader-title"></h1><p id="reader-lead" class="sub"></p></div></div><div class="container reader-grid"><aside class="side" id="lesson-nav"><strong>Dans cette fiche</strong></aside><div class="prose"><div id="lesson-meta" class="lesson-meta"></div><div id="lesson-content"></div><div class="actions"><button class="cta" id="next">Fiche suivante →</button><a class="pill" href="#encyclopedie">Tous les chapitres</a></div></div></div></article></main><footer class="footer"><div class="container"><span>© Atlas Crypto · Une ressource éducative indépendante</span><span>Contenu pédagogique, pas un conseil en investissement · Mise à jour novembre 2026</span></div></footer><script src="data.js"></script><script src="lessons.js"></script><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#100f0e">
+  <meta name="description" content="Atlas Crypto : une encyclopédie gratuite et interactive pour comprendre Bitcoin, la blockchain, les marchés et le trading, des bases aux mécanismes avancés.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Atlas Crypto — Comprendre avant d'agir">
+  <meta property="og:description" content="Un parcours pédagogique progressif pour comprendre Bitcoin, la blockchain, les marchés et le trading. Gratuit, indépendant et sans conseil en investissement.">
+  <meta property="og:url" content="https://atlas-crypto-three.vercel.app/">
+  <meta property="og:image" content="https://atlas-crypto-three.vercel.app/cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Atlas Crypto — L'encyclopédie interactive</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Aller au contenu</a>
+  <header class="top">
+    <div class="container">
+      <a class="brand" href="#accueil">ATLAS <span>CRYPTO</span></a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+        <span>Menu</span><span aria-hidden="true">☰</span>
+      </button>
+      <nav id="primary-nav" aria-label="Navigation principale">
+        <a href="#parcours">Parcours</a>
+        <a href="#boussole">Boussole</a>
+        <a href="#market-lab">Marchés</a>
+        <a href="#ma-progression">Progression</a>
+        <a href="#encyclopedie">Encyclopédie</a>
+        <a href="#laboratoire">Laboratoire Bitcoin</a>
+      </nav>
+      <a class="pill" href="#parcours">Choisir un parcours ↗</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <div id="home">
+      <section class="hero" id="accueil">
+        <div class="container">
+          <div class="eyebrow">Une nouvelle manière d'apprendre · Édition libre</div>
+          <h1>Comprendre l'invisible.<br><em>Maîtriser l'essentiel.</em></h1>
+          <p>Bitcoin, blockchain, écosystème crypto et marchés : une exploration progressive, rigoureuse et visuelle pour comprendre les mécanismes avant de se faire sa propre opinion.</p>
+          <div class="actions">
+            <a class="cta" href="#parcours">Trouver mon point de départ →</a>
+            <a class="pill" href="#laboratoire">Explorer le laboratoire</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="stats">
+        <div><strong>05</strong><small>grandes parties</small></div>
+        <div><strong>25</strong><small>chapitres au programme</small></div>
+        <div><strong>03</strong><small>cours approfondis disponibles</small></div>
+      </div>
+
+      <section class="section paths" id="parcours" aria-labelledby="paths-title">
+        <div class="container">
+          <div class="eyebrow">Votre point de départ</div>
+          <h2 id="paths-title">Choisissez votre parcours.</h2>
+          <p class="sub">Il n'est pas nécessaire de tout apprendre dans un ordre rigide. Commencez par les fondamentaux, explorez les coulisses techniques à votre rythme ou avancez vers la compréhension des marchés et du trading.</p>
+
+          <div class="path-grid">
+            <article class="path-card">
+              <div class="path-card-top"><span class="path-number">01</span><span class="path-tag">Les essentiels</span></div>
+              <h3>Poser les bases</h3>
+              <p>Comprendre pourquoi la monnaie existe, ce qu'est Bitcoin et les grands principes qui permettent à un réseau décentralisé de fonctionner.</p>
+              <div class="path-detail">Chapitres 1–2 · 2 chapitres</div>
+              <a class="path-link" href="#chapitre-1">Commencer par les bases <span aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="path-card">
+              <div class="path-card-top"><span class="path-number">02</span><span class="path-tag">Pour approfondir</span></div>
+              <h3>Explorer les coulisses</h3>
+              <p>Découvrir les registres, les clés, les transactions, les contrats intelligents et les différentes briques de l'écosystème crypto.</p>
+              <div class="path-detail">Chapitres 3–10 · Approfondissement</div>
+              <a class="path-link" href="#chapitre-3">Explorer la mécanique <span aria-hidden="true">→</span></a>
+            </article>
+
+            <article class="path-card path-card-featured">
+              <div class="path-card-top"><span class="path-number">03</span><span class="path-tag">Marchés & trading</span></div>
+              <h3>Comprendre les marchés</h3>
+              <p>Étudier la formation des prix, les volumes, le carnet d'ordres, les facteurs fondamentaux, puis la méthode, le risque et la psychologie du trading.</p>
+              <div class="path-detail">Chapitres 11–20 · Parcours de 10 chapitres</div>
+              <a class="path-link" href="#chapitre-11">Découvrir le parcours marchés <span aria-hidden="true">→</span></a>
+            </article>
+          </div>
+
+          <div class="path-note">
+            <strong>À retenir :</strong> les chapitres 3 à 10 approfondissent le fonctionnement technique et l'écosystème. Ils enrichissent la compréhension, mais ne sont pas un passage obligé pour commencer à étudier les marchés : après les chapitres 1 et 2, vous pouvez passer directement au chapitre 11. Les bonnes pratiques de sécurité et la gestion du risque restent en revanche essentielles avant toute mise en pratique réelle.
+          </div>
+        </div>
+      </section>
+
+      
+      <section class="section guide-section" id="boussole">
+        <div class="container">
+          <div class="eyebrow">Votre itinéraire pédagogique</div>
+          <h2>La boussole Atlas.</h2>
+          <p class="sub">Trois réponses suffisent pour vous proposer un point de départ. Vous pourrez changer de direction à tout moment : ce parcours est un conseil de lecture, pas un programme obligatoire.</p>
+
+          <div class="guide-panel">
+            <form id="guide-form" class="guide-form">
+              <div class="guide-question">
+                <label for="guide-goal"><span>01</span> Quel est votre objectif principal ?</label>
+                <select id="guide-goal" required>
+                  <option value="foundations">Comprendre les fondamentaux de la crypto</option>
+                  <option value="technical">Comprendre les mécanismes techniques</option>
+                  <option value="markets">Comprendre les marchés et le trading</option>
+                </select>
+              </div>
+              <div class="guide-question">
+                <label for="guide-level"><span>02</span> Où en êtes-vous aujourd'hui ?</label>
+                <select id="guide-level" required>
+                  <option value="beginner">Je débute, je pars de zéro</option>
+                  <option value="familiar">Je connais déjà Bitcoin et les bases</option>
+                  <option value="trader">Je suis déjà les marchés ou je trade</option>
+                </select>
+              </div>
+              <div class="guide-question">
+                <label for="guide-interest"><span>03</span> Quel sujet vous attire le plus ?</label>
+                <select id="guide-interest" required>
+                  <option value="bitcoin">Bitcoin et son fonctionnement</option>
+                  <option value="ecosystem">Ethereum et l'écosystème crypto</option>
+                  <option value="orderflow">Microstructure, carnet d'ordres et order flow</option>
+                </select>
+              </div>
+              <button class="cta guide-submit" type="submit">Construire mon parcours <span aria-hidden="true">→</span></button>
+            </form>
+            <div class="guide-result" id="guide-result" role="status" aria-live="polite" aria-atomic="true">
+              <span class="guide-result-kicker">VOTRE PARCOURS APPARAÎTRA ICI</span>
+              <h3>Un chemin clair, à votre rythme.</h3>
+              <p>Répondez aux trois questions pour obtenir une recommandation de lecture adaptée à votre objectif et à votre niveau.</p>
+              <div class="guide-result-mark" aria-hidden="true">◈</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section progress-section" id="ma-progression">
+        <div class="container progress-layout">
+          <div class="progress-intro">
+            <div class="eyebrow">Votre espace personnel</div>
+            <h2>Votre progression, pas à pas.</h2>
+            <p class="sub">Retrouvez vos chapitres lus, vos réussites aux quiz et les définitions consultées. Votre progression est enregistrée uniquement dans ce navigateur.</p>
+            <p class="progress-privacy"><span aria-hidden="true">◆</span> Sans compte · Sans synchronisation · Stockage local sur cet appareil</p>
+            <button class="progress-reset" type="button" id="progress-reset">Réinitialiser ma progression</button>
+          </div>
+          <div class="progress-panel">
+            <div class="progress-topline"><span>AVANCEMENT DE L'ENCYCLOPÉDIE</span><strong id="progress-percent">0 %</strong></div>
+            <div class="progress-track" id="progress-bar" role="progressbar" aria-label="Chapitres lus" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0"><span id="progress-fill"></span></div>
+            <div class="progress-count"><strong id="progress-read">0</strong><span>chapitre(s) lu(s) sur 25</span></div>
+            <div class="progress-metrics">
+              <div><strong id="progress-quiz">0</strong><span>réussites aux quiz</span></div>
+              <div><strong id="progress-concepts">0</strong><span>notions consultées</span></div>
+            </div>
+            <p class="progress-footnote" id="progress-message" aria-live="polite">Votre parcours commencera dès que vous marquerez un chapitre comme lu.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section catalog" id="encyclopedie">
+        <div class="container">
+          <div class="eyebrow">Bibliothèque du savoir</div>
+          <h2>Une progression sans raccourcis.</h2>
+          <p class="sub">Les chapitres 1, 2 et 3 proposent déjà des cours approfondis : explications pas à pas, exemples, schémas, simulations et quiz corrigés. Les 22 autres fiches sont présentées en synthèse et seront enrichies progressivement.</p>
+          <div class="toolbar">
+            <input id="search" class="search" type="search" aria-label="Rechercher dans les chapitres" placeholder="Rechercher un sujet, une notion…">
+            <div id="filters" role="group" aria-label="Filtrer les chapitres par partie"></div>
+          </div>
+          <p id="search-status" class="search-status" role="status" aria-live="polite">25 chapitres au programme</p>
+          <div id="cards" class="cards"></div>
+        </div>
+      </section>
+
+      
+      <section class="section market-lab-section" id="market-lab">
+        <div class="container">
+          <div class="eyebrow">Comprendre la microstructure</div>
+          <h2>Un ordre. Un carnet. Un prix d'exécution.</h2>
+          <p class="sub">Un marché ne se résume pas au dernier prix affiché. Le carnet d'ordres montre des quantités proposées à différents niveaux. Modifiez le sens et la taille d'un ordre pour voir comment il consomme la liquidité disponible.</p>
+
+          <div class="market-lab">
+            <div class="market-lab-heading">
+              <div><span class="market-tag">SIMULATION PÉDAGOGIQUE · DONNÉES FICTIVES</span><h3>Explorer un carnet d'ordres</h3></div>
+              <span class="market-live-indicator"><i></i> Marché simulé</span>
+            </div>
+
+            <div class="market-overview">
+              <div><span>Meilleur achat · Bid</span><strong id="market-best-bid">99,98 €</strong></div>
+              <div><span>Spread</span><strong id="market-spread">0,04 €</strong></div>
+              <div><span>Meilleure vente · Ask</span><strong id="market-best-ask">100,02 €</strong></div>
+            </div>
+
+            <div class="market-workspace">
+              <div class="market-book">
+                <div class="market-book-head"><strong>Carnet d'ordres</strong><span>Prix fictifs en EUR · Quantités en unités</span></div>
+                <div class="market-book-labels"><span>Vendeurs · ASK</span><span>Prix</span><span>Quantité</span></div>
+                <div id="market-asks" class="market-book-levels asks" aria-label="Niveaux vendeurs du carnet d'ordres"></div>
+                <div class="market-mid-price"><span>Prix médian indicatif</span><strong id="market-mid">100,00 €</strong></div>
+                <div class="market-book-labels"><span>Acheteurs · BID</span><span>Prix</span><span>Quantité</span></div>
+                <div id="market-bids" class="market-book-levels bids" aria-label="Niveaux acheteurs du carnet d'ordres"></div>
+                <p class="market-book-note">Les barres illustrent les quantités disponibles. Les surbrillances indiquent les niveaux consommés par l'ordre simulé.</p>
+              </div>
+
+              <div class="market-order-panel">
+                <span class="market-panel-kicker">VOTRE ORDRE SIMULÉ</span>
+                <h3>Que souhaitez-vous faire ?</h3>
+                <div class="market-side-toggle" role="group" aria-label="Sens de l'ordre">
+                  <button type="button" data-market-side="buy" aria-pressed="true">Acheter au marché</button>
+                  <button type="button" data-market-side="sell" aria-pressed="false">Vendre au marché</button>
+                </div>
+                <label class="market-quantity-label" for="market-quantity">Quantité à exécuter <strong id="market-quantity-label">1,0 unité</strong></label>
+                <input id="market-quantity" type="range" min="0.1" max="8" step="0.1" value="1" aria-label="Quantité de l'ordre simulé">
+                <div class="market-range-ends"><span>0,1 unité</span><span>8 unités</span></div>
+
+                <div class="market-execution" aria-live="polite" aria-atomic="true">
+                  <span class="market-panel-kicker">RÉSULTAT ESTIMÉ</span>
+                  <div class="market-execution-main"><span>Prix moyen d'exécution</span><strong id="market-average">100,02 €</strong></div>
+                  <div class="market-result-row"><span>Valeur de l'ordre</span><strong id="market-notional">100,02 €</strong></div>
+                  <div class="market-result-row"><span>Slippage estimé</span><strong id="market-slippage">0,000 %</strong></div>
+                  <div class="market-result-row"><span>Quantité exécutée</span><strong id="market-filled">1,0 unité</strong></div>
+                  <p id="market-explanation" class="market-explanation">À cette taille, l'ordre consomme uniquement le premier niveau vendeur.</p>
+                </div>
+              </div>
+            </div>
+            <div class="market-learning-note">
+              <strong>Ce qu'il faut observer</strong>
+              <p>Un ordre au marché privilégie l'exécution, pas la garantie d'un prix précis. Plus il traverse de niveaux du carnet, plus son prix moyen peut s'écarter du meilleur prix affiché : c'est le slippage. Un carnet réel évolue en permanence et peut être annulé ou modifié par ses participants.</p>
+            </div>
+          </div>
+          <p class="market-disclaimer">Cette expérience utilise un carnet fictif et statique. Elle n'est connectée à aucune plateforme et ne constitue ni un signal, ni une recommandation d'achat ou de vente.</p>
+        </div>
+      </section>
+
+      <section class="section" id="laboratoire">
+        <div class="container lab">
+          <div>
+            <div class="eyebrow">Expérimenter pour comprendre</div>
+            <h2>Le laboratoire Bitcoin.</h2>
+            <p class="sub">Explorez les transactions UTXO, les empreintes, les arbres de Merkle et la preuve de travail à travers des démonstrations interactives.</p>
+            <p>Les simulations simplifient volontairement certains paramètres et ne remplacent pas un nœud Bitcoin réel.</p>
+            <a class="cta" href="laboratoire-bitcoin.html">Ouvrir le laboratoire complet ↗</a>
+          </div>
+          <div class="lab-card" aria-hidden="true">
+            <div class="coin">₿</div>
+            <p style="text-align:center;color:#c9bba8">Cryptographie · Consensus · Vérification</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section catalog" id="methode">
+        <div class="container">
+          <div class="eyebrow">Notre engagement</div>
+          <h2>La clarté, sans sacrifier la vérité.</h2>
+          <div class="cards">
+            <div class="chapter"><div class="index">I.</div><h3>Des sources traçables</h3><p>Documentation des protocoles et sources officielles privilégiées. Les affirmations susceptibles d'évoluer doivent être datées.</p></div>
+            <div class="chapter"><div class="index">II.</div><h3>Des limites explicites</h3><p>Les simulations, hypothèses et incertitudes sont signalées. Aucun rendement n'est présenté comme garanti.</p></div>
+            <div class="chapter"><div class="index">III.</div><h3>Un apprentissage actif</h3><p>Analogies, schémas, exemples et questions de vérification pour construire une compréhension durable.</p></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <article id="reader" class="reader">
+      <div class="reader-head">
+        <div class="container">
+          <a href="#encyclopedie" id="back" class="eyebrow">← Retour à l'encyclopédie</a>
+          <p id="reader-part" class="eyebrow"></p>
+          <h1 id="reader-title" tabindex="-1"></h1>
+          <p id="reader-lead" class="sub"></p>
+        </div>
+      </div>
+      <div class="container reader-grid">
+        <aside class="side" id="lesson-nav"><strong>Dans cette fiche</strong></aside>
+        <div class="prose">
+          <div id="lesson-meta" class="lesson-meta"></div>
+          <div class="reader-progress-control"><button type="button" id="mark-read" aria-pressed="false">Marquer cette fiche comme lue</button><span id="chapter-read-feedback" role="status" aria-live="polite"></span></div>
+          <div id="lesson-content"></div>
+          <div class="actions">
+            <button class="cta" id="next">Fiche suivante →</button>
+            <a class="pill" href="#encyclopedie">Tous les chapitres</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span>© Atlas Crypto · Une ressource éducative indépendante</span>
+      <span>Contenu pédagogique, pas un conseil en investissement · Mise à jour novembre 2026</span>
+    </div>
+  </footer>
+  <script src="data.js"></script>
+  <script src="lessons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
