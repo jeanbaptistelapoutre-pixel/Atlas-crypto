@@ -1,0 +1,154 @@
+(() => {
+  'use strict';
+  const MONEY_SCALE = 1000000n;
+  const ASSET_SCALE = 100000000n;
+  const PRICE_SCALE = 100000000n;
+  const pow10 = (digits) => 10n ** BigInt(digits);
+
+  function parseUnits(value, scaleDigits, {allowZero=false}={}) {
+    const text = String(value ?? '').trim().replace(',', '.');
+    if (!/^\d+(?:\.\d+)?$/.test(text)) throw new Error('Saisissez un nombre valide.');
+    const [whole, fraction=''] = text.split('.');
+    if (fraction.length > scaleDigits) throw new Error('Nombre de décimales trop élevé.');
+    const scale = pow10(scaleDigits);
+    const units = BigInt(whole) * scale + BigInt((fraction + '0'.repeat(scaleDigits)).slice(0,scaleDigits) || '0');
+    if (!allowZero && units <= 0n) throw new Error('Le montant doit être supérieur à zéro.');
+    return units;
+  }
+  function unitsToString(units, scaleDigits, maxDigits=scaleDigits) {
+    let value = BigInt(units);
+    const negative = value < 0n;
+    if (negative) value = -value;
+    const scale = pow10(scaleDigits);
+    const whole = value / scale;
+    let fraction = (value % scale).toString().padStart(scaleDigits,'0').slice(0,maxDigits).replace(/0+$/,'');
+    return (negative?'-':'') + whole.toString() + (fraction ? '.' + fraction : '');
+  }
+  function notionalMicro(quantityUnits, priceUnits) {
+    return (BigInt(quantityUnits) * BigInt(priceUnits) * MONEY_SCALE) / (ASSET_SCALE * PRICE_SCALE);
+  }
+  function quantityUnits(grossMicro, priceUnits) {
+    return (BigInt(grossMicro) * ASSET_SCALE * PRICE_SCALE) / (MONEY_SCALE * BigInt(priceUnits));
+  }
+  function feeMicro(grossMicro, feeBps) {
+    return (BigInt(grossMicro) * BigInt(feeBps)) / 10000n;
+  }
+  function safePortfolio(portfolio) {
+    if (!portfolio || portfolio.schemaVersion !== 1 || !Array.isArray(portfolio.transactions) || !portfolio.assets || typeof portfolio.assets !== 'object') return false;
+    if (!/^\d+$/.test(String(portfolio.cashMicro)) || !/^\d+$/.test(String(portfolio.initialCapitalMicro))) return false;
+    for (const [symbol, holding] of Object.entries(portfolio.assets)) {
+      if (!/^[A-Z0-9]{2,15}$/.test(symbol) || !/^\d+$/.test(String(holding.quantityUnits)) || !/^\d+$/.test(String(holding.costBasisMicro))) return false;
+    }
+    return true;
+  }
+  function createPortfolio(initialCapital) {
+    const cash = parseUnits(initialCapital,6);
+    if (cash < 100000000n || cash > 100000000000000n) throw new Error('Le capital doit être compris entre 100 et 100 000 000 USDC.');
+    return {
+      schemaVersion:1,
+      createdAt:new Date().toISOString(),
+      initialCapitalMicro:cash.toString(),
+      cashMicro:cash.toString(),
+      realizedPnlMicro:'0',
+      totalFeesMicro:'0',
+      feeBps:10,
+      assets:{},
+      transactions:[]
+    };
+  }
+  function previewBuy(portfolio, symbol, grossInput, priceInput) {
+    const grossInputMicro = parseUnits(grossInput,6);
+    const price = parseUnits(priceInput,8);
+    const qty = quantityUnits(grossInputMicro,price);
+    if(qty<=0n)throw new Error('Le montant est trop faible pour obtenir une quantité négociable.');
+    const gross = notionalMicro(qty,price);
+    const fee = feeMicro(gross,portfolio.feeBps);
+    const total = gross+fee;
+    if(total>BigInt(portfolio.cashMicro))throw new Error('Solde USDC insuffisant pour couvrir le montant et les frais.');
+    return {symbol,side:'buy',priceUnits:price.toString(),quantityUnits:qty.toString(),grossMicro:gross.toString(),feeMicro:fee.toString(),netMicro:total.toString()};
+  }
+  function previewSell(portfolio, symbol, quantityInput, priceInput) {
+    const quantity = parseUnits(quantityInput,8);
+    const price = parseUnits(priceInput,8);
+    const holding = portfolio.assets[symbol];
+    if(!holding || quantity>BigInt(holding.quantityUnits))throw new Error('La quantité dépasse les actifs disponibles.');
+    const gross = notionalMicro(quantity,price);
+    const fee = feeMicro(gross,portfolio.feeBps);
+    const net = gross-fee;
+    if(net<0n)throw new Error('Les frais dépassent le produit de vente.');
+    return {symbol,side:'sell',priceUnits:price.toString(),quantityUnits:quantity.toString(),grossMicro:gross.toString(),feeMicro:fee.toString(),netMicro:net.toString()};
+  }
+  function applyTrade(portfolio, preview, metadata={}) {
+    const next = structuredClone(portfolio);
+    const symbol = preview.symbol;
+    const qty = BigInt(preview.quantityUnits);
+    const gross = BigInt(preview.grossMicro);
+    const fee = BigInt(preview.feeMicro);
+    const net = BigInt(preview.netMicro);
+    const price = BigInt(preview.priceUnits);
+    const current = next.assets[symbol] || {quantityUnits:'0',costBasisMicro:'0'};
+    let realized = 0n;
+    if(preview.side==='buy') {
+      const cashAfter = BigInt(next.cashMicro)-net;
+      if(cashAfter<0n)throw new Error('Solde insuffisant : opération annulée.');
+      current.quantityUnits=(BigInt(current.quantityUnits)+qty).toString();
+      current.costBasisMicro=(BigInt(current.costBasisMicro)+gross+fee).toString();
+      next.cashMicro=cashAfter.toString();
+    } else if(preview.side==='sell') {
+      const held = BigInt(current.quantityUnits);
+      if(qty<=0n||qty>held)throw new Error('Quantité disponible insuffisante : opération annulée.');
+      const cost = BigInt(current.costBasisMicro);
+      const costAllocated = qty===held ? cost : (cost*qty)/held;
+      current.quantityUnits=(held-qty).toString();
+      current.costBasisMicro=(cost-costAllocated).toString();
+      next.cashMicro=(BigInt(next.cashMicro)+net).toString();
+      realized=net-costAllocated;
+      next.realizedPnlMicro=(BigInt(next.realizedPnlMicro)+realized).toString();
+      if(BigInt(current.quantityUnits)===0n)delete next.assets[symbol];
+      else next.assets[symbol]=current;
+    } else {
+      throw new Error('Type d’opération inconnu.');
+    }
+    next.totalFeesMicro=(BigInt(next.totalFeesMicro)+fee).toString();
+    const transaction = {
+      id:(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():'tx-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),
+      timestamp:new Date().toISOString(),
+      symbol,side:preview.side,
+      price:unitsToString(price,8,8),
+      quantity:unitsToString(qty,8,8),
+      grossMicro:gross.toString(),
+      feeMicro:fee.toString(),
+      netMicro:net.toString(),
+      realizedPnlMicro:realized.toString(),
+      source:metadata.source||'Binance Spot'
+    };
+    next.transactions.unshift(transaction);
+    return {portfolio:next,transaction};
+  }
+  function valuePortfolio(portfolio, prices) {
+    const positions = [];
+    let marketValue=0n;
+    let unrealized=0n;
+    let complete=true;
+    for(const [symbol,holding] of Object.entries(portfolio.assets)){
+      const mark=prices[symbol]?.price;
+      if(!mark){complete=false;positions.push({symbol,quantityUnits:holding.quantityUnits,costBasisMicro:holding.costBasisMicro,missingPrice:true});continue;}
+      const price=parseUnits(mark,8);
+      const value=notionalMicro(BigInt(holding.quantityUnits),price);
+      const cost=BigInt(holding.costBasisMicro);
+      const pnl=value-cost;
+      marketValue+=value;unrealized+=pnl;
+      positions.push({symbol,quantityUnits:holding.quantityUnits,costBasisMicro:holding.costBasisMicro,priceUnits:price.toString(),marketValueMicro:value.toString(),unrealizedPnlMicro:pnl.toString(),missingPrice:false});
+    }
+    const cash=BigInt(portfolio.cashMicro);
+    const totalValue=complete?cash+marketValue:null;
+    const totalPnl=complete?totalValue-BigInt(portfolio.initialCapitalMicro):null;
+    return {positions,marketValueMicro:marketValue.toString(),cashMicro:cash.toString(),totalValueMicro:totalValue?.toString()??null,realizedPnlMicro:portfolio.realizedPnlMicro,unrealizedPnlMicro:unrealized.toString(),totalPnlMicro:totalPnl?.toString()??null,complete};
+  }
+  function setFeeBps(portfolio, value) {
+    const percent=parseUnits(value,2,{allowZero:true});
+    if(percent>200n)throw new Error('La commission doit être comprise entre 0 et 2 %.');
+    return {...portfolio,feeBps:Number(percent)};
+  }
+  window.AtlasPortfolioEngine={MONEY_SCALE,ASSET_SCALE,PRICE_SCALE,parseUnits,unitsToString,notionalMicro,quantityUnits,feeMicro,createPortfolio,previewBuy,previewSell,applyTrade,valuePortfolio,setFeeBps,safePortfolio};
+})();
