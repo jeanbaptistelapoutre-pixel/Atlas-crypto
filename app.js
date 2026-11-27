@@ -220,6 +220,23 @@ function atlasGlossaryEntries(chapterNumber, root){
       'Capitalisation boursière (market cap)':["capitalisation","capitalisations","capitalisation boursière","capitalisations boursières","market cap","market capitalization"]
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
+  } else if(chapterNumber===12){
+    const aliases={
+      'Chandelier japonais':['chandelier japonais','chandeliers japonais','bougie japonaise','bougies japonaises','candlestick','candlesticks'],
+      'OHLC':['OHLC','open high low close'],
+      'Ouverture (Open)':['ouverture','open','prix d’ouverture','prix d’ouverture de la période'],
+      'Plus haut (High)':['plus haut','high','prix le plus haut','maximum de la période'],
+      'Plus bas (Low)':['plus bas','low','prix le plus bas','minimum de la période'],
+      'Clôture (Close)':['clôture','close','prix de clôture'],
+      'Corps du chandelier':['corps du chandelier','corps de la bougie','corps'],
+      'Mèche (ombre)':['mèche','mèches','ombre','ombres','wick','wicks'],
+      'Bougie haussière':['bougie haussière','bougies haussières','chandelier haussier','chandeliers haussiers'],
+      'Bougie baissière':['bougie baissière','bougies baissières','chandelier baissier','chandeliers baissiers'],
+      'Unité de temps (timeframe)':['unité de temps','unités de temps','timeframe','timeframes','intervalle temporel'],
+      'Volume échangé':['volume','volumes','volume échangé','volumes échangés','trading volume'],
+      'Histogramme de volume':['histogramme de volume','barres de volume','volume histogram']
+    };
+    entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
   }
   return entries;
 }
@@ -459,6 +476,7 @@ function initLessonInteractions(chapterNumber){
   }
   initBlockchainLessonInteractions(chapterNumber);
   window.initMarketsLessonInteractions?.(chapterNumber);
+  window.initCandlesLessonInteractions?.(chapterNumber);
 }
 async function atlasSha256Bytes(bytes){
   const digest=await window.crypto.subtle.digest('SHA-256',bytes);
