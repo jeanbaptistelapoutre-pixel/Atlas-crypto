@@ -136,7 +136,7 @@ Object.assign(window.ATLAS_LESSONS, {
     <article><span>VALEUR</span><b>Quel montant d’ETH ?</b><p>La quantité d’ether éventuellement transférée avec l’opération.</p></article>
     <article><span>DONNÉES</span><b>Quelle instruction ?</b><p>Des données qui peuvent préciser la fonction et les paramètres à transmettre au contrat.</p></article>
     <article><span>GAS</span><b>Quel budget de calcul ?</b><p>La limite de ressources que l’expéditeur accepte de mobiliser pour l’exécution.</p></article>
-    <article><span>NONCE</span><b>Quel ordre ?</b><p>Un compteur qui empêche qu’une même séquence de transactions signées soit rejouée dans le désordre.</p></article>
+    <article><span>NONCE</span><b>Quel ordre ?</b><p>Un compteur propre au compte qui impose un ordre aux transactions successives et empêche la réutilisation d’un même nonce.</p></article>
   </div>
   <h3>Appeler un contrat ou simplement lire une information ?</h3>
   <p>Il faut distinguer une opération qui modifie l’état et une simple lecture. Par exemple, afficher le nombre de places restantes peut se faire par une lecture simulée de la fonction du contrat. Réserver une place modifie l’état partagé : il faut alors envoyer une transaction, qui sera signée, diffusée et exécutée par le réseau.</p>
@@ -170,7 +170,7 @@ Object.assign(window.ATLAS_LESSONS, {
       <label for="e6-base-fee">Frais de base (gwei)<input id="e6-base-fee" type="number" min="0" max="1000" step="0.1" value="20" inputmode="decimal"></label>
       <label for="e6-priority-fee">Frais de priorité (gwei)<input id="e6-priority-fee" type="number" min="0" max="100" step="0.1" value="2" inputmode="decimal"></label>
     </div>
-    <div class="e6-fee-results"><div><span>Prix total par gas</span><b id="e6-total-price">22 gwei</b><small>Base fee + priority fee</small></div><div class="e6-fee-total"><span>Frais estimés</span><b id="e6-total-cost">0,0011 ETH</b><small id="e6-total-cost-eur">Soit 1 100 000 gwei</small></div></div>
+    <div class="e6-fee-results"><div><span>Prix total par gas</span><b id="e6-total-price">22 gwei</b><small>Base fee + priority fee</small></div><div class="e6-fee-total"><span>Frais estimés</span><b id="e6-total-cost">0,0011 ETH</b><small id="e6-total-cost-gwei">Soit 1 100 000 gwei</small></div></div>
     <div class="e6-fee-breakdown"><div><span>Frais de base brûlés</span><b id="e6-burned">0,001 ETH</b></div><div><span>Frais de priorité au validateur</span><b id="e6-tip">0,0001 ETH</b></div></div>
     <p class="e6-fee-status" id="e6-fee-status" role="status">Simulation : 50 000 gas × 22 gwei = 0,0011 ETH.</p>
     <button type="button" id="e6-fee-reset" class="e6-reset">Réinitialiser</button>
