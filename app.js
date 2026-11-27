@@ -89,7 +89,7 @@ function atlasTermPattern(value){
     .replace(/'/g,"['’‘`´]");
 }
 function atlasGlossaryEntries(chapterNumber, root){
-  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':null;
+  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':chapterNumber>=11&&chapterNumber<=20?'#m'+chapterNumber+'-glossaire .market-glossary':null;
   const glossary=root.querySelector(selector);
   if(!glossary)return [];
   const entries=[...glossary.querySelectorAll('details')].map((detail,index)=>({
@@ -166,7 +166,7 @@ function atlasGlossaryEntries(chapterNumber, root){
     };
     const extraAliases={
       'Bloc':['bloc','blocs'],
-      'Empreinte cryptographique (hash)':['empreinte cryptographique','empreintes cryptographiques','hash','hashes'],
+      'Empreinte cryptographique (hash)':['empreinte cryptographique','empreintes cryptographiques','empreinte de son en-tête','empreinte de l’en-tête','empreinte du bloc','hash','hashes'],
       'Sortie de transaction':['sortie de transaction','sorties de transaction'],
       'Mempool (réserve de transactions en attente)':['mempool','réserve de transactions en attente'],
       'Transaction de génération (coinbase)':['transaction de génération','transactions de génération','coinbase','coinbase transaction'],
@@ -206,6 +206,20 @@ function atlasGlossaryEntries(chapterNumber, root){
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
     entries.forEach(entry=>{if(!entry.aliases.length){entry.aliases=[entry.label];if(!/[s)]$/i.test(entry.label))entry.aliases.push(entry.label+'s');}});
+  } else if(chapterNumber===11){
+    const aliases={
+      'Carnet d’ordres (order book)':["carnet d’ordres","carnet d'ordres","carnet d ordres","order book","carnets d’ordres"],
+      'Bid':['bid','bids','meilleur bid','meilleurs bids'],
+      'Ask':['ask','asks','meilleur ask','meilleurs asks'],
+      'Spread':['spread','spreads','écart bid-ask','écart acheteur-vendeur'],
+      'Liquidité':['liquidité'],
+      'Profondeur (depth)':['profondeur','profondeurs','depth','profondeur du carnet','profondeur cumulée'],
+      'Slippage':['slippage','slippages'],
+      'Ordre au marché (market order)':["ordre au marché","ordres au marché","market order","market orders"],
+      'Ordre limite (limit order)':["ordre limite","ordres limites","ordre à cours limité","ordres à cours limité","limit order","limit orders"],
+      'Capitalisation boursière (market cap)':["capitalisation","capitalisations","capitalisation boursière","capitalisations boursières","market cap","market capitalization"]
+    };
+    entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
   }
   return entries;
 }
@@ -233,7 +247,7 @@ function atlasDecorateTerms(chapterNumber, root){
   });
   if(!patternParts.length)return;
   const expression=new RegExp(`(?<![\\p{L}\\p{N}_])(?:${patternParts.join('|')})(?![\\p{L}\\p{N}_])`,'giu');
-  const excluded='a,button,summary,script,style,code,pre,textarea,input,select,option,.glossary-list,.btc-glossary,.quiz-question,.quiz-options,.quiz-suite,.btc-quiz-set,.atlas-term,svg';
+  const excluded='a,button,summary,script,style,code,pre,textarea,input,select,option,.glossary-list,.btc-glossary,.market-glossary,.quiz-question,.quiz-options,.quiz-suite,.btc-quiz-set,.atlas-term,svg';
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
     acceptNode(node){
       if(!node.nodeValue||!node.nodeValue.trim())return NodeFilter.FILTER_REJECT;
@@ -444,6 +458,7 @@ function initLessonInteractions(chapterNumber){
     halving.addEventListener('input',updateHalving);updateHalving();
   }
   initBlockchainLessonInteractions(chapterNumber);
+  window.initMarketsLessonInteractions?.(chapterNumber);
 }
 async function atlasSha256Bytes(bytes){
   const digest=await window.crypto.subtle.digest('SHA-256',bytes);
