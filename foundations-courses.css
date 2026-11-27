@@ -2136,3 +2136,16 @@
 }
 #lesson-content #ch3-glossaire .btc-glossary details p{color:#d1c2ad!important}
 #lesson-content #ch3-retenir .ch3-takeaways article>span{color:var(--fc-blue-deep)}
+
+/* Glossary parity with the shared Chapter 1 / Chapter 2 glossary components
+   defined in market-courses.css (same dark surface, term and definition colors). */
+#lesson-content #ch3-glossaire .btc-glossary details{
+  background:#1d1914;
+  border-color:#55432e;
+}
+#lesson-content #ch3-glossaire .btc-glossary summary{color:#ecd09b}
+#lesson-content #ch3-glossaire .btc-glossary details[open]{
+  background:#1d1914;
+  border-color:#816541;
+}
+#lesson-content #ch3-glossaire .btc-glossary details p{color:#c8baa8!important}
