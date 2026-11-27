@@ -761,13 +761,13 @@ function atlasInitMarketLab(){
     $('#market-notional').textContent=fmtPrice(execution.notional);
     $('#market-slippage').textContent=slippage.toLocaleString('fr-FR',{minimumFractionDigits:3,maximumFractionDigits:3})+' %';
     $('#market-filled').textContent=fmtQty(execution.filled)+' / '+fmtQty(quantity)+' unités';
-    const direction=buy?'achat':'vente';
+    const ordreLabel=buy?'d’achat':'de vente';
     const depth=execution.levelsTouched;
     let message='';
     if(execution.remaining>0)message='La profondeur disponible ne suffit pas à exécuter toute la quantité demandée dans ce carnet fictif.';
     else if(depth===1)message='À cette taille, ton ordre consomme uniquement le meilleur niveau du côté '+(buy?'vendeur':'acheteur')+'.';
     else message='Ton ordre traverse '+depth+' niveaux de prix. Le prix moyen s’éloigne du meilleur prix affiché : c’est le slippage.';
-    $('#market-explanation').textContent='Pour ton ordre d’'+direction+', '+message;
+    $('#market-explanation').textContent='Pour ton ordre '+ordreLabel+', '+message;
     document.querySelectorAll('[data-market-side]').forEach(button=>{
       const selected=button.dataset.marketSide===side;
       button.setAttribute('aria-pressed',String(selected));
