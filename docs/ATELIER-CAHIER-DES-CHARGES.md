@@ -116,10 +116,13 @@ La page d'accueil de l'Atelier présente sa promesse, les quatre modules, l'éta
 
 ### 4.6 Performance et track record
 - Distinguer performance du portefeuille, P&L réalisé, P&L latent et frais cumulés.
-- Ne pas calculer ou afficher une courbe historique comme si elle était complète si les cours historiques ne sont pas disponibles.
-- Le fournisseur retenu doit permettre soit de reconstruire une valorisation historique à partir des transactions et des prix historiques, soit d'indiquer honnêtement les limites d'un historique fondé sur des relevés enregistrés pendant les visites.
-- Le drawdown maximal et les comparaisons BTC/ETH ne sont activés que lorsque la série temporelle est assez fiable.
-- Toute comparaison avec BTC ou ETH doit utiliser une hypothèse explicite (par exemple achat-conservation à la date de création du portefeuille), pas un benchmark implicite.
+- Le track record est reconstruit à partir du journal immuable des transactions : les mouvements de cash et de quantités sont rejoués chronologiquement, puis valorisés à chaque clôture journalière UTC.
+- Les clôtures journalières Binance Spot sont utilisées comme prix de référence historique ; la journée UTC en cours n'est pas affichée tant que sa clôture n'est pas terminée.
+- La première version conserve au maximum 1 000 clôtures journalières, avec un cache local versionné. Le graphique propose 7 jours, 30 jours, 90 jours et toute la période disponible.
+- Le rendement affiché est calculé entre le premier et le dernier point de la période sélectionnée. Le drawdown maximal est calculé sur cette même période affichée.
+- Les jours où un prix nécessaire est manquant ne doivent pas être présentés comme des valorisations complètes ; les erreurs ou historiques partiels restent visibles à l'utilisateur.
+- Les points de suivi sont indépendants de la présence du visiteur sur le site : les clôtures historiques permettent de reconstruire les journées passées à partir des transactions enregistrées.
+- Les comparaisons BTC/ETH ne sont pas encore intégrées. Toute future comparaison devra utiliser une hypothèse explicite (par exemple achat-conservation à la date de création du portefeuille), pas un benchmark implicite.
 
 ## 5. Données, stockage et confidentialité
 
@@ -171,9 +174,11 @@ L'adaptateur `market-data.js` doit exposer une interface stable et gérer les er
 - Sauvegarde locale, export/import, contrôles et messages d'état.
 
 **Phase 2 — Performance**
-- Série de valorisation fondée sur des données historiques fiables.
-- Graphique, drawdown et benchmark documenté.
-- Export du track record.
+- [x] Reconstruction d'une série journalière à partir des transactions et des clôtures Binance Spot.
+- [x] Graphique avec plages 7J / 30J / 90J / Tout et drawdown maximal sur la plage affichée.
+- [x] Cache local des chandeliers, récupération incrémentale et état explicite en cas d'historique incomplet.
+- [ ] Benchmark documenté BTC/ETH.
+- [ ] Export du track record.
 
 **Phase 3 — Journal de trading**
 - Enregistrement manuel des trades, contexte, plan, risque initial, captures et analyse statistique.
