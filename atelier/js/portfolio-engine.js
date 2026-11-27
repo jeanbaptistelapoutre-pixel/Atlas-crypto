@@ -38,6 +38,7 @@
     const signed=value=>/^-?[0-9]+$/.test(String(value));
     const decimal=value=>/^[0-9]+([.][0-9]{1,8})?$/.test(String(value));
     if (!portfolio || portfolio.schemaVersion !== 1 || !Array.isArray(portfolio.transactions) || portfolio.transactions.length>10000 || !portfolio.assets || typeof portfolio.assets !== 'object' || Array.isArray(portfolio.assets)) return false;
+    if (typeof portfolio.createdAt!=='string' || !Number.isFinite(Date.parse(portfolio.createdAt))) return false;
     if (!unsigned(portfolio.cashMicro) || !unsigned(portfolio.initialCapitalMicro) || BigInt(portfolio.initialCapitalMicro)<=0n) return false;
     if (!signed(portfolio.realizedPnlMicro) || !unsigned(portfolio.totalFeesMicro) || !Number.isInteger(portfolio.feeBps) || portfolio.feeBps<0 || portfolio.feeBps>200) return false;
     for (const [symbol,holding] of Object.entries(portfolio.assets)) {
