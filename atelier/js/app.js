@@ -61,6 +61,10 @@
   function renderMode() {
     setupPanel.hidden = Boolean(portfolio);
     dashboard.hidden = !portfolio;
+    const storageIssue=store.getLoadIssue();
+    $('#storage-warning').hidden=!storageIssue;
+    $('#storage-warning-text').textContent=storageIssue||'';
+    $('#setup-form').hidden=Boolean(storageIssue);
     if (portfolio) renderDashboard();
   }
 
@@ -271,6 +275,11 @@
   // Initial setup / onboarding
   $('#setup-form').addEventListener('submit',event=>{
     event.preventDefault();
+    if(store.getLoadIssue()) {
+      $('#setup-error').textContent='Les anciennes données doivent d’abord être récupérées ou supprimées explicitement.';
+      return;
+    }
+    $('#setup-error').textContent='';
     try {
       portfolio=engine.createPortfolio($('#initial-capital').value);
       save();
@@ -342,6 +351,19 @@
   $('#export-json').addEventListener('click',exportJson);
   $('#export-csv').addEventListener('click',exportCsv);
   $('#import-json').addEventListener('click',()=>$('#import-file').click());
+  $('#setup-import-json').addEventListener('click',()=>$('#import-file').click());
+  $('#discard-corrupt-storage').addEventListener('click',()=>openConfirm(
+    'Supprimer les données illisibles ?',
+    'Les données actuellement enregistrées dans ce navigateur seront supprimées. Cette action ne peut pas les réparer. Vérifiez d’abord que vous ne disposez pas d’une sauvegarde à importer.',
+    ()=>{
+      try {
+        store.clear();
+        portfolio=null;
+        renderMode();
+        setMarketState(markets.length?'success':'loading','Les anciennes données locales ont été supprimées. Vous pouvez créer un nouveau portefeuille.');
+      } catch(error) { alert(error.message); }
+    }
+  ));
   $('#import-file').addEventListener('change',async event=>{
     const file=event.target.files?.[0];
     if(!file)return;
