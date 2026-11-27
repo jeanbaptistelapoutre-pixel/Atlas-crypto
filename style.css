@@ -272,3 +272,7 @@
   .path-card{padding:21px}
   .path-card h3{margin-top:17px}
 }
+
+@media(max-width:520px){
+  .top .container>.pill{display:none}
+}
