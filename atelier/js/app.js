@@ -168,7 +168,10 @@
     $('#trade-amount-unit').textContent=tradeSide==='buy'?'USDC':$('#trade-asset').value;
     $('#trade-balance-label').textContent=tradeSide==='buy'?'Solde disponible':'Quantité disponible';
     $('#preview-total-label').textContent=tradeSide==='buy'?'Total débité':'Net crédité';
-    $('#trade-submit').textContent=tradeSide==='buy'?'Confirmer l’achat simulé':'Confirmer la vente simulée';
+    const submit=$('#trade-submit');
+    submit.classList.toggle('buy-action',tradeSide==='buy');
+    submit.classList.toggle('sell-action',tradeSide==='sell');
+    submit.textContent=tradeSide==='buy'?'Confirmer l’achat simulé':'Confirmer la vente simulée';
     $('#trade-warning').textContent='Exécution simulée au dernier prix public reçu. Le spread et le slippage réels ne sont pas modélisés dans cette première version.';
     const symbol=$('#trade-asset').value;
     const holding=portfolio.assets[symbol];
