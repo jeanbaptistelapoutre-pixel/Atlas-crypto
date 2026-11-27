@@ -83,7 +83,7 @@ Object.assign(window.ATLAS_LESSONS, {
             <g fill="#e7d9c5" font-family="Arial,sans-serif" font-size="13"><text x="370" y="164">Point d’équilibre</text><text x="363" y="337">Quantité échangée</text><text x="25" y="22">Prix</text><text x="98" y="340" opacity=".7">Faible</text><text x="602" y="340" opacity=".7">Élevée</text></g>
             <text x="500" y="102" fill="#9cc5a4" font-family="Arial,sans-serif" font-size="15" font-weight="700">OFFRE</text>
             <text x="500" y="255" fill="#d6a77d" font-family="Arial,sans-serif" font-size="15" font-weight="700">DEMANDE</text>
-            <text x="65" y="180" text-anchor="end" fill="#e7c78d" font-family="Arial,sans-serif" font-size="12">Prix d’équilibre</text>
+
           </svg>
           <figcaption>Schéma pédagogique stylisé : il illustre un modèle économique, pas le carnet réel d’une plateforme crypto.</figcaption>
         </figure>
