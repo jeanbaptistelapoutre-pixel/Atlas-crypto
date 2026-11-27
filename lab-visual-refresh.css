@@ -369,3 +369,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
     max-width:100%;
   }
 }
+
+@media(max-width:360px){
+  nav .navlinks{display:none}
+}
