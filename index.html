@@ -30,7 +30,7 @@
       <nav id="primary-nav" aria-label="Navigation principale">
         <a href="#parcours">Parcours</a>
         <a href="#boussole">Boussole</a>
-        <a href="#market-lab">Marchés</a>
+        <a href="#chapitre-11">Marchés</a>
         <a href="#ma-progression">Progression</a>
         <a href="#encyclopedie">Encyclopédie</a>
         <a href="#laboratoire">Laboratoire Bitcoin</a>
@@ -56,7 +56,7 @@
       <div class="stats">
         <div><strong>05</strong><small>grandes parties</small></div>
         <div><strong>25</strong><small>chapitres au programme</small></div>
-        <div><strong>04</strong><small>cours approfondis disponibles</small></div>
+        <div><strong>05</strong><small>cours approfondis disponibles</small></div>
       </div>
 
       <section class="section paths" id="parcours" aria-labelledby="paths-title">
@@ -168,73 +168,13 @@
         <div class="container">
           <div class="eyebrow">Bibliothèque du savoir</div>
           <h2>Une progression sans raccourcis.</h2>
-          <p class="sub">Les chapitres 1, 2, 3 et 11 proposent déjà des cours approfondis : explications pas à pas, exemples, graphiques annotés, simulations et quiz corrigés. Les 21 autres fiches sont présentées en synthèse et seront enrichies progressivement.</p>
+          <p class="sub">Les chapitres 1, 2, 3, 11 et 12 proposent déjà des cours approfondis : explications pas à pas, exemples, graphiques annotés, simulations et quiz corrigés. Les 20 autres fiches sont présentées en synthèse et seront enrichies progressivement.</p>
           <div class="toolbar">
             <input id="search" class="search" type="search" aria-label="Rechercher dans les chapitres" placeholder="Rechercher un sujet, une notion…">
             <div id="filters" role="group" aria-label="Filtrer les chapitres par partie"></div>
           </div>
           <p id="search-status" class="search-status" role="status" aria-live="polite">25 chapitres au programme</p>
           <div id="cards" class="cards"></div>
-        </div>
-      </section>
-
-      
-      <section class="section market-lab-section" id="market-lab">
-        <div class="container">
-          <div class="eyebrow">Comprendre la microstructure</div>
-          <h2>Un ordre. Un carnet. Un prix d'exécution.</h2>
-          <p class="sub">Un marché ne se résume pas au dernier prix affiché. Le carnet d'ordres montre des quantités proposées à différents niveaux. Modifiez le sens et la taille d'un ordre pour voir comment il consomme la liquidité disponible.</p>
-
-          <div class="market-lab">
-            <div class="market-lab-heading">
-              <div><span class="market-tag">SIMULATION PÉDAGOGIQUE · DONNÉES FICTIVES</span><h3>Explorer un carnet d'ordres</h3></div>
-              <span class="market-live-indicator"><i></i> Marché simulé</span>
-            </div>
-
-            <div class="market-overview">
-              <div><span>Meilleur achat · Bid</span><strong id="market-best-bid">99,98 €</strong></div>
-              <div><span>Spread</span><strong id="market-spread">0,04 €</strong></div>
-              <div><span>Meilleure vente · Ask</span><strong id="market-best-ask">100,02 €</strong></div>
-            </div>
-
-            <div class="market-workspace">
-              <div class="market-book">
-                <div class="market-book-head"><strong>Carnet d'ordres</strong><span>Prix fictifs en EUR · Quantités en unités</span></div>
-                <div class="market-book-labels"><span>Vendeurs · ASK</span><span>Prix</span><span>Quantité</span></div>
-                <div id="market-asks" class="market-book-levels asks" aria-label="Niveaux vendeurs du carnet d'ordres"></div>
-                <div class="market-mid-price"><span>Prix médian indicatif</span><strong id="market-mid">100,00 €</strong></div>
-                <div class="market-book-labels"><span>Acheteurs · BID</span><span>Prix</span><span>Quantité</span></div>
-                <div id="market-bids" class="market-book-levels bids" aria-label="Niveaux acheteurs du carnet d'ordres"></div>
-                <p class="market-book-note">Les barres illustrent les quantités disponibles. Les surbrillances indiquent les niveaux consommés par l'ordre simulé.</p>
-              </div>
-
-              <div class="market-order-panel">
-                <span class="market-panel-kicker">VOTRE ORDRE SIMULÉ</span>
-                <h3>Que souhaitez-vous faire ?</h3>
-                <div class="market-side-toggle" role="group" aria-label="Sens de l'ordre">
-                  <button type="button" data-market-side="buy" aria-pressed="true">Acheter au marché</button>
-                  <button type="button" data-market-side="sell" aria-pressed="false">Vendre au marché</button>
-                </div>
-                <label class="market-quantity-label" for="market-quantity">Quantité à exécuter <strong id="market-quantity-label">1,0 unité</strong></label>
-                <input id="market-quantity" type="range" min="0.1" max="8" step="0.1" value="1" aria-label="Quantité de l'ordre simulé">
-                <div class="market-range-ends"><span>0,1 unité</span><span>8 unités</span></div>
-
-                <div class="market-execution" aria-live="polite" aria-atomic="true">
-                  <span class="market-panel-kicker">RÉSULTAT ESTIMÉ</span>
-                  <div class="market-execution-main"><span>Prix moyen d'exécution</span><strong id="market-average">100,02 €</strong></div>
-                  <div class="market-result-row"><span>Valeur de l'ordre</span><strong id="market-notional">100,02 €</strong></div>
-                  <div class="market-result-row"><span>Slippage estimé</span><strong id="market-slippage">0,000 %</strong></div>
-                  <div class="market-result-row"><span>Quantité exécutée</span><strong id="market-filled">1,0 unité</strong></div>
-                  <p id="market-explanation" class="market-explanation">À cette taille, l'ordre consomme uniquement le premier niveau vendeur.</p>
-                </div>
-              </div>
-            </div>
-            <div class="market-learning-note">
-              <strong>Ce qu'il faut observer</strong>
-              <p>Un ordre au marché privilégie l'exécution, pas la garantie d'un prix précis. Plus il traverse de niveaux du carnet, plus son prix moyen peut s'écarter du meilleur prix affiché : c'est le slippage. Un carnet réel évolue en permanence et peut être annulé ou modifié par ses participants.</p>
-            </div>
-          </div>
-          <p class="market-disclaimer">Cette expérience utilise un carnet fictif et statique. Elle n'est connectée à aucune plateforme et ne constitue ni un signal, ni une recommandation d'achat ou de vente.</p>
         </div>
       </section>
 
