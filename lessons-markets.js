@@ -73,16 +73,16 @@ Object.assign(window.ATLAS_LESSONS, {
           <svg class="m11-economics-chart" viewBox="0 0 720 390" role="img" aria-labelledby="m11-chart-title m11-chart-desc">
             <title id="m11-chart-title">Courbes conceptuelles d’offre et de demande</title>
             <desc id="m11-chart-desc">La courbe de demande descend lorsque la quantité augmente, la courbe d’offre monte. Leur intersection représente un prix et une quantité d’équilibre dans ce modèle simplifié.</desc>
-            <defs><pattern id="m11-grid" width="48" height="42" patternUnits="userSpaceOnUse"><path d="M48 0H0V42" fill="none" stroke="#5d4a32" stroke-width="1" opacity=".28"/></pattern></defs>
+            <defs><pattern id="m11-grid" width="48" height="42" patternUnits="userSpaceOnUse"><path d="M48 0H0V42" fill="none" stroke="#526174" stroke-width="1" opacity=".28"/></pattern></defs>
             <rect x="86" y="30" width="570" height="286" fill="url(#m11-grid)"/>
-            <path d="M86 30V316H656" fill="none" stroke="#cbb58f" stroke-width="2"/>
-            <path d="M122 62C220 92 352 180 575 286" fill="none" stroke="#d6a77d" stroke-width="4" stroke-linecap="round"/>
-            <path d="M122 286C254 245 382 151 575 62" fill="none" stroke="#9cc5a4" stroke-width="4" stroke-linecap="round"/>
-            <path d="M351 174V316M86 174H351" fill="none" stroke="#e7c78d" stroke-width="1.5" stroke-dasharray="6 6"/>
-            <circle cx="351" cy="174" r="7" fill="#f0d39b" stroke="#211910" stroke-width="3"/>
-            <g fill="#e7d9c5" font-family="Arial,sans-serif" font-size="13"><text x="370" y="164">Point d’équilibre</text><text x="363" y="337">Quantité échangée</text><text x="25" y="22">Prix</text><text x="98" y="340" opacity=".7">Faible</text><text x="602" y="340" opacity=".7">Élevée</text></g>
-            <text x="500" y="102" fill="#9cc5a4" font-family="Arial,sans-serif" font-size="15" font-weight="700">OFFRE</text>
-            <text x="500" y="255" fill="#d6a77d" font-family="Arial,sans-serif" font-size="15" font-weight="700">DEMANDE</text>
+            <path d="M86 30V316H656" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+            <path d="M122 62C220 92 352 180 575 286" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+            <path d="M122 286C254 245 382 151 575 62" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round"/>
+            <path d="M351 174V316M86 174H351" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6 6"/>
+            <circle cx="351" cy="174" r="7" fill="#38bdf8" stroke="#101923" stroke-width="3"/>
+            <g fill="#e2e8f0" font-family="Arial,sans-serif" font-size="13"><text x="370" y="164">Point d’équilibre</text><text x="363" y="337">Quantité échangée</text><text x="25" y="22">Prix</text><text x="98" y="340" opacity=".7">Faible</text><text x="602" y="340" opacity=".7">Élevée</text></g>
+            <text x="500" y="102" fill="#86efac" font-family="Arial,sans-serif" font-size="15" font-weight="700">OFFRE</text>
+            <text x="500" y="255" fill="#fca5a5" font-family="Arial,sans-serif" font-size="15" font-weight="700">DEMANDE</text>
 
           </svg>
           <figcaption>Schéma pédagogique stylisé : il illustre un modèle économique, pas le carnet réel d’une plateforme crypto.</figcaption>
