@@ -1,0 +1,222 @@
+/* Atlas Crypto — chapitre 6 : Ethereum et contrats intelligents. */
+#lesson-content .e6-start-note,
+#lesson-content .e6-compare article,
+#lesson-content .e6-account-card,
+#lesson-content .e6-tx-parts article,
+#lesson-content .e6-read-write article,
+#lesson-content .e6-risk-grid article,
+#lesson-content .e6-case-steps article,
+#lesson-content .e6-takeaways article{
+  border:1px solid #d5deea;border-radius:11px;background:#f8fafc;color:#172033;
+}
+#lesson-content .e6-start-note{margin:20px 0;padding:18px 20px;border-left:4px solid #4f46e5;background:#eef2ff}
+#lesson-content .e6-start-note>b{display:block;margin-bottom:6px;color:#3730a3;font-size:13px}
+#lesson-content .e6-start-note p{margin:0;color:#334155!important;font-size:13px!important;line-height:1.7!important}
+#lesson-content .e6-compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0}
+#lesson-content .e6-compare article{padding:18px;border-top:4px solid #2563eb}
+#lesson-content .e6-compare article:nth-child(2){border-top-color:#0f766e}
+#lesson-content .e6-compare article>span{display:block;color:#475569;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .e6-compare article>b{display:block;margin:9px 0;color:#172033;font-size:17px}
+#lesson-content .e6-compare article p{color:#475569!important;font-size:12px!important;line-height:1.65!important}
+#lesson-content .e6-compare article small{display:block;margin-top:12px;padding-top:10px;border-top:1px solid #dbe3ed;color:#334155;font-size:11px}
+#lesson-content .e6-state-flow{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) 24px minmax(0,1fr);gap:8px;align-items:center;margin:23px 0;padding:18px;border:1px solid #334155;border-radius:12px;background:#111c2c}
+#lesson-content .e6-state-flow>div{min-height:108px;display:grid;align-content:center;gap:7px;padding:14px;border:1px solid #64748b;border-radius:9px;background:#f8fafc;text-align:center}
+#lesson-content .e6-state-flow span{color:#475569;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .e6-state-flow b{color:#172033;font-size:13px}
+#lesson-content .e6-state-flow small{color:#536174;font-size:10px;line-height:1.5}
+#lesson-content .e6-state-flow>i{color:#a5b4fc;text-align:center;font-size:20px;font-style:normal;font-weight:800}
+#lesson-content .e6-state-flow .e6-state-result{border-color:#5eead4;background:#ecfdf5}
+#lesson-content .e6-state-result span{color:#0f766e}
+#lesson-content .e6-advanced{margin:16px 0;border:1px solid #cbd5e1;border-radius:9px;background:#f1f5f9}
+#lesson-content .e6-advanced summary{padding:13px 15px;color:#334155;font-size:12px;font-weight:800;cursor:pointer}
+#lesson-content .e6-advanced[open]{border-color:#a5b4fc;background:#eef2ff}
+#lesson-content .e6-advanced[open] summary{color:#3730a3;border-bottom:1px solid #c7d2fe}
+#lesson-content .e6-advanced-body{padding:12px 15px 14px}
+#lesson-content .e6-advanced-body p{margin:8px 0;color:#334155!important;font-size:12px!important;line-height:1.7!important}
+#lesson-content .e6-account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0}
+#lesson-content .e6-account-card{padding:18px;border-top:4px solid #2563eb}
+#lesson-content .e6-account-card.e6-contract-card{border-top-color:#0f766e}
+#lesson-content .e6-account-card>span{display:block;color:#475569;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .e6-account-card h3{margin:8px 0;color:#172033}
+#lesson-content .e6-account-card p,
+#lesson-content .e6-account-card li{color:#475569!important;font-size:12px!important;line-height:1.65!important}
+#lesson-content .e6-account-card ul{padding-left:18px;margin:10px 0}
+#lesson-content .e6-account-card small{display:block;padding-top:10px;border-top:1px solid #dbe3ed;color:#334155;font-size:10px}
+#lesson-content .e6-call-flow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;align-items:center;margin:20px 0}
+#lesson-content .e6-call-flow>div{min-height:82px;display:grid;align-content:center;gap:6px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;text-align:center}
+#lesson-content .e6-call-flow b{color:#172033;font-size:11px}
+#lesson-content .e6-call-flow small{color:#536174;font-size:9px;line-height:1.45}
+#lesson-content .e6-call-flow>span{color:#4f46e5;text-align:center;font-size:18px;font-weight:800}
+#lesson-content .e6-contract-example{margin:22px 0;padding:19px;border:1px solid #c7d2fe;border-radius:12px;background:#f8fafc}
+#lesson-content .e6-contract-title{display:grid;gap:5px;margin-bottom:16px}
+#lesson-content .e6-contract-title span{color:#4f46e5;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .e6-contract-title b{color:#172033;font-size:18px}
+#lesson-content .e6-contract-title small{color:#536174;font-size:11px}
+#lesson-content .e6-condition-grid{display:grid;grid-template-columns:minmax(0,1fr) 25px minmax(0,1fr);gap:9px}
+#lesson-content .e6-condition-grid>div{padding:14px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
+#lesson-content .e6-condition-grid>i{grid-column:2;grid-row:1 / span 2;align-self:center;color:#4f46e5;font-size:20px;font-style:normal;font-weight:800}
+#lesson-content .e6-condition-grid>div:first-child{grid-row:1}
+#lesson-content .e6-condition-grid .e6-condition-success{grid-column:3;grid-row:1;border-color:#99f6e4;background:#f0fdfa}
+#lesson-content .e6-condition-grid .e6-condition-fail{grid-column:1 / -1;grid-row:2;border-color:#fecaca;background:#fff7f7}
+#lesson-content .e6-condition-grid span{display:block;color:#4f46e5;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .e6-condition-grid .e6-condition-success span{color:#0f766e}
+#lesson-content .e6-condition-grid .e6-condition-fail span{color:#b91c1c}
+#lesson-content .e6-condition-grid b{display:block;margin:7px 0;color:#172033;font-size:13px}
+#lesson-content .e6-condition-grid p{margin:0;color:#475569!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .e6-contract-caption{margin:13px 0 0;color:#64748b!important;font-size:10px!important;line-height:1.6!important}
+#lesson-content .e6-deploy-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:22px 0}
+#lesson-content .e6-deploy-steps article{padding:15px;border:1px solid #d5deea;border-radius:9px;background:#f8fafc}
+#lesson-content .e6-deploy-steps article>span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#e0e7ff;color:#4338ca;font-size:10px;font-weight:800}
+#lesson-content .e6-deploy-steps b{display:block;margin:10px 0 6px;color:#172033;font-size:12px}
+#lesson-content .e6-deploy-steps p{margin:0;color:#475569!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .e6-evm-diagram{margin:23px 0;padding:19px;border:1px solid #334155;border-radius:12px;background:#111c2c}
+#lesson-content .e6-evm-input,#lesson-content .e6-evm-output{max-width:520px;margin:0 auto;padding:14px;border:1px solid #64748b;border-radius:8px;background:#f8fafc;text-align:center}
+#lesson-content .e6-evm-output{border-color:#5eead4;background:#ecfdf5}
+#lesson-content .e6-evm-input span,#lesson-content .e6-evm-output span{display:block;color:#475569;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .e6-evm-input b,#lesson-content .e6-evm-output b{display:block;margin:6px;color:#172033;font-size:14px}
+#lesson-content .e6-evm-input small,#lesson-content .e6-evm-output small{color:#536174;font-size:10px}
+#lesson-content .e6-evm-down{margin:8px 0;color:#a5b4fc;text-align:center;font-size:20px;font-weight:800}
+#lesson-content .e6-evm-nodes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:620px;margin:0 auto}
+#lesson-content .e6-evm-nodes article{padding:14px;border:1px solid #818cf8;border-radius:8px;background:#e0e7ff;text-align:center}
+#lesson-content .e6-evm-nodes span{display:block;color:#4338ca;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .e6-evm-nodes b{display:block;margin:6px;color:#312e81;font-size:16px}
+#lesson-content .e6-evm-nodes small{color:#4338ca;font-size:10px}
+#lesson-content .e6-three-layers{display:grid;grid-template-columns:minmax(0,1fr) 25px minmax(0,1fr) 25px minmax(0,1fr);gap:8px;align-items:center;margin:21px 0}
+#lesson-content .e6-three-layers article{padding:14px;border:1px solid #c7d2fe;border-radius:8px;background:#eef2ff}
+#lesson-content .e6-three-layers article b{color:#3730a3;font-size:12px}
+#lesson-content .e6-three-layers article p{margin:5px 0 0;color:#475569!important;font-size:11px!important}
+#lesson-content .e6-three-layers>span{color:#4f46e5;text-align:center;font-weight:800}
+#lesson-content .e6-tx-parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:22px 0}
+#lesson-content .e6-tx-parts article{padding:14px}
+#lesson-content .e6-tx-parts article>span{color:#4f46e5;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .e6-tx-parts b{display:block;margin:7px 0;color:#172033;font-size:13px}
+#lesson-content .e6-tx-parts p{margin:0;color:#475569!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .e6-read-write{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0}
+#lesson-content .e6-read-write article{padding:17px}
+#lesson-content .e6-read-write article>span{color:#0f766e;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .e6-read-write article:nth-child(2)>span{color:#4f46e5}
+#lesson-content .e6-read-write b{display:block;margin:8px 0;color:#172033;font-size:13px}
+#lesson-content .e6-read-write p{color:#475569!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .e6-read-write strong{display:block;padding-top:10px;border-top:1px solid #dbe3ed;color:#0f766e;font-size:10px}
+#lesson-content .e6-read-write article:nth-child(2) strong{color:#4338ca}
+#lesson-content .e6-gas-analogy{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;margin:22px 0}
+#lesson-content .e6-gas-analogy>div{padding:17px;border:1px solid #d5deea;border-radius:9px;background:#f8fafc}
+#lesson-content .e6-gas-analogy>div>span{color:#4f46e5;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .e6-gas-analogy b{display:block;margin:8px 0;color:#172033;font-size:14px}
+#lesson-content .e6-gas-analogy p{margin:0;color:#475569!important;font-size:11px!important;line-height:1.65!important}
+#lesson-content .e6-gas-analogy .e6-gas-formula{display:grid;align-content:center;gap:8px;background:#eef2ff;border-color:#c7d2fe;text-align:center}
+#lesson-content .e6-gas-formula strong{color:#312e81;font-size:17px}
+#lesson-content .e6-gas-formula small{color:#475569;font-size:10px;line-height:1.5}
+#lesson-content .e6-gas-terms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:20px 0}
+#lesson-content .e6-gas-terms article{padding:14px;border:1px solid #d5deea;border-radius:8px;background:#f8fafc}
+#lesson-content .e6-gas-terms b{display:block;color:#172033;font-size:12px}
+#lesson-content .e6-gas-terms p{margin:6px 0 0;color:#475569!important;font-size:11px!important;line-height:1.55!important}
+#lesson-content .e6-fee-lab{margin:24px 0;padding:22px;border:1px solid #334155;border-radius:12px;background:#111c2c;color:#e2e8f0}
+#lesson-content .e6-fee-head .lesson-kicker{color:#a5b4fc}
+#lesson-content .e6-fee-head h3{margin:8px 0;color:#f8fafc;font:22px/1.35 'Playfair Display',serif}
+#lesson-content .e6-fee-head p{color:#cbd5e1!important;font-size:12px!important}
+#lesson-content .e6-fee-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:19px 0}
+#lesson-content .e6-fee-controls label{display:grid;align-content:start;gap:7px;color:#cbd5e1;font-size:11px;font-weight:700}
+#lesson-content .e6-fee-controls input{width:100%;min-width:0;padding:10px;border:1px solid #475569;border-radius:7px;background:#172336;color:#f8fafc;font:inherit;font-size:13px}
+#lesson-content .e6-fee-controls small{color:#94a3b8;font-size:9px;font-weight:400;line-height:1.5}
+#lesson-content .e6-fee-controls input:focus-visible,#lesson-content .e6-reset:focus-visible{outline:3px solid #a5b4fc;outline-offset:2px}
+#lesson-content .e6-fee-results{display:grid;grid-template-columns:1fr 1.2fr;gap:10px}
+#lesson-content .e6-fee-results>div{padding:14px;border:1px solid #475569;border-radius:8px;background:#172336}
+#lesson-content .e6-fee-results span{display:block;color:#94a3b8;font-size:10px}
+#lesson-content .e6-fee-results b{display:block;margin:7px 0;color:#a5b4fc;font-size:19px}
+#lesson-content .e6-fee-total b{color:#5eead4;font-size:22px}
+#lesson-content .e6-fee-results small{color:#cbd5e1;font-size:10px}
+#lesson-content .e6-fee-breakdown{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+#lesson-content .e6-fee-breakdown>div{display:flex;justify-content:space-between;gap:8px;padding:12px;border:1px solid #334155;border-radius:7px;background:#152232}
+#lesson-content .e6-fee-breakdown span{color:#cbd5e1;font-size:10px}
+#lesson-content .e6-fee-breakdown b{color:#5eead4;font-size:12px;text-align:right}
+#lesson-content .e6-fee-breakdown>div:nth-child(2) b{color:#a5b4fc}
+#lesson-content .e6-fee-status{margin:12px 0;color:#a7f3d0!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .e6-fee-status.is-alert{color:#fecaca!important}
+#lesson-content .e6-reset{padding:9px 13px;border:1px solid #64748b;border-radius:7px;background:#172336;color:#e2e8f0;font-size:11px;cursor:pointer}
+#lesson-content .e6-reset:hover{border-color:#a5b4fc;color:#c7d2fe}
+#lesson-content .e6-footnote{margin:13px 0 0;color:#94a3b8!important;font-size:10px!important;line-height:1.6!important}
+#lesson-content .e6-fee-flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:20px 0}
+#lesson-content .e6-fee-flow article{padding:15px;border:1px solid #d5deea;border-radius:8px;background:#f8fafc}
+#lesson-content .e6-fee-flow article>span{color:#4f46e5;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .e6-fee-flow article>b{display:block;margin:7px 0;color:#172033;font-size:14px}
+#lesson-content .e6-fee-flow article p{margin:0;color:#475569!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .e6-risk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:22px 0}
+#lesson-content .e6-risk-grid article{padding:16px;border-top:3px solid #4f46e5}
+#lesson-content .e6-risk-grid article:nth-child(2){border-top-color:#0f766e}
+#lesson-content .e6-risk-grid article:nth-child(3){border-top-color:#d97706}
+#lesson-content .e6-risk-grid article:nth-child(4){border-top-color:#64748b}
+#lesson-content .e6-risk-grid article>span{color:#4f46e5;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .e6-risk-grid article>b{display:block;margin:8px 0;color:#172033;font-size:13px}
+#lesson-content .e6-risk-grid article p{margin:0;color:#475569!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .e6-oracle-flow{display:grid;grid-template-columns:1fr 25px 1fr 25px 1fr;gap:8px;align-items:center;margin:20px 0}
+#lesson-content .e6-oracle-flow>div{padding:13px;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;text-align:center}
+#lesson-content .e6-oracle-flow b{display:block;color:#172033;font-size:12px}
+#lesson-content .e6-oracle-flow small{display:block;margin-top:5px;color:#536174;font-size:10px}
+#lesson-content .e6-oracle-flow>span{color:#4f46e5;text-align:center;font-weight:800}
+#lesson-content .e6-case-steps{display:grid;gap:9px;margin:22px 0}
+#lesson-content .e6-case-steps article{position:relative;padding:15px 16px 15px 145px}
+#lesson-content .e6-case-steps article>span{position:absolute;left:16px;top:18px;color:#4f46e5;font-size:9px;font-weight:800;letter-spacing:.1em}
+#lesson-content .e6-case-steps b{color:#172033;font-size:13px}
+#lesson-content .e6-case-steps p{margin:6px 0 0;color:#475569!important;font-size:11px!important;line-height:1.6!important}
+#lesson-content .e6-case-result{margin:22px 0;padding:18px;border:1px solid #99f6e4;border-left:4px solid #0f766e;border-radius:9px;background:#f0fdfa}
+#lesson-content .e6-case-result>span{display:block;color:#0f766e;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .e6-case-result>b{display:block;margin:8px 0;color:#134e4a;font-size:15px}
+#lesson-content .e6-case-result p{margin:0;color:#115e59!important;font-size:12px!important;line-height:1.65!important}
+#lesson-content #e6-glossaire .btc-glossary{display:grid;gap:8px;margin:20px 0}
+#lesson-content #e6-glossaire .btc-glossary details{margin:0;padding:0 14px;border:1px solid #55432e;border-radius:7px;background:#1d1914;color:#f3eee5}
+#lesson-content #e6-glossaire .btc-glossary summary{padding:12px 14px;color:#ecd09b;font-size:12px;font-weight:700;cursor:pointer}
+#lesson-content #e6-glossaire .btc-glossary details[open]{border-color:#806640;background:#211b14}
+#lesson-content #e6-glossaire .btc-glossary details p{margin:0;padding:0 14px 14px;color:#d6cabe!important;font-size:12px!important;line-height:1.7!important}
+#lesson-content #e6-retenir .e6-takeaways{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:22px 0}
+#lesson-content .e6-takeaways article{padding:16px;border-left:4px solid #4f46e5}
+#lesson-content .e6-takeaways article:nth-child(2){border-left-color:#0f766e}
+#lesson-content .e6-takeaways article:nth-child(3){border-left-color:#0891b2}
+#lesson-content .e6-takeaways article:nth-child(4){border-left-color:#7c3aed}
+#lesson-content .e6-takeaways article:nth-child(5){border-left-color:#d97706}
+#lesson-content .e6-takeaways article:nth-child(6){border-left-color:#64748b}
+#lesson-content .e6-takeaways b{color:#3730a3;font-size:12px}
+#lesson-content .e6-takeaways p{margin:7px 0 0;color:#475569!important;font-size:12px!important;line-height:1.6!important}
+#lesson-content #e6-quiz .btc-quiz-set{display:grid;gap:12px}
+#lesson-content #e6-quiz .quiz-question{padding:20px;border:1px solid #334155;border-radius:10px;background:#111c2c;color:#f8fafc}
+#lesson-content #e6-quiz .quiz-question h3{margin:9px 0 15px;color:#f8fafc;font:19px/1.4 'DM Sans',sans-serif}
+#lesson-content #e6-quiz .quiz-options{display:grid;gap:8px}
+#lesson-content #e6-quiz .quiz-options button{padding:12px 14px;border:1px solid #475569;border-radius:7px;background:#1d2a3d;color:#e2e8f0;text-align:left;font:inherit;font-size:12px;line-height:1.5;cursor:pointer}
+#lesson-content #e6-quiz .quiz-options button:hover:not(:disabled){border-color:#a5b4fc;background:#283754}
+#lesson-content #e6-quiz .quiz-options button:disabled{opacity:.9}
+#lesson-content #e6-quiz .quiz-options button.answer-correct{border-color:#5eead4;background:#12382f;color:#d1fae5}
+#lesson-content #e6-quiz .quiz-options button.answer-wrong{border-color:#fca5a5;background:#3d2025;color:#fee2e2}
+#lesson-content #e6-quiz .quiz-feedback{margin:10px 0 0!important;color:#cbd5e1!important;font-size:12px!important;line-height:1.65!important}
+#lesson-content #e6-quiz .quiz-feedback.feedback-correct{color:#a7f3d0!important}
+#lesson-content #e6-quiz .quiz-feedback.feedback-wrong{color:#fecaca!important}
+#lesson-content #e6-quiz .quiz-summary{padding:14px;border-left:3px solid #a5b4fc;background:#202c42;color:#e0e7ff!important;font-size:12px;font-weight:700}
+#lesson-content #e6-quiz .quiz-reset{justify-self:start;margin-top:8px;padding:11px 14px;border:1px solid #64748b;border-radius:7px;background:#1d2a3d;color:#c7d2fe;font-size:11px;cursor:pointer}
+#lesson-content #e6-quiz button:focus-visible,#lesson-content #e6-glossaire summary:focus-visible{outline:3px solid #38bdf8;outline-offset:2px}
+@media(max-width:760px){
+  #lesson-content .e6-call-flow{grid-template-columns:1fr}
+  #lesson-content .e6-call-flow>span{transform:rotate(90deg)}
+  #lesson-content .e6-deploy-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson-content .e6-state-flow{grid-template-columns:1fr;gap:7px}
+  #lesson-content .e6-state-flow>i{transform:rotate(90deg)}
+  #lesson-content .e6-three-layers{grid-template-columns:1fr}
+  #lesson-content .e6-three-layers>span{transform:rotate(90deg)}
+  #lesson-content .e6-case-steps article{padding:15px}
+  #lesson-content .e6-case-steps article>span{position:static;display:block;margin-bottom:6px}
+}
+@media(max-width:560px){
+  #lesson-content .e6-compare,#lesson-content .e6-account-grid,#lesson-content .e6-tx-parts,#lesson-content .e6-read-write,
+  #lesson-content .e6-gas-analogy,#lesson-content .e6-gas-terms,#lesson-content .e6-fee-results,#lesson-content .e6-fee-breakdown,
+  #lesson-content .e6-fee-flow,#lesson-content .e6-risk-grid,#lesson-content .e6-takeaways{grid-template-columns:1fr}
+  #lesson-content .e6-condition-grid{grid-template-columns:1fr}
+  #lesson-content .e6-condition-grid>i{grid-column:1;grid-row:2;transform:rotate(90deg);text-align:center}
+  #lesson-content .e6-condition-grid .e6-condition-success{grid-column:1;grid-row:3}
+  #lesson-content .e6-condition-grid .e6-condition-fail{grid-column:1;grid-row:4}
+  #lesson-content .e6-deploy-steps{grid-template-columns:1fr}
+  #lesson-content .e6-evm-nodes{grid-template-columns:1fr}
+  #lesson-content .e6-oracle-flow{grid-template-columns:1fr}
+  #lesson-content .e6-oracle-flow>span{transform:rotate(90deg)}
+  #lesson-content .e6-fee-controls{grid-template-columns:1fr}
+  #lesson-content .e6-fee-lab{padding:16px}
+  #lesson-content #e6-glossaire .btc-glossary summary{padding:12px 10px}
+  #lesson-content #e6-glossaire .btc-glossary details p{padding:0 10px 12px}
+}
