@@ -89,7 +89,7 @@ function atlasTermPattern(value){
     .replace(/'/g,"['’‘`´]");
 }
 function atlasGlossaryEntries(chapterNumber, root){
-  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':null;
+  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':chapterNumber>=11&&chapterNumber<=20?'#m'+chapterNumber+'-glossaire .market-glossary':null;
   const glossary=root.querySelector(selector);
   if(!glossary)return [];
   const entries=[...glossary.querySelectorAll('details')].map((detail,index)=>({
@@ -444,6 +444,7 @@ function initLessonInteractions(chapterNumber){
     halving.addEventListener('input',updateHalving);updateHalving();
   }
   initBlockchainLessonInteractions(chapterNumber);
+  window.initMarketsLessonInteractions?.(chapterNumber);
 }
 async function atlasSha256Bytes(bytes){
   const digest=await window.crypto.subtle.digest('SHA-256',bytes);
