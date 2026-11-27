@@ -413,3 +413,10 @@
 @media(prefers-reduced-motion:reduce){
   .progress-track>span,.guide-chapter-link span:last-child{transition:none}
 }
+
+/* Homepage order-book contrast pass: keep partial fills legible over tinted rows. */
+.market-book-row>span.market-level-side{color:#d6e0ea}
+.market-book-levels.asks .market-book-row.is-consumed strong,
+.market-book-levels.asks .market-book-row.is-partial strong{color:#f6c5b6}
+.market-book-levels.bids .market-book-row.is-consumed strong,
+.market-book-levels.bids .market-book-row.is-partial strong{color:#b7f0c7}
