@@ -45,7 +45,7 @@
     const rows=await request(url);
     return rows.filter(row=>Array.isArray(row)&&row.length>=7)
       .map(row=>[Number(row[6]),String(row[4])])
-      .filter(row=>Number.isFinite(row[0])&&row[0]<=now-1&&/^\\d+(?:[.]\\d{1,8})?$/.test(row[1]));
+      .filter(row=>Number.isFinite(row[0])&&row[0]<=now-1&&/^\d+(?:[.]\d{1,8})?$/.test(row[1]));
   }
 
   async function getDailyHistory(portfolio,{force=false}={}) {
@@ -70,7 +70,7 @@
 
     const updates=await Promise.all(symbols.map(async symbol=>{
       const asset=assetBySymbol[symbol];
-      const existing=Array.isArray(cache.candles[symbol])?cache.candles[symbol].filter(row=>Array.isArray(row)&&row.length===2&&Number.isFinite(Number(row[0]))&&/^\\d+(?:[.]\\d{1,8})?$/.test(String(row[1]))):[];
+      const existing=Array.isArray(cache.candles[symbol])?cache.candles[symbol].filter(row=>Array.isArray(row)&&row.length===2&&Number.isFinite(Number(row[0]))&&/^\d+(?:[.]\d{1,8})?$/.test(String(row[1]))):[];
       let merged=existing.filter(row=>Number(row[0])>=rangeStart&&Number(row[0])<=now-1);
       const lastClose=merged.length?Number(merged[merged.length-1][0]):0;
       const start=lastClose?lastClose+1:rangeStart;
