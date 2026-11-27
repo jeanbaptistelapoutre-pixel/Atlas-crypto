@@ -41,14 +41,57 @@
     if (typeof portfolio.createdAt!=='string' || !Number.isFinite(Date.parse(portfolio.createdAt))) return false;
     if (!unsigned(portfolio.cashMicro) || !unsigned(portfolio.initialCapitalMicro) || BigInt(portfolio.initialCapitalMicro)<=0n) return false;
     if (!signed(portfolio.realizedPnlMicro) || !unsigned(portfolio.totalFeesMicro) || !Number.isInteger(portfolio.feeBps) || portfolio.feeBps<0 || portfolio.feeBps>200) return false;
-    for (const [symbol,holding] of Object.entries(portfolio.assets)) {
-      if (!/^[A-Z0-9]{2,15}$/.test(symbol) || !holding || !unsigned(holding.quantityUnits) || BigInt(holding.quantityUnits)<=0n || !unsigned(holding.costBasisMicro)) return false;
-    }
-    for (const tx of portfolio.transactions) {
-      if (!tx || typeof tx!=='object' || !/^[A-Z0-9]{2,15}$/.test(String(tx.symbol)) || !['buy','sell'].includes(tx.side)) return false;
-      if (!decimal(tx.quantity) || Number(tx.quantity)<=0 || !decimal(tx.price) || Number(tx.price)<=0) return false;
-      if (!unsigned(tx.grossMicro) || !unsigned(tx.feeMicro) || !unsigned(tx.netMicro) || !signed(tx.realizedPnlMicro)) return false;
-      if (typeof tx.timestamp!=='string' || !Number.isFinite(Date.parse(tx.timestamp)) || typeof tx.id!=='string') return false;
+
+    // Rebuild the ledger from the immutable transactions before trusting a local or imported portfolio.
+    let expectedCash=BigInt(portfolio.initialCapitalMicro);
+    let expectedFees=0n;
+    let expectedRealized=0n;
+    const expectedAssets={};
+    const createdAt=Date.parse(portfolio.createdAt);
+    const chronological=[...portfolio.transactions].reverse().sort((a,b)=>Date.parse(a.timestamp)-Date.parse(b.timestamp));
+    try {
+      for(const tx of chronological) {
+        if(!tx || typeof tx!=='object' || !/^[A-Z0-9]{2,15}$/.test(String(tx.symbol)) || !['buy','sell'].includes(tx.side)) return false;
+        if(!decimal(tx.quantity) || Number(tx.quantity)<=0 || !decimal(tx.price) || Number(tx.price)<=0) return false;
+        if(!unsigned(tx.grossMicro) || !unsigned(tx.feeMicro) || !unsigned(tx.netMicro) || !signed(tx.realizedPnlMicro)) return false;
+        const time=Date.parse(tx.timestamp);
+        if(typeof tx.timestamp!=='string' || !Number.isFinite(time) || time<createdAt || typeof tx.id!=='string' || !tx.id) return false;
+        const quantity=parseUnits(tx.quantity,8);
+        const price=parseUnits(tx.price,8);
+        const gross=BigInt(tx.grossMicro);
+        const fee=BigInt(tx.feeMicro);
+        const net=BigInt(tx.netMicro);
+        if(notionalMicro(quantity,price)!==gross) return false;
+        expectedFees+=fee;
+        const holding=expectedAssets[tx.symbol]||(expectedAssets[tx.symbol]={quantityUnits:0n,costBasisMicro:0n});
+        if(tx.side==='buy') {
+          if(net!==gross+fee||expectedCash<net) return false;
+          expectedCash-=net;
+          holding.quantityUnits+=quantity;
+          holding.costBasisMicro+=gross+fee;
+          if(BigInt(tx.realizedPnlMicro)!==0n) return false;
+        } else {
+          if(net!==gross-fee||quantity<=0n||quantity>holding.quantityUnits) return false;
+          const costAllocated=quantity===holding.quantityUnits?holding.costBasisMicro:(holding.costBasisMicro*quantity)/holding.quantityUnits;
+          holding.quantityUnits-=quantity;
+          holding.costBasisMicro-=costAllocated;
+          expectedCash+=net;
+          expectedRealized+=net-costAllocated;
+          if(BigInt(tx.realizedPnlMicro)!==net-costAllocated) return false;
+          if(holding.quantityUnits===0n)delete expectedAssets[tx.symbol];
+        }
+      }
+    } catch { return false; }
+
+    if(expectedCash!==BigInt(portfolio.cashMicro)||expectedFees!==BigInt(portfolio.totalFeesMicro)||expectedRealized!==BigInt(portfolio.realizedPnlMicro)) return false;
+    const actualSymbols=Object.keys(portfolio.assets).sort();
+    const expectedSymbols=Object.keys(expectedAssets).sort();
+    if(actualSymbols.length!==expectedSymbols.length||actualSymbols.some((symbol,index)=>symbol!==expectedSymbols[index]))return false;
+    for(const symbol of expectedSymbols) {
+      const actual=portfolio.assets[symbol];
+      const expected=expectedAssets[symbol];
+      if(!actual||!unsigned(actual.quantityUnits)||!unsigned(actual.costBasisMicro))return false;
+      if(BigInt(actual.quantityUnits)!==expected.quantityUnits||BigInt(actual.costBasisMicro)!==expected.costBasisMicro)return false;
     }
     return true;
   }
@@ -122,9 +165,11 @@
       throw new Error('Type d’opération inconnu.');
     }
     next.totalFeesMicro=(BigInt(next.totalFeesMicro)+fee).toString();
+    const lastTransactionTime=next.transactions.length?Date.parse(next.transactions[0].timestamp):0;
+    const transactionTimestamp=new Date(Math.max(Date.now(),Number.isFinite(lastTransactionTime)?lastTransactionTime+1:0)).toISOString();
     const transaction = {
       id:(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():'tx-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),
-      timestamp:new Date().toISOString(),
+      timestamp:transactionTimestamp,
       symbol,side:preview.side,
       price:unitsToString(price,8,8),
       quantity:unitsToString(qty,8,8),
