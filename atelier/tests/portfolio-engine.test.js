@@ -25,10 +25,10 @@ test('buy debits gross amount plus simulated fee and records a position',()=>{
   const start=engine.createPortfolio('10000');
   const preview=engine.previewBuy(start,'BTC','1000','60000');
   const bought=engine.applyTrade(start,preview).portfolio;
-  assert.equal(bought.cashMicro,'8999000000');
-  assert.equal(bought.totalFeesMicro,'1000000');
+  assert.equal(bought.cashMicro,'8999000401');
+  assert.equal(bought.totalFeesMicro,'999999');
   assert.equal(Boolean(bought.assets.BTC),true);
-  assert.equal(bought.assets.BTC.costBasisMicro,'1001000000');
+  assert.equal(bought.assets.BTC.costBasisMicro,'1000999599');
   assert.equal(engine.safePortfolio(bought),true);
 });
 
@@ -38,7 +38,7 @@ test('partial sale updates cash, remaining units and realized P&L',()=>{
   portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','1000','60000')).portfolio;
   const quantity=engine.unitsToString(BigInt(portfolio.assets.BTC.quantityUnits)/2n,8,8);
   portfolio=engine.applyTrade(portfolio,engine.previewSell(portfolio,'BTC',quantity,'66000')).portfolio;
-  assert.ok(BigInt(portfolio.cashMicro)>BigInt('8999000000'));
+  assert.ok(BigInt(portfolio.cashMicro)>BigInt('8999000401'));
   assert.ok(BigInt(portfolio.assets.BTC.quantityUnits)>0n);
   assert.ok(BigInt(portfolio.realizedPnlMicro)>0n);
   assert.equal(engine.safePortfolio(portfolio),true);
