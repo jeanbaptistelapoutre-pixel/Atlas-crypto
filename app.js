@@ -266,6 +266,8 @@ function atlasGlossaryEntries(chapterNumber, root){
       'Déploiement':['déploiement','déployer un contrat'],
       'EVM':['EVM','Ethereum Virtual Machine','machine virtuelle Ethereum'],
       'Transaction':['transaction','transactions'],
+      'Nonce':['nonce','nonces'],
+      'Finalité':['finalité','finalisée','finalisé','finalisées','finalisés'],
       'Gas':['gas'],
       'Gas limit':['gas limit','limite de gas'],
       'Gwei':['gwei'],
