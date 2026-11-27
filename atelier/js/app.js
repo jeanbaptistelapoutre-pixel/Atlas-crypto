@@ -11,6 +11,11 @@
   let marketBusy = false;
   let tradeSide = 'buy';
   let currentPreview = null;
+  let historyInfo = null;
+  let historyPoints = [];
+  let historyRange = '30';
+  let historyBusy = false;
+  let historyError = null;
 
   const setupPanel = $('#portfolio-setup');
   const dashboard = $('#portfolio-dashboard');
@@ -138,6 +143,117 @@
     const updated = marketsUpdatedAt ? fmt.formatDate(marketsUpdatedAt) : 'Aucune donnée reçue';
     $('#last-updated').textContent = marketsUpdatedAt ? 'Dernière réception : '+updated+(canTrade()?'':' · données possiblement périmées') : 'Cours en attente…';
     $('#portfolio-storage-note').textContent = '◈ Portefeuille enregistré localement dans ce navigateur · Capital initial : '+fmt.formatUsdc(portfolio.initialCapitalMicro);
+  }
+
+  function visibleHistoryPoints() {
+    if(historyRange==='all'||!historyPoints.length)return historyPoints;
+    const latest=historyPoints[historyPoints.length-1].timestamp;
+    const cutoff=latest-Number(historyRange)*86400000;
+    const filtered=historyPoints.filter(point=>point.timestamp>=cutoff);
+    return filtered.length?filtered:[historyPoints[historyPoints.length-1]];
+  }
+
+  function renderPerformancePanel() {
+    const panel=$('#performance-panel');
+    const empty=$('#history-empty');
+    const statusLabel=$('#history-status-label');
+    const status=$('#history-status');
+    const svg=$('#performance-chart');
+    const visible=visibleHistoryPoints();
+    panel.hidden=visible.length===0;
+    empty.hidden=visible.length>0;
+    document.querySelectorAll('[data-history-range]').forEach(button=>{
+      const active=button.dataset.historyRange===historyRange;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-pressed',String(active));
+    });
+    if(!visible.length) {
+      $('#history-points').textContent='0';
+      if(historyError) {
+        empty.querySelector('strong').textContent='Historique temporairement indisponible.';
+        empty.querySelector('p').textContent=historyError+' Vos transactions restent enregistrées ; vous pourrez réessayer plus tard.';
+        statusLabel.textContent='SOURCE INDISPONIBLE';
+      } else {
+        empty.querySelector('strong').textContent='Votre historique se construit.';
+        empty.querySelector('p').textContent='La première valorisation apparaîtra lorsque des clôtures journalières complètes seront disponibles. Les montants seront reconstruits à partir de vos transactions et des prix historiques Binance, en UTC.';
+        statusLabel.textContent='EN ATTENTE';
+      }
+      return;
+    }
+
+    const first=visible[0];
+    const last=visible[visible.length-1];
+    const firstValue=Number(BigInt(first.valueMicro))/1e6;
+    const lastValue=Number(BigInt(last.valueMicro))/1e6;
+    const periodReturn=firstValue>0?(lastValue/firstValue-1)*100:0;
+    $('#history-return').textContent=fmt.formatPct(periodReturn);
+    $('#history-return').className=periodReturn>0?'positive':periodReturn<0?'negative':'';
+    $('#history-range-label').textContent=historyRange==='all'
+      ?(historyInfo?.truncated?'Période disponible · 1 000 jours maximum':'Depuis la création du portefeuille')
+      :'Sur les '+historyRange+' derniers jours';
+    $('#history-points').textContent=String(visible.length);
+
+    let peak=0;
+    let maxDrawdown=0;
+    visible.forEach(point=>{
+      const value=Number(BigInt(point.valueMicro))/1e6;
+      peak=Math.max(peak,value);
+      if(peak>0)maxDrawdown=Math.min(maxDrawdown,(value/peak-1)*100);
+    });
+    $('#history-drawdown').textContent=fmt.formatPct(maxDrawdown);
+    $('#history-drawdown').className=maxDrawdown<0?'negative':'';
+
+    const width=900,height=270,left=82,right=22,top=18,bottom=37;
+    const plotWidth=width-left-right,plotHeight=height-top-bottom;
+    const values=visible.map(point=>Number(BigInt(point.valueMicro))/1e6);
+    let min=Math.min(...values),max=Math.max(...values);
+    if(min===max){const pad=Math.max(Math.abs(min)*.005,1);min-=pad;max+=pad;}
+    else {const pad=(max-min)*.12;min-=pad;max+=pad;}
+    const xAt=index=>left+(visible.length<=1?plotWidth/2:index/(visible.length-1)*plotWidth);
+    const yAt=value=>top+(max-value)/(max-min)*plotHeight;
+    const coords=values.map((value,index)=>[xAt(index),yAt(value)]);
+    const path=coords.map((point,index)=>(index?'L':'M')+point[0].toFixed(2)+' '+point[1].toFixed(2)).join(' ');
+    const area=path+' L '+coords[coords.length-1][0].toFixed(2)+' '+(top+plotHeight)+' L '+coords[0][0].toFixed(2)+' '+(top+plotHeight)+' Z';
+    const grid=[0,1,2,3].map(index=>{
+      const value=max-(max-min)*index/3;
+      const y=top+plotHeight*index/3;
+      const label=fmt.formatUsdc(String(Math.round(value*1e6)));
+      return '<line x1="'+left+'" y1="'+y+'" x2="'+(width-right)+'" y2="'+y+'" class="chart-grid"/><text x="'+(left-12)+'" y="'+(y+4)+'" class="chart-axis-label" text-anchor="end">'+label+'</text>';
+    }).join('');
+    const dateIndexes=[0,Math.floor((visible.length-1)/3),Math.floor((visible.length-1)*2/3),visible.length-1].filter((value,index,array)=>array.indexOf(value)===index);
+    const dates=dateIndexes.map(index=>{
+      const date=new Date(visible[index].timestamp);
+      const label=new Intl.DateTimeFormat('fr-FR',{day:'2-digit',month:'short',timeZone:'UTC'}).format(date);
+      return '<text x="'+xAt(index)+'" y="'+(height-10)+'" class="chart-axis-label" text-anchor="middle">'+label+'</text>';
+    }).join('');
+    const latest=coords[coords.length-1];
+    svg.innerHTML='<defs><linearGradient id="atelier-history-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2962ff" stop-opacity=".28"/><stop offset="100%" stop-color="#2962ff" stop-opacity="0"/></linearGradient></defs>'+grid+'<path d="'+area+'" fill="url(#atelier-history-fill)"/><path d="'+path+'" class="chart-line"/><circle cx="'+latest[0]+'" cy="'+latest[1]+'" r="4.5" class="chart-last-point"/>'+dates;
+    svg.setAttribute('aria-label','Valeur du portefeuille aux clôtures journalières, de '+fmt.formatDate(first.timestamp)+' à '+fmt.formatDate(last.timestamp));
+    const notices=[];
+    if(historyInfo?.truncated)notices.push('Affichage limité aux 1 000 dernières clôtures journalières.');
+    if(historyInfo?.errors?.length)notices.push('Données historiques manquantes pour '+historyInfo.errors.map(item=>item.symbol).join(', ')+'. Certains jours peuvent être absents.');
+    if(!notices.length)notices.push('Valeurs reconstruites à partir des transactions enregistrées et des clôtures journalières UTC de Binance Spot. Les journées non terminées ne sont pas affichées.');
+    status.textContent=notices.join(' ');
+    statusLabel.textContent=(historyInfo?.truncated||historyInfo?.errors?.length)?'HISTORIQUE PARTIEL':'CLÔTURES JOURNALIÈRES';
+    $('#history-source-label').textContent=historyInfo?.source||'Binance Spot · UTC';
+  }
+
+  async function refreshPerformanceHistory() {
+    if(!portfolio||historyBusy)return;
+    historyBusy=true;
+    historyError=null;
+    $('#history-status-label').textContent='CHARGEMENT…';
+    try {
+      historyInfo=await window.AtlasHistoryData.getDailyHistory(portfolio);
+      historyPoints=engine.buildDailyPerformance(portfolio,historyInfo.candlesBySymbol,historyInfo.rangeStart);
+      renderPerformancePanel();
+    } catch(error) {
+      console.warn('Atelier : historique de valorisation indisponible.',error);
+      historyError=error.message;
+      historyPoints=[];
+      historyInfo=null;
+      renderPerformancePanel();
+    } finally {historyBusy=false;}
   }
 
   function renderTradeAssetOptions(preferred) {
@@ -325,6 +441,7 @@
       save();
       tradeDialog.close();
       renderDashboard();
+      refreshPerformanceHistory();
       setMarketState('success',(tradeSide==='buy'?'Achat':'Vente')+' simulé(e) enregistré(e) dans votre historique local.');
     } catch(error) {
       $('#trade-error').textContent=error.message;
@@ -370,20 +487,25 @@
     try {
       const imported=store.parseBackup(await file.text());
       openConfirm('Remplacer le portefeuille actuel ?', 'La sauvegarde importée remplacera le portefeuille et son historique actuels dans ce navigateur.',()=>{
-        try {portfolio=imported;save();renderMode();setMarketState('success','Sauvegarde importée et enregistrée dans ce navigateur.');}
+        try {portfolio=imported;save();renderMode();refreshPerformanceHistory();setMarketState('success','Sauvegarde importée et enregistrée dans ce navigateur.');}
         catch(error){alert(error.message);}
       });
     } catch(error) {alert(error.message);}
     finally {event.target.value='';}
   });
   $('#reset-portfolio').addEventListener('click',()=>openConfirm('Réinitialiser le portefeuille ?', 'Cette action supprimera le capital, les positions et tout l’historique enregistrés dans ce navigateur. Pensez à exporter une sauvegarde avant de continuer.',()=>{
-    try {store.clear();portfolio=null;renderMode();$('#initial-capital').value='10000';setMarketState(markets.length?'success':'loading','Portefeuille réinitialisé. Vous pouvez en créer un nouveau.');}
+    try {store.clear();portfolio=null;historyInfo=null;historyPoints=[];historyError=null;renderMode();$('#initial-capital').value='10000';setMarketState(markets.length?'success':'loading','Portefeuille réinitialisé. Vous pouvez en créer un nouveau.');}
     catch(error){alert(error.message);}
   }));
   $('#refresh-prices').addEventListener('click',()=>refreshMarkets(true));
+  document.querySelectorAll('[data-history-range]').forEach(button=>button.addEventListener('click',()=>{
+    historyRange=button.dataset.historyRange;
+    renderPerformancePanel();
+  }));
 
   // First render and public market data refresh. No price is fabricated when the source is unavailable.
   renderMode();
   refreshMarkets(true);
+  if(portfolio)refreshPerformanceHistory();
   window.setInterval(()=>refreshMarkets(true),window.AtlasMarketData.refreshInterval);
 })();
