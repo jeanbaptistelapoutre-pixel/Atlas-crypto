@@ -89,3 +89,74 @@
 @media(prefers-reduced-motion:reduce){
   .m12-lab-card *{scroll-behavior:auto!important}
 }
+
+/* Contrast correction — light teaching cards must use dark ink, not the site's ivory-on-charcoal text tokens. */
+.m12-definition-grid article,
+.m12-shape-grid article,
+.m12-caution-grid>div,
+.m12-timeframe-grid article,
+.m12-volume-units article,
+.m12-reading-row,
+.m12-takeaways article{
+  color:#1e293b;
+  background:#f8fafc;
+  border-color:#cbd5e1;
+}
+.m12-definition-grid article b,
+.m12-shape-grid article b,
+.m12-caution-grid>div>b,
+.m12-timeframe-grid article b,
+.m12-volume-units article b,
+.m12-reading-row>b,
+.m12-takeaways article>b{
+  color:#172033;
+}
+.lesson-section .m12-definition-grid article p,
+.lesson-section .m12-shape-grid article p,
+.lesson-section .m12-timeframe-grid article p,
+.lesson-section .m12-volume-units article p,
+.lesson-section .m12-reading-row p,
+.lesson-section .m12-takeaways article p,
+.lesson-section .m12-caution-grid li{
+  color:#475569;
+}
+.m12-definition-grid article>span,
+.m12-volume-units article>b,
+.m12-caution-grid>div>b{
+  color:#475569;
+}
+.m12-volume-units article strong{color:#0f172a}
+.m12-reading-head{
+  color:#263449;
+  background:#e8edf4;
+  border-color:#cbd5e1;
+}
+.m12-word-up{color:#15803d}
+.m12-word-down{color:#b91c1c}
+.lesson-section p.m12-lab-conclusion{
+  color:#145348!important;
+  background:#e7f5f1;
+}
+.lesson-section .m12-lab-card p{
+  color:#334155;
+}
+.m12-lab-card .m12-lab-heading h3{color:#172033}
+.m12-lab-card .m12-chart-note{color:#64748b}
+.m12-lab-feedback{color:#145348}
+.m12-lab-feedback.is-alert{color:#991b1b}
+.m12-path-controls button,
+.m12-scenario-buttons button{
+  color:#263449;
+  background:#f8fafc;
+  border-color:#b8c6d8;
+}
+.m12-path-controls button.active,
+.m12-scenario-buttons button.active{
+  color:#075985;
+  background:#e0f2fe;
+  border-color:#0284c7;
+}
+.m12-takeaways article>span{
+  background:#e2e8f0;
+  color:#334155;
+}
