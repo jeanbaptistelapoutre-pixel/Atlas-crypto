@@ -809,7 +809,7 @@ window.ATLAS_LESSONS = {
             <div><small>Engagement sur le contenu</small><strong>Racine de Merkle</strong><em>Résume les empreintes des enregistrements</em></div>
             <div><small>Repères techniques</small><strong>Temps, version, paramètres…</strong><em>Champs propres au protocole</em></div>
           </div>
-          <div class="ch3-block-body"><div><span>CONTENU DU BLOC</span><b>Transactions ou autres données</b><small>Exemples : transferts, appels de contrats, événements ou changements d’état selon le réseau.</small></div><div class="ch3-records"><i>Enregistrement 01</i><i>Enregistrement 02</i><i>Enregistrement 03</i><i>…</i></div></div>
+          <div class="ch3-block-body"><div><span>CONTENU DU BLOC</span><b>Transactions ou autres données</b><small>Exemples : transferts, appels de contrats, événements ou changements d’état selon le réseau.</small></div><div class="ch3-records"><i>Enregistrement 01</i><i>Enregistrement 02</i><i>Enregistrement 03</i><i class="ch3-record-more">… autres enregistrements</i></div></div>
           <div class="ch3-block-caption">Schéma de principe : les champs exacts et leur organisation dépendent du protocole.</div>
         </div>
         <h3>Un bloc n’a pas la même structure partout.</h3>
