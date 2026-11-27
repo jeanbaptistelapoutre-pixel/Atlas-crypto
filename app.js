@@ -89,7 +89,7 @@ function atlasTermPattern(value){
     .replace(/'/g,"['’‘`´]");
 }
 function atlasGlossaryEntries(chapterNumber, root){
-  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':chapterNumber===4?'#ch4-glossaire .btc-glossary':chapterNumber>=11&&chapterNumber<=20?'#m'+chapterNumber+'-glossaire .market-glossary':null;
+  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':chapterNumber===4?'#ch4-glossaire .btc-glossary':chapterNumber===5?'#ch5-glossaire .btc-glossary':chapterNumber>=11&&chapterNumber<=20?'#m'+chapterNumber+'-glossaire .market-glossary':null;
   const glossary=root.querySelector(selector);
   if(!glossary)return [];
   const entries=[...glossary.querySelectorAll('details')].map((detail,index)=>({
@@ -227,6 +227,28 @@ function atlasGlossaryEntries(chapterNumber, root){
       'Multisignature (multisig)':['multisignature','multisignatures','multisig'],
       'UTXO':['UTXO','UTXOs','sortie non dépensée','sorties non dépensées'],
       'Confidentialité financière':['confidentialité financière','confidentialité','vie privée']
+    };
+    entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
+  } else if(chapterNumber===5){
+    const aliases={
+      'Transaction':['transaction','transactions'],
+      'Entrée (input)':['entrée','entrées','input','inputs'],
+      'Sortie (output)':['sortie','sorties','output','outputs'],
+      'UTXO':['UTXO','UTXOs','sortie non dépensée','sorties non dépensées'],
+      'UTXO set':['UTXO set','ensemble des UTXO','ensemble des sorties non dépensées'],
+      'Outpoint':['outpoint','outpoints'],
+      'Txid':['txid','transaction id','identifiant de transaction'],
+      'ScriptPubKey':['scriptPubKey','script pubkey','script de verrouillage','script de sortie'],
+      'Monnaie rendue (change)':['monnaie rendue','change','sortie de change'],
+      'Frais de transaction':['frais de transaction','frais','fee','fees'],
+      'Satoshi (sat)':['satoshi','satoshis','sat','sats'],
+      'Taux de frais (feerate)':['taux de frais','feerate','fee rate','sat/vB'],
+      'Vbyte (vB)':['vbyte','vbytes','vB','taille virtuelle'],
+      'Witness (témoin)':['witness','témoin','données de témoin'],
+      'Mempool':['mempool','réserve de transactions en attente'],
+      'Confirmation':['confirmation','confirmations'],
+      'Double dépense':['double dépense','doubles dépenses'],
+      'Coin selection':['coin selection','sélection des UTXO','sélection des entrées']
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
   } else if(chapterNumber===11){
@@ -395,8 +417,50 @@ function initContextualGlossary(chapterNumber){
   atlasBindContextualTooltip();
 }
 
+function initChapter5TransactionLab(chapterNumber){
+  if(chapterNumber!==5)return;
+  const amountInput=$('#ch5-send');
+  const rateInput=$('#ch5-feerate');
+  const feeOutput=$('#ch5-fee-result');
+  const feeBtc=$('#ch5-fee-btc');
+  const changeOutput=$('#ch5-change-result');
+  const equation=$('#ch5-fee-equation');
+  const status=$('#ch5-fee-status');
+  if(!amountInput||!rateInput||!feeOutput||!feeBtc||!changeOutput||!equation||!status)return;
+  const totalInputSats=1400000;
+  const estimatedVsize=140;
+  const formatBTC=sats=>(sats/100000000).toLocaleString('fr-FR',{minimumFractionDigits:8,maximumFractionDigits:8});
+  const formatSats=sats=>Math.round(sats).toLocaleString('fr-FR');
+  const update=()=>{
+    const amountBTC=Number(amountInput.value);
+    const rate=Number(rateInput.value);
+    if(!Number.isFinite(amountBTC)||!Number.isFinite(rate)||amountBTC<=0||rate<1||rate>200){
+      status.textContent='Vérifie le montant (positif) et le taux de frais (de 1 à 200 sat/vB).';
+      status.classList.add('is-alert');return;
+    }
+    const paymentSats=Math.round(amountBTC*100000000);
+    const feeSats=estimatedVsize*Math.round(rate);
+    const changeSats=totalInputSats-paymentSats-feeSats;
+    feeOutput.textContent=formatSats(feeSats)+' sats';
+    feeBtc.textContent=formatBTC(feeSats)+' BTC';
+    if(changeSats<0){
+      changeOutput.textContent='Insuffisant';
+      equation.textContent='Les entrées ne couvrent pas le paiement et les frais estimés.';
+      status.textContent='Le montant demandé dépasse les fonds disponibles une fois les frais pris en compte. Réduis le paiement ou le taux de frais, ou sélectionne davantage d’UTXO.';
+      status.classList.add('is-alert');return;
+    }
+    changeOutput.textContent=formatBTC(changeSats)+' BTC';
+    equation.textContent=formatBTC(totalInputSats)+' BTC − '+formatBTC(paymentSats)+' BTC − '+formatBTC(feeSats)+' BTC = '+formatBTC(changeSats)+' BTC rendus.';
+    status.textContent=changeSats===0?'Le calcul tombe juste : aucune sortie de monnaie rendue n’est nécessaire dans ce modèle.':'Simulation : les entrées couvrent le paiement et les frais. Le surplus devient une sortie de monnaie rendue.';
+    status.classList.remove('is-alert');
+  };
+  [amountInput,rateInput].forEach(input=>input.addEventListener('input',update));
+  $('#ch5-fee-reset')?.addEventListener('click',()=>{amountInput.value='0.009';rateInput.value='20';update();});
+  update();
+}
 function initLessonInteractions(chapterNumber){
   initContextualGlossary(chapterNumber);
+  initChapter5TransactionLab(chapterNumber);
   const amount=$('#calc-amount'), inflation=$('#calc-inflation'), years=$('#calc-years');
   if(amount&&inflation&&years){
     const updateCalculator=()=>{
