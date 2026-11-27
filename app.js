@@ -89,7 +89,7 @@ function atlasTermPattern(value){
     .replace(/'/g,"['’‘`´]");
 }
 function atlasGlossaryEntries(chapterNumber, root){
-  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':chapterNumber===4?'#ch4-glossaire .btc-glossary':chapterNumber===5?'#ch5-glossaire .btc-glossary':chapterNumber>=11&&chapterNumber<=20?'#m'+chapterNumber+'-glossaire .market-glossary':null;
+  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':chapterNumber===4?'#ch4-glossaire .btc-glossary':chapterNumber===5?'#ch5-glossaire .btc-glossary':chapterNumber===6?'#e6-glossaire .btc-glossary':chapterNumber>=11&&chapterNumber<=20?'#m'+chapterNumber+'-glossaire .market-glossary':null;
   const glossary=root.querySelector(selector);
   if(!glossary)return [];
   const entries=[...glossary.querySelectorAll('details')].map((detail,index)=>({
@@ -251,6 +251,33 @@ function atlasGlossaryEntries(chapterNumber, root){
       'Coin selection':['coin selection','sélection des UTXO','sélection des entrées'],
       'Règles de consensus':['règles de consensus','règle de consensus','consensus'],
       'Politique de relais':['politique de relais','politiques de relais','relay policy','transaction relay policy']
+    };
+    entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
+  } else if(chapterNumber===6){
+    const aliases={
+      'Ethereum':['ethereum','eth'],
+      'Ether (ETH)':['ether','ETH','ether (ETH)'],
+      'État (state)':['état','state','état partagé'],
+      'Compte EOA':['EOA','compte EOA','compte contrôlé par une clé'],
+      'Compte de contrat':['compte de contrat','contract account'],
+      'Contrat intelligent (smart contract)':['contrat intelligent','contrats intelligents','smart contract','smart contracts'],
+      'Solidity':['solidity'],
+      'Bytecode':['bytecode','code compilé'],
+      'Déploiement':['déploiement','déployer un contrat'],
+      'EVM':['EVM','Ethereum Virtual Machine','machine virtuelle Ethereum'],
+      'Transaction':['transaction','transactions'],
+      'Gas':['gas'],
+      'Gas limit':['gas limit','limite de gas'],
+      'Gwei':['gwei'],
+      'Base fee':['base fee','frais de base'],
+      'Priority fee':['priority fee','frais de priorité'],
+      'Storage':['storage','stockage persistant'],
+      'Événement (event)':['événement','événements','event','events','logs'],
+      'Oracle':['oracle','oracles'],
+      'Validateur':['validateur','validateurs'],
+      'Preuve d’enjeu (Proof of Stake)':['preuve d’enjeu','proof of stake','proof-of-stake','pos'],
+      'Composabilité':['composabilité','composability'],
+      'Réversion (revert)':['revert','réversion','reverted']
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
   } else if(chapterNumber===11){
@@ -464,9 +491,45 @@ function initChapter5TransactionLab(chapterNumber){
   $('#ch5-fee-reset')?.addEventListener('click',()=>{amountInput.value='0.009';rateInput.value='20';update();});
   update();
 }
+function initChapter6GasLab(chapterNumber){
+  if(chapterNumber!==6)return;
+  const usedInput=$('#e6-gas-used'),baseInput=$('#e6-base-fee'),tipInput=$('#e6-priority-fee');
+  const totalPrice=$('#e6-total-price'),totalCost=$('#e6-total-cost'),gweiOutput=$('#e6-total-cost-eur');
+  const burned=$('#e6-burned'),tip=$('#e6-tip'),status=$('#e6-fee-status');
+  if(!usedInput||!baseInput||!tipInput||!totalPrice||!totalCost||!gweiOutput||!burned||!tip||!status)return;
+  const formatETH=value=>value.toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:9})+' ETH';
+  const formatGwei=value=>Math.round(value).toLocaleString('fr-FR')+' gwei';
+  const update=()=>{
+    const used=Number(usedInput.value),base=Number(baseInput.value),priority=Number(tipInput.value);
+    const valid=Number.isInteger(used)&&used>=21000&&used<=1000000&&Number.isFinite(base)&&base>=0&&base<=1000&&Number.isFinite(priority)&&priority>=0&&priority<=100;
+    if(!valid){
+      totalPrice.textContent='—';totalCost.textContent='—';gweiOutput.textContent='—';burned.textContent='—';tip.textContent='—';
+      status.textContent='Vérifie les valeurs : gas utilisé entre 21 000 et 1 000 000, frais de base entre 0 et 1 000 gwei, priorité entre 0 et 100 gwei.';
+      status.classList.add('is-alert');return;
+    }
+    const effectivePrice=base+priority;
+    const totalGwei=used*effectivePrice;
+    const totalETH=totalGwei/1e9;
+    const baseETH=used*base/1e9;
+    const priorityETH=used*priority/1e9;
+    totalPrice.textContent=effectivePrice.toLocaleString('fr-FR',{maximumFractionDigits:2})+' gwei';
+    totalCost.textContent=formatETH(totalETH);
+    gweiOutput.textContent='Soit '+formatGwei(totalGwei);
+    burned.textContent=formatETH(baseETH);
+    tip.textContent=formatETH(priorityETH);
+    status.textContent=used.toLocaleString('fr-FR')+' gas × '+effectivePrice.toLocaleString('fr-FR',{maximumFractionDigits:2})+' gwei = '+formatETH(totalETH)+'.';
+    status.classList.remove('is-alert');
+  };
+  [usedInput,baseInput,tipInput].forEach(input=>input.addEventListener('input',update));
+  $('#e6-fee-reset')?.addEventListener('click',()=>{
+    usedInput.value='50000';baseInput.value='20';tipInput.value='2';update();
+  });
+  update();
+}
 function initLessonInteractions(chapterNumber){
   initContextualGlossary(chapterNumber);
   initChapter5TransactionLab(chapterNumber);
+  initChapter6GasLab(chapterNumber);
   const amount=$('#calc-amount'), inflation=$('#calc-inflation'), years=$('#calc-years');
   if(amount&&inflation&&years){
     const updateCalculator=()=>{
