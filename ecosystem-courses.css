@@ -220,3 +220,10 @@
   #lesson-content #e6-glossaire .btc-glossary summary{padding:12px 10px}
   #lesson-content #e6-glossaire .btc-glossary details p{padding:0 10px 12px}
 }
+
+
+/* Proof-of-stake context — kept distinct from transaction execution and gas. */
+#lesson-content .e6-pos-note{margin:21px 0;padding:18px 20px;border:1px solid #c7d2fe;border-left:4px solid #4f46e5;border-radius:9px;background:#eef2ff}
+#lesson-content .e6-pos-note>span{display:block;color:#4338ca;font-size:9px;font-weight:800;letter-spacing:.12em}
+#lesson-content .e6-pos-note h3{margin:8px 0;color:#312e81;font-size:17px}
+#lesson-content .e6-pos-note p{margin:7px 0;color:#334155!important;font-size:12px!important;line-height:1.7!important}
