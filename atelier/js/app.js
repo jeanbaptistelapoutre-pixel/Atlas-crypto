@@ -15,6 +15,7 @@
   let historyPoints = [];
   let historyRange = '30';
   let historyBusy = false;
+  let historyRefreshQueued = false;
   let historyError = null;
 
   const setupPanel = $('#portfolio-setup');
@@ -239,7 +240,8 @@
   }
 
   async function refreshPerformanceHistory() {
-    if(!portfolio||historyBusy)return;
+    if(!portfolio)return;
+    if(historyBusy){historyRefreshQueued=true;return;}
     historyBusy=true;
     historyError=null;
     $('#history-status-label').textContent='CHARGEMENT…';
@@ -253,7 +255,13 @@
       historyPoints=[];
       historyInfo=null;
       renderPerformancePanel();
-    } finally {historyBusy=false;}
+    } finally {
+      historyBusy=false;
+      if(historyRefreshQueued) {
+        historyRefreshQueued=false;
+        refreshPerformanceHistory();
+      }
+    }
   }
 
   function renderTradeAssetOptions(preferred) {
