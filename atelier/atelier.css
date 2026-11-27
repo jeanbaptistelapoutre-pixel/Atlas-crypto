@@ -260,3 +260,28 @@ tbody tr:last-child td{border-bottom:0}
 .storage-warning-actions .text-button{white-space:normal;text-align:left}
 .setup-error{margin:0;color:#f6465d;font-size:10px}
 .setup-error:empty{display:none}
+
+
+/* Daily performance chart — market-terminal styling */
+.performance-panel{min-width:0}
+.performance-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:16px}
+.performance-stats>div{padding:14px 15px;border:1px solid #2b3139;background:#111722}
+.performance-stats span,.performance-stats strong,.performance-stats small{display:block}
+.performance-stats span{color:#8f9bab;font-size:8px;letter-spacing:.12em;font-weight:700}
+.performance-stats strong{margin-top:8px;color:#eaecef;font:24px/1.15 'DM Sans',sans-serif;font-variant-numeric:tabular-nums}
+.performance-stats small{margin-top:5px;color:#848e9c;font-size:8px}
+.performance-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 8px}
+.history-range-buttons{display:flex;align-items:center;gap:4px}
+.history-range-buttons button{min-width:39px;padding:7px 9px;border:1px solid transparent;border-radius:3px;background:transparent;color:#9ba6b5;font-size:9px;font-weight:700}
+.history-range-buttons button:hover{color:#eaecef;background:#202a3b}
+.history-range-buttons button.active{border-color:#35528f;background:#18243a;color:#a9c1ff}
+.performance-toolbar>span{color:#8995a6;font-size:8px;text-align:right}
+.performance-chart-wrap{width:100%;overflow:hidden;border:1px solid #252d3a;background:#0d121a}
+#performance-chart{display:block;width:100%;height:auto;min-height:180px}
+.chart-grid{stroke:#252d3a;stroke-width:1;stroke-dasharray:3 5}
+.chart-axis-label{fill:#8b97a8;font:10px 'DM Sans',sans-serif}
+.chart-line{fill:none;stroke:#3975ff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.chart-last-point{fill:#a9c1ff;stroke:#2962ff;stroke-width:3}
+.history-status{margin:10px 0 0;color:#8f9bab;font-size:9px;line-height:1.7}
+@media(max-width:720px){.performance-stats{gap:6px}.performance-stats>div{padding:11px}.performance-stats strong{font-size:19px}.performance-toolbar{align-items:flex-start;flex-direction:column}.performance-toolbar>span{text-align:left}}
+@media(max-width:480px){.performance-stats{grid-template-columns:1fr 1fr}.performance-stats>div:last-child{grid-column:1/-1}.performance-chart-wrap{overflow-x:auto}#performance-chart{min-width:610px}}
