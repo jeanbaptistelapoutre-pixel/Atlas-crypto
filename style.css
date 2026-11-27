@@ -235,3 +235,40 @@
 .btc-current-subsidy>a{color:#e5c58f;font-size:11px;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:850px){.btc-flow-steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.btc-flow-lab{padding:16px}.btc-flow-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.btc-flow-step{padding:11px 10px}.btc-flow-detail{min-height:0}.btc-flow-detail>b{font-size:19px}.btc-current-subsidy{padding:14px}}
+
+/* Atlas Crypto — parcours guidés et navigation accessible */
+.nav-toggle{display:none;align-items:center;gap:9px;padding:9px 13px;border:1px solid var(--line);border-radius:40px;background:#201b16;color:var(--cream);font-size:13px}
+.nav-toggle:focus-visible{outline:3px solid #f1d4a0;outline-offset:3px}
+.top nav#primary-nav{display:flex}
+.paths{background:linear-gradient(180deg,#100f0e,#171411)}
+.path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:32px 0 22px}
+.path-card{display:flex;flex-direction:column;min-height:310px;padding:25px;border:1px solid #4b3d2b;border-radius:12px;background:linear-gradient(150deg,#211b16,#191613)}
+.path-card-featured{border-color:#957548;background:linear-gradient(150deg,#2a2116,#1b1712)}
+.path-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.path-number{font:29px 'Playfair Display',serif;color:var(--gold)}
+.path-tag{padding:5px 9px;border:1px solid #5f4c32;border-radius:30px;color:#ddc39b;font-size:10px;letter-spacing:.09em;text-transform:uppercase}
+.path-card h3{font:25px/1.25 'Playfair Display',serif;margin:24px 0 10px;color:var(--cream)}
+.path-card p{margin:0;color:#c9bcae;font-size:13px;line-height:1.75}
+.path-detail{margin-top:auto;padding-top:22px;color:#d9b77e;font-size:11px;letter-spacing:.04em}
+.path-link{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px;padding-top:13px;border-top:1px solid #55442f;color:#f0d09a;font-size:13px;font-weight:700}
+.path-link span{font-size:18px;transition:transform .2s}
+.path-link:hover span{transform:translateX(4px)}
+.path-note{max-width:950px;padding:18px 21px;border-left:3px solid var(--gold);border-radius:0 9px 9px 0;background:#211b14;color:#d5c7b5;font-size:13px;line-height:1.8}
+.path-note strong{color:var(--gold)}
+.search-status{min-height:22px;margin:-12px 0 15px;color:var(--muted);font-size:12px}
+.reader h1:focus{outline:2px solid #d9b77e;outline-offset:6px}
+@media(max-width:800px){
+  .top .container{position:relative}
+  .nav-toggle{display:inline-flex}
+  .top nav#primary-nav{display:none;position:absolute;top:100%;left:0;right:0;z-index:20;flex-direction:column;align-items:flex-start;gap:0;padding:10px 25px 16px;border:1px solid var(--line);border-top:0;background:#171411;box-shadow:0 16px 24px #0008}
+  .top.menu-open nav#primary-nav{display:flex}
+  .top nav#primary-nav a{display:block;width:100%;padding:11px 0;border-bottom:1px solid #40372b}
+  .top nav#primary-nav a:last-child{border-bottom:0}
+  .path-grid{grid-template-columns:1fr}
+  .path-card{min-height:0}
+}
+@media(max-width:520px){
+  .nav-toggle{padding:8px 10px;font-size:12px}
+  .path-card{padding:21px}
+  .path-card h3{margin-top:17px}
+}
