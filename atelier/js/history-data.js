@@ -28,11 +28,11 @@
   function readCache(portfolio) {
     try {
       const raw=localStorage.getItem(CACHE_KEY);
-      if(!raw)return {version:1,createdAt:portfolio.createdAt,checkedDay:0,candles:{}};
+      if(!raw)return {version:1,createdAt:portfolio.createdAt,checkedDay:0,checkedAt:0,lastSuccessAt:null,candles:{}};
       const data=JSON.parse(raw);
-      if(data.version!==1||data.createdAt!==portfolio.createdAt||!data.candles||typeof data.candles!=='object')return {version:1,createdAt:portfolio.createdAt,checkedDay:0,candles:{}};
+      if(data.version!==1||data.createdAt!==portfolio.createdAt||!data.candles||typeof data.candles!=='object')return {version:1,createdAt:portfolio.createdAt,checkedDay:0,checkedAt:0,lastSuccessAt:null,candles:{}};
       return data;
-    } catch { return {version:1,createdAt:portfolio.createdAt,checkedDay:0,candles:{}}; }
+    } catch { return {version:1,createdAt:portfolio.createdAt,checkedDay:0,checkedAt:0,lastSuccessAt:null,candles:{}}; }
   }
 
   function writeCache(cache) {
@@ -64,7 +64,7 @@
     const rangeStart=Math.max(Math.floor(createdAt/DAY)*DAY,maxStart);
     const truncated=createdAt<rangeStart;
     const cache=readCache(portfolio);
-    const shouldCheckToday=force||Number(cache.checkedDay)!==todayStart;
+    const shouldCheckToday=force||Number(cache.checkedDay)!==todayStart||(now-Number(cache.checkedAt||0)>6*60*60*1000);
     const errors=[];
     const results={};
 
@@ -80,6 +80,7 @@
           const byTime=new Map(merged.map(row=>[Number(row[0]),row]));
           fresh.forEach(row=>byTime.set(Number(row[0]),row));
           merged=[...byTime.values()].sort((a,b)=>Number(a[0])-Number(b[0])).slice(-MAX_DAYS);
+          if(fresh.length)cache.lastSuccessAt=new Date().toISOString();
         } catch(error) {
           errors.push({symbol,message:error.message});
         }
@@ -93,19 +94,26 @@
     cache.version=1;
     cache.createdAt=portfolio.createdAt;
     cache.checkedDay=todayStart;
-    cache.updatedAt=new Date().toISOString();
+    cache.checkedAt=now;
+    if(cache.lastSuccessAt===undefined)cache.lastSuccessAt=null;
     writeCache(cache);
 
     const missing=symbols.filter(symbol=>!results[symbol]?.length);
-    if(missing.length&&!Object.values(results).some(rows=>rows.length)) {
-      throw new Error(errors.length?errors.map(e=>e.symbol+': '+e.message).join(' · '):'Aucune clôture journalière disponible pour ce portefeuille.');
+    if(missing.length&&now-createdAt>DAY) {
+      for(const symbol of missing) {
+        if(!errors.some(error=>error.symbol===symbol))errors.push({symbol,message:'Aucune clôture journalière complète n’a été reçue pour cet actif.'});
+      }
+    }
+    if(missing.length&&!Object.values(results).some(rows=>rows.length)&&now-createdAt>DAY) {
+      throw new Error(errors.map(e=>e.symbol+': '+e.message).join(' · ')||'Aucune clôture journalière disponible pour ce portefeuille.');
     }
     return {
       candlesBySymbol:results,
       symbols,
       rangeStart,
       truncated,
-      errors:errors.filter(error=>!results[error.symbol]?.length),
+      errors, 
+      updatedAt:cache.lastSuccessAt,
       source:'Binance Spot · clôtures journalières UTC',
       updatedAt:new Date().toISOString()
     };
