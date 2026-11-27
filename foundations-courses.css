@@ -1095,3 +1095,43 @@
     overflow-x:auto;
   }
 }
+
+/* Fine contrast pass: inherited legacy rules with !important must not recolor
+   the new pale panels with the site's warm-on-dark text tokens. */
+#lesson-content #troc .lane-note{color:#475569!important}
+#lesson-content #formes .flow-footnote{color:#475569!important}
+#lesson-content #confiance .trust-step:nth-of-type(2){background:#f5f3ff;border-color:#c4b5fd}
+#lesson-content #confiance .trust-step:nth-of-type(2) b{color:#6d28d9}
+#lesson-content #confiance .trust-step:nth-of-type(3){background:#ecfeff;border-color:#67e8f9}
+#lesson-content #confiance .trust-step:nth-of-type(3) b{color:#0e7490}
+#lesson-content #confiance .trust-step:nth-of-type(4){background:#ecfdf5;border-color:#86efac}
+#lesson-content #confiance .trust-step:nth-of-type(4) b{color:#166534}
+#lesson-content #btc-probleme .btc-contrast>div:not(.btc-contrast-arrow){
+  color:#172033;
+  border:1px solid #cbd5e1;
+  background:#f8fafc;
+}
+#lesson-content #btc-probleme .btc-contrast>div:first-child{border-top:4px solid #64748b}
+#lesson-content #btc-probleme .btc-contrast>div:last-child{border-top:4px solid #0f766e}
+#lesson-content #btc-probleme .btc-contrast-arrow{
+  color:#0f766e;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+#lesson-content #btc-reseau .btc-role-lab .mode-button,
+#lesson-content #btc-parcours-transaction .btc-flow-lab .mode-button{
+  color:#334155;
+  border-color:#94a3b8;
+  background:#fff;
+}
+#lesson-content #btc-reseau .btc-role-lab .mode-button.active,
+#lesson-content #btc-parcours-transaction .btc-flow-lab .mode-button.active{
+  color:#fff;
+  border-color:#1d4ed8;
+  background:#1d4ed8;
+}
+#lesson-content #btc-parcours-transaction .btc-flow-note{color:#164e63!important}
+#lesson-content #ch3-cas .ch3-case-questions ol{color:#334155!important}
+#lesson-content #ch3-choisir .ch3-choice-table>div:not(.head)>span:nth-child(2):before{color:#1d4ed8}
+#lesson-content #ch3-choisir .ch3-choice-table>div:not(.head)>span:nth-child(3):before{color:#0f766e}
