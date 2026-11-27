@@ -160,8 +160,31 @@
             </section>
 
             <section class="data-panel track-panel">
-              <div class="panel-heading"><div><span class="panel-kicker">SUIVI DES PERFORMANCES</span><h3>Historique & track record</h3></div><span class="coming-label">EN CONSTRUCTION</span></div>
-              <div class="track-placeholder"><div class="track-mark">⌁</div><div><strong>Construisons un historique fiable.</strong><p>La courbe détaillée, le drawdown et la comparaison avec BTC ou ETH seront activés lorsque les séries de prix historiques auront été intégrées et vérifiées. Aucune performance passée ne sera reconstituée artificiellement.</p></div></div>
+              <div class="panel-heading"><div><span class="panel-kicker">SUIVI DES PERFORMANCES</span><h3>Historique & track record</h3></div><span class="coming-label" id="history-status-label">CLÔTURES JOURNALIÈRES</span></div>
+              <div class="performance-panel" id="performance-panel" hidden>
+                <div class="performance-stats">
+                  <div><span>PERFORMANCE SUR LA PÉRIODE</span><strong id="history-return">—</strong><small id="history-range-label">Depuis la création</small></div>
+                  <div><span>DRAWDOWN MAXIMAL</span><strong id="history-drawdown">—</strong><small>Repli depuis un précédent sommet</small></div>
+                  <div><span>VALORISATIONS</span><strong id="history-points">—</strong><small>Clôtures journalières complètes</small></div>
+                </div>
+                <div class="performance-toolbar">
+                  <div class="history-range-buttons" role="group" aria-label="Période du graphique">
+                    <button type="button" data-history-range="7">7J</button>
+                    <button type="button" data-history-range="30" class="active">30J</button>
+                    <button type="button" data-history-range="90">90J</button>
+                    <button type="button" data-history-range="all">Tout</button>
+                  </div>
+                  <span id="history-source-label">Binance Spot · UTC</span>
+                </div>
+                <div class="performance-chart-wrap">
+                  <svg id="performance-chart" viewBox="0 0 900 270" role="img" aria-label="Évolution de la valeur du portefeuille aux clôtures journalières"></svg>
+                </div>
+                <p class="history-status" id="history-status" role="status" aria-live="polite">Préparation de l’historique…</p>
+              </div>
+              <div class="track-placeholder" id="history-empty">
+                <div class="track-mark">⌁</div>
+                <div><strong>Votre historique se construit.</strong><p>La première valorisation apparaîtra lorsque des clôtures journalières complètes seront disponibles. Les montants seront reconstruits à partir de vos transactions et des prix historiques Binance, en UTC.</p></div>
+              </div>
             </section>
           </div>
           <div class="portfolio-footer"><span id="portfolio-storage-note">◈ Portefeuille enregistré localement dans ce navigateur.</span><div><button id="import-json" class="text-button" type="button">Importer une sauvegarde</button><button id="reset-portfolio" class="text-button danger-link" type="button">Réinitialiser le portefeuille</button></div></div>
@@ -216,6 +239,7 @@
   <script src="js/portfolio-engine.js"></script>
   <script src="js/portfolio-store.js"></script>
   <script src="js/market-data.js"></script>
+  <script src="js/history-data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
