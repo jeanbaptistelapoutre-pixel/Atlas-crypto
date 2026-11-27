@@ -9,7 +9,7 @@
   };
   const formatMoney = (value) => {
     const n = asNumber(value);
-    return n === null ? '—' : money.format(n) + ' $';
+    return n === null ? '—' : money.format(n) + ' USDC';
   };
   const formatUsdc = (microUnits) => {
     try { return formatMoney(Number(BigInt(microUnits)) / 1e6); }
@@ -22,7 +22,7 @@
   const formatPrice = (value) => {
     const n = asNumber(value);
     if(n===null)return '—';
-    return price.format(n) + ' $';
+    return price.format(n) + ' USDC';
   };
   const formatPct = (value) => {
     const n = asNumber(value);
