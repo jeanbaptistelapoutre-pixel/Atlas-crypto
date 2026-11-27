@@ -705,10 +705,10 @@ function atlasInitMarketLab(){
       row.className='market-book-row'+(used>=level.quantity?' is-consumed':used>0?' is-partial':'');
       const bar=document.createElement('span');bar.className='market-depth-bar';bar.setAttribute('aria-hidden','true');
       const barFill=document.createElement('i');barFill.style.width=(level.quantity/max*100)+'%';bar.append(barFill);
+      const sideLabel=document.createElement('span');sideLabel.className='market-level-side';sideLabel.textContent=kind==='ask'?'ASK':'BID';
       const price=document.createElement('strong');price.textContent=fmtPrice(level.price);
-      const quantity=document.createElement('span');quantity.textContent=fmtQty(level.quantity);
-      const executed=document.createElement('em');executed.textContent=used>0?'−'+fmtQty(used):'';
-      row.append(bar,price,quantity,executed);
+      const quantity=document.createElement('span');quantity.textContent=used>0?fmtQty(level.quantity)+' · −'+fmtQty(used):fmtQty(level.quantity);
+      row.append(bar,sideLabel,price,quantity);
       row.setAttribute('aria-label',(kind==='ask'?'Vente ':'Achat ')+fmtQty(level.quantity)+' unités à '+fmtPrice(level.price)+(used>0?', quantité consommée '+fmtQty(used):''));
       element.append(row);
     });
