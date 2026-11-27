@@ -2,9 +2,68 @@ const $=s=>document.querySelector(s);
 let active='Toutes';
 const parts=['Toutes',...new Set(CHAPTERS.map(x=>x.part))];
 const filterEl=$('#filters');
-parts.forEach(part=>{const b=document.createElement('button');b.className='filter'+(part===active?' active':'');b.textContent=part;b.addEventListener('click',()=>{active=part;renderCards();[...filterEl.children].forEach(el=>el.classList.toggle('active',el.textContent===part))});filterEl.append(b)});
-function renderCards(){const q=$('#search').value.toLocaleLowerCase('fr');const list=CHAPTERS.map((x,i)=>({...x,i})).filter(x=>(active==='Toutes'||x.part===active)&&(x.title+' '+x.lead+' '+x.detail).toLocaleLowerCase('fr').includes(q));$('#cards').replaceChildren(...list.map(x=>{const b=document.createElement('button');b.className='chapter';b.innerHTML='<span class="index">'+String(x.i+1).padStart(2,'0')+'</span><span class="chapter-status">'+(window.ATLAS_LESSONS?.[x.i+1]?'Cours approfondi':'Synthèse à enrichir')+'</span><h3></h3><p></p><span class="bottom">Lire la fiche →</span>';b.querySelector('h3').textContent=x.title;b.querySelector('p').textContent=x.lead;b.onclick=()=>location.hash='chapitre-'+(x.i+1);return b}));if(!list.length)$('#cards').textContent='Aucun chapitre ne correspond à votre recherche.'}
-$('#search').addEventListener('input',renderCards);renderCards();
+const normalizeSearch=value=>String(value??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLocaleLowerCase('fr');
+parts.forEach(part=>{
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='filter'+(part===active?' active':'');
+  button.textContent=part;
+  button.setAttribute('aria-pressed',String(part===active));
+  button.addEventListener('click',()=>{
+    active=part;
+    renderCards();
+    [...filterEl.children].forEach(item=>{
+      const selected=item.textContent===part;
+      item.classList.toggle('active',selected);
+      item.setAttribute('aria-pressed',String(selected));
+    });
+  });
+  filterEl.append(button);
+});
+function renderCards(){
+  const query=normalizeSearch($('#search').value);
+  const list=CHAPTERS.map((chapter,index)=>({...chapter,index})).filter(chapter=>{
+    const inPart=active==='Toutes'||chapter.part===active;
+    const searchable=[chapter.title,chapter.lead,chapter.detail,chapter.focus,chapter.caution].filter(Boolean).join(' ');
+    return inPart&&normalizeSearch(searchable).includes(query);
+  });
+  $('#cards').replaceChildren(...list.map(chapter=>{
+    const link=document.createElement('a');
+    link.className='chapter';
+    link.href='#chapitre-'+(chapter.index+1);
+    link.innerHTML='<span class="index">'+String(chapter.index+1).padStart(2,'0')+'</span><span class="chapter-status">'+(window.ATLAS_LESSONS?.[chapter.index+1]?'Cours approfondi':'Synthèse à enrichir')+'</span><h3></h3><p></p><span class="bottom">Lire la fiche →</span>';
+    link.querySelector('h3').textContent=chapter.title;
+    link.querySelector('p').textContent=chapter.lead;
+    return link;
+  }));
+  $('#search-status').textContent=list.length===0
+    ?'Aucun chapitre ne correspond à votre recherche.'
+    :list.length+' chapitre'+(list.length>1?'s':'')+' affiché'+(list.length>1?'s':'')+' sur '+CHAPTERS.length;
+}
+$('#search').addEventListener('input',renderCards);
+renderCards();
+
+const navToggle=$('#nav-toggle');
+const primaryNav=$('#primary-nav');
+const header=document.querySelector('.top');
+if(navToggle&&primaryNav&&header){
+  const setNavigationOpen=(open,restoreFocus=false)=>{
+    header.classList.toggle('menu-open',open);
+    navToggle.setAttribute('aria-expanded',String(open));
+    if(restoreFocus)navToggle.focus();
+  };
+  navToggle.addEventListener('click',()=>{
+    setNavigationOpen(navToggle.getAttribute('aria-expanded')!=='true');
+  });
+  primaryNav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>setNavigationOpen(false)));
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'&&navToggle.getAttribute('aria-expanded')==='true')setNavigationOpen(false,true);
+  });
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth>800)setNavigationOpen(false);
+  });
+}
+
 let current=0;
 function renderGeneric(c,i){
   const toc=[['comprendre','Comprendre'],['approfondir','Approfondir'],['retenir','À retenir'],['verifier','Vérifier ses acquis'],['sources','Sources']];
@@ -475,6 +534,9 @@ function route(){
   const i=Number(m[1])-1;if(!CHAPTERS[i]){location.hash='encyclopedie';return}current=i;const c=CHAPTERS[i];
   $('#home').hidden=true;$('#reader').classList.add('active');$('#reader-part').textContent=c.part+' · Fiche '+(i+1)+' / 25';$('#reader-title').textContent=c.title;$('#reader-lead').textContent=c.lead;
   const lesson=window.ATLAS_LESSONS?.[i+1];if(lesson){$('#lesson-meta').textContent=lesson.level+' · '+lesson.minutes+' min de lecture';$('#lesson-nav').innerHTML='<strong>Dans cette fiche</strong>'+lesson.toc.map(x=>'<a href="#'+x[0]+'">'+x[1]+'</a>').join('');$('#lesson-content').innerHTML=lesson.html;initLessonInteractions(i+1)}else{renderGeneric(c,i)}
-  $('#next').textContent=i===24?'Revenir au début ↺':'Fiche suivante →';window.scrollTo({top:0,behavior:'instant'});
+  $('#next').textContent=i===24?'Revenir au début ↺':'Fiche suivante →';
+  const readerTitle=$('#reader-title');
+  readerTitle.focus({preventScroll:true});
+  window.scrollTo({top:0,behavior:'instant'});
 }
 window.addEventListener('hashchange',route);route();$('#next').onclick=()=>location.hash='chapitre-'+(current===24?1:current+2);
