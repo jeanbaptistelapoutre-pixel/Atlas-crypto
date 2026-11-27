@@ -19,6 +19,14 @@ Le site actuel est une application statique centrée sur `index.html`, avec navi
 
 Décision : créer un espace indépendant sous `atelier/`, accessible depuis la navigation principale, plutôt que d'ajouter la logique de l'Atelier au routeur des chapitres. Cette séparation protège les cours existants et permet de faire évoluer les outils sans alourdir `app.js`.
 
+Direction visuelle retenue pour l'Atelier :
+- surfaces graphite et anthracite, avec des contrastes proches des terminaux de marché ;
+- bleu pour les accents d'interface, la navigation active et les éléments informatifs ;
+- vert pour les achats, les hausses et les performances positives ;
+- rouge pour les ventes, les baisses et les performances négatives ;
+- gris froid pour les textes secondaires, bordures et données neutres ;
+- ne pas utiliser l'or champagne comme couleur dominante dans l'Atelier. La typographie et le caractère sombre d'Atlas restent reconnaissables, mais la sémantique des couleurs suit les conventions classiques du trading.
+
 Structure cible proposée :
 - `atelier/index.html` : tableau de bord et navigation de l'Atelier.
 - `atelier/atelier.css` : styles dédiés, reprenant les couleurs, typographies et finitions d'Atlas.
