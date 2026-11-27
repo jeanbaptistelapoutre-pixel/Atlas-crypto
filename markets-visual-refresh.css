@@ -438,3 +438,19 @@
   #lesson-content .m11-sim-level,
   #lesson-content .m11-sim-track i{transition:none!important}
 }
+
+/* Audit correction — keep the example caption in normal flow below its cards.
+   The legacy stylesheet used a negative top margin here, which pulled the
+   sentence up into the card bottoms on the Chapter 11 desktop layout. */
+#lesson-content .m11-caption{
+  display:block;
+  position:relative;
+  z-index:1;
+  margin:12px 0 22px!important;
+  padding:0;
+  color:#94a3b8!important;
+  line-height:1.55!important;
+}
+#lesson-content .m11-price-anatomy{
+  margin-bottom:0;
+}
