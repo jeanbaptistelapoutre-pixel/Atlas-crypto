@@ -356,3 +356,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
     contain:paint;
   }
 }
+
+@media(max-width:360px){
+  #chapitre .sidebar{
+    overflow:visible;
+    flex-wrap:wrap;
+    white-space:normal;
+    gap:7px;
+  }
+  #chapitre .sidebar a{
+    white-space:normal;
+    max-width:100%;
+  }
+}
