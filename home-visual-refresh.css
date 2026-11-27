@@ -1,0 +1,528 @@
+/* Atlas Crypto — homepage visual harmonization.
+   Editorial navy canvas + clear learning surfaces + blue/teal accents.
+   Green/red are reserved for market-side semantics and validation states. */
+:root{
+  --atlas-ink:#172033;
+  --atlas-body:#334155;
+  --atlas-muted:#64748b;
+  --atlas-line:#cbd5e1;
+  --atlas-paper:#f8fafc;
+  --atlas-paper-soft:#f1f5f9;
+  --atlas-blue:#0369a1;
+  --atlas-blue-deep:#075985;
+  --atlas-blue-soft:#e0f2fe;
+  --atlas-teal:#0f766e;
+  --atlas-teal-deep:#115e59;
+  --atlas-teal-soft:#e7f5f1;
+  --atlas-red:#dc2626;
+  --atlas-red-soft:#fef2f2;
+  --atlas-green:#15803d;
+  --atlas-green-soft:#f0fdf4;
+  --atlas-night:#101923;
+  --atlas-night-panel:#172336;
+}
+
+/* Main navigation — stays editorial and dark, with the new cool accent family. */
+.top{
+  background:rgba(15,23,42,.94);
+  border-bottom:1px solid #334155;
+}
+.top nav#primary-nav{color:#cbd5e1}
+.top nav#primary-nav a{color:#cbd5e1;transition:color .18s ease}
+.top nav#primary-nav a:hover,
+.top nav#primary-nav a:focus-visible{color:#5eead4}
+.brand span{color:#5eead4}
+.top .pill{
+  color:#bae6fd;
+  border-color:#38bdf8;
+  background:rgba(3,105,161,.12);
+}
+.top .pill:hover{background:#075985;color:#fff;border-color:#38bdf8}
+.nav-toggle{
+  color:#e2e8f0;
+  background:#172336;
+  border-color:#475569;
+}
+.nav-toggle:hover{border-color:#38bdf8;color:#fff}
+.skip:focus{outline:3px solid #38bdf8}
+
+/* Hero — retain the photographic atmosphere, replace the gold glow with blue/teal. */
+#home .hero{
+  background-image:linear-gradient(90deg,#0f172a 1%,rgba(15,23,42,.95) 43%,rgba(15,23,42,.52) 100%),url('cover.png');
+  background-color:#0f172a;
+}
+#home .hero .eyebrow,
+#home .eyebrow{color:#7dd3fc}
+#home .hero h1{color:#f8fafc}
+#home .hero h1 em{color:#5eead4}
+#home .hero p{color:#dbe7f0}
+#home .hero .cta{
+  color:#fff;
+  background:#0369a1;
+  border-color:#38bdf8;
+  box-shadow:0 9px 26px rgba(2,132,199,.2);
+}
+#home .hero .cta:hover{background:#075985;border-color:#7dd3fc;transform:translateY(-1px)}
+#home .hero .pill{
+  color:#dbeafe;
+  background:rgba(15,23,42,.34);
+  border-color:#7dd3fc;
+}
+#home .hero .pill:hover{background:#164e63;border-color:#5eead4;color:#fff}
+
+/* The three headline statistics form a compact dark-blue strip. */
+#home>.stats{
+  background:#334155;
+  border-color:#334155;
+  gap:1px;
+}
+#home>.stats>div{background:#142033}
+#home>.stats strong{color:#5eead4}
+#home>.stats small{color:#cbd5e1}
+
+/* Guided pathways — light cards use the same paper / ink contrast as lesson cards. */
+#home #parcours{
+  background:#111b2a;
+}
+#home #parcours h2,
+#home #parcours .sub{color:#f1f5f9}
+#home #parcours .sub{color:#cbd5e1}
+#home #parcours .path-card{
+  color:var(--atlas-ink);
+  background:var(--atlas-paper);
+  border:1px solid var(--atlas-line);
+  border-top:4px solid var(--atlas-blue);
+  border-radius:13px;
+  box-shadow:0 12px 30px rgba(2,8,23,.13);
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+#home #parcours .path-card:nth-child(2){border-top-color:var(--atlas-teal)}
+#home #parcours .path-card:hover{
+  transform:translateY(-4px);
+  border-color:#7dd3fc;
+  box-shadow:0 18px 34px rgba(2,8,23,.19);
+}
+#home #parcours .path-card-featured{
+  background:linear-gradient(155deg,#f0f9ff 0%,#f8fafc 66%,#e7f5f1 100%);
+  border:1px solid #7dd3fc;
+  border-top:4px solid var(--atlas-teal);
+}
+#home #parcours .path-number{color:var(--atlas-blue-deep)}
+#home #parcours .path-card:nth-child(2) .path-number,
+#home #parcours .path-card-featured .path-number{color:var(--atlas-teal-deep)}
+#home #parcours .path-tag{
+  padding:5px 9px;
+  border:1px solid #bae6fd;
+  border-radius:30px;
+  background:var(--atlas-blue-soft);
+  color:var(--atlas-blue-deep);
+}
+#home #parcours .path-card:nth-child(2) .path-tag,
+#home #parcours .path-card-featured .path-tag{
+  border-color:#99f6e4;
+  background:var(--atlas-teal-soft);
+  color:var(--atlas-teal-deep);
+}
+#home #parcours .path-card h3{color:var(--atlas-ink)}
+#home #parcours .path-card p{color:var(--atlas-body)}
+#home #parcours .path-detail{
+  color:var(--atlas-muted);
+  border-top:1px solid #e2e8f0;
+}
+#home #parcours .path-link{color:var(--atlas-blue-deep)}
+#home #parcours .path-card:nth-child(2) .path-link,
+#home #parcours .path-card-featured .path-link{color:var(--atlas-teal-deep)}
+#home #parcours .path-link:hover{color:#0284c7}
+#home #parcours .path-note{
+  color:#164e63;
+  background:#e0f2fe;
+  border:1px solid #7dd3fc;
+  border-left:4px solid var(--atlas-blue);
+  border-radius:10px;
+}
+#home #parcours .path-note strong{color:#075985}
+
+/* Boussole — bright, tactile form controls; the recommendation is a calm teal surface. */
+#home #boussole{
+  background:linear-gradient(180deg,#172336 0%,#111b2a 100%);
+}
+#home #boussole h2{color:#f8fafc}
+#home #boussole .sub{color:#cbd5e1}
+#home #boussole .guide-form,
+#home #boussole .guide-result{
+  color:var(--atlas-ink);
+  border:1px solid var(--atlas-line);
+  border-radius:14px;
+  background:var(--atlas-paper);
+  box-shadow:0 14px 36px rgba(2,8,23,.16);
+}
+#home #boussole .guide-form{border-top:4px solid var(--atlas-blue)}
+#home #boussole .guide-question label{color:var(--atlas-ink)}
+#home #boussole .guide-question label span{
+  color:var(--atlas-blue-deep);
+  border-color:#7dd3fc;
+  background:var(--atlas-blue-soft);
+}
+#home #boussole .guide-question select{
+  color:var(--atlas-ink);
+  border:1px solid #94a3b8;
+  background:#fff;
+  border-radius:8px;
+}
+#home #boussole .guide-question select:hover{border-color:#38bdf8}
+#home #boussole .guide-question select:focus-visible{
+  outline:3px solid #7dd3fc;
+  outline-offset:2px;
+  border-color:var(--atlas-blue);
+}
+#home #boussole .guide-submit{
+  color:#fff;
+  background:var(--atlas-blue);
+  border-color:var(--atlas-blue);
+}
+#home #boussole .guide-submit:hover{background:var(--atlas-blue-deep);border-color:#38bdf8}
+#home #boussole .guide-result{
+  background:linear-gradient(150deg,#e0f2fe 0%,#f8fafc 58%,#e7f5f1 100%);
+  border-color:#99c9dc;
+  border-top:4px solid var(--atlas-teal);
+}
+#home #boussole .guide-result-kicker{color:var(--atlas-teal-deep)}
+#home #boussole .guide-result h3{color:var(--atlas-ink)}
+#home #boussole .guide-result>p{color:var(--atlas-body)}
+#home #boussole .guide-result-mark{color:rgba(15,118,110,.08)}
+#home #boussole .guide-chapter-link{
+  color:var(--atlas-ink);
+  background:#fff;
+  border:1px solid #cbd5e1;
+}
+#home #boussole .guide-chapter-link>span:first-child{color:var(--atlas-blue-deep)}
+#home #boussole .guide-chapter-link>span:last-child{color:var(--atlas-teal)}
+#home #boussole .guide-chapter-link:hover{
+  border-color:#0f766e;
+  background:#e7f5f1;
+}
+#home #boussole .guide-result .guide-result-foot{color:#536174}
+
+/* Local progress — cool dark section around a readable, light dashboard. */
+#home #ma-progression{
+  background:#111b2a;
+}
+#home #ma-progression h2{color:#f8fafc}
+#home #ma-progression .sub{color:#cbd5e1}
+#home #ma-progression .progress-privacy{color:#cbd5e1}
+#home #ma-progression .progress-privacy span{color:#5eead4}
+#home #ma-progression .progress-reset{
+  color:#bae6fd;
+  border-color:#64748b;
+  background:transparent;
+}
+#home #ma-progression .progress-reset:hover{
+  color:#fff;
+  border-color:#38bdf8;
+  background:#172336;
+}
+#home #ma-progression .progress-panel{
+  color:var(--atlas-ink);
+  border:1px solid var(--atlas-line);
+  border-top:4px solid var(--atlas-blue);
+  border-radius:14px;
+  background:var(--atlas-paper);
+  box-shadow:0 16px 38px rgba(2,8,23,.18);
+}
+#home #ma-progression .progress-topline{color:#475569}
+#home #ma-progression .progress-topline strong{color:var(--atlas-teal-deep)}
+#home #ma-progression .progress-track{background:#dbe3ed}
+#home #ma-progression .progress-track>span{
+  background:linear-gradient(90deg,#0284c7 0%,#0f766e 100%);
+}
+#home #ma-progression .progress-count strong{color:var(--atlas-blue-deep)}
+#home #ma-progression .progress-count span{color:var(--atlas-body)}
+#home #ma-progression .progress-metrics>div{
+  background:var(--atlas-blue-soft);
+  border:1px solid #bae6fd;
+}
+#home #ma-progression .progress-metrics>div:nth-child(2){
+  background:var(--atlas-teal-soft);
+  border-color:#99f6e4;
+}
+#home #ma-progression .progress-metrics strong{color:var(--atlas-blue-deep)}
+#home #ma-progression .progress-metrics>div:nth-child(2) strong{color:var(--atlas-teal-deep)}
+#home #ma-progression .progress-metrics span{color:var(--atlas-body)}
+#home #ma-progression .progress-footnote{color:#536174}
+
+/* Encyclopaedia and method cards — a consistent cool-paper card system. */
+#home #encyclopedie,
+#home #methode{
+  background:#edf2f6;
+}
+#home #encyclopedie h2,
+#home #methode h2{color:var(--atlas-ink)}
+#home #encyclopedie .sub,
+#home #methode .sub{color:var(--atlas-body)}
+#home #encyclopedie .search{
+  color:var(--atlas-ink);
+  border:1px solid #94a3b8;
+  background:#fff;
+  border-radius:9px;
+  box-shadow:0 2px 7px rgba(15,23,42,.04);
+}
+#home #encyclopedie .search::placeholder{color:#64748b}
+#home #encyclopedie .search:focus-visible{
+  outline:3px solid #bae6fd;
+  outline-offset:2px;
+  border-color:var(--atlas-blue);
+}
+#home #encyclopedie .filter{
+  color:#475569;
+  border:1px solid #cbd5e1;
+  background:#fff;
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+#home #encyclopedie .filter:hover{
+  color:var(--atlas-blue-deep);
+  border-color:#7dd3fc;
+  background:var(--atlas-blue-soft);
+}
+#home #encyclopedie .filter.active{
+  color:#fff;
+  border-color:var(--atlas-blue);
+  background:var(--atlas-blue);
+}
+#home #encyclopedie .search-status{color:#475569}
+#home #encyclopedie .cards,
+#home #methode .cards{gap:16px}
+#home #encyclopedie .chapter,
+#home #methode .chapter{
+  min-width:0;
+  color:var(--atlas-ink);
+  background:#fff;
+  border:1px solid var(--atlas-line);
+  border-top:3px solid var(--atlas-blue);
+  border-radius:12px;
+  box-shadow:0 7px 20px rgba(15,23,42,.055);
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+#home #encyclopedie .chapter:hover,
+#home #methode .chapter:hover{
+  color:var(--atlas-ink);
+  border-color:#7dd3fc;
+  box-shadow:0 14px 30px rgba(15,23,42,.11);
+  transform:translateY(-3px);
+}
+#home #encyclopedie .chapter .index,
+#home #methode .chapter .index{color:var(--atlas-blue-deep)}
+#home #encyclopedie .chapter .chapter-status{
+  display:inline-flex;
+  align-self:flex-start;
+  margin:7px 0 0;
+  padding:4px 8px;
+  border:1px solid #99f6e4;
+  border-radius:30px;
+  background:var(--atlas-teal-soft);
+  color:var(--atlas-teal-deep);
+  font-size:10px;
+  line-height:1.35;
+}
+#home #encyclopedie .chapter h3,
+#home #methode .chapter h3{color:var(--atlas-ink)}
+#home #encyclopedie .chapter p,
+#home #methode .chapter p{color:var(--atlas-body)}
+#home #encyclopedie .chapter .bottom,
+#home #methode .chapter .bottom{
+  color:var(--atlas-blue-deep);
+  border-top:1px solid #e2e8f0;
+}
+#home #methode .chapter:nth-child(2){border-top-color:var(--atlas-teal)}
+#home #methode .chapter:nth-child(3){border-top-color:#64748b}
+
+/* Market workbench — pale shell, navy book, semantic red asks and green bids. */
+#home #market-lab{
+  background:#e8eef4;
+}
+#home #market-lab h2{color:var(--atlas-ink)}
+#home #market-lab .sub{color:var(--atlas-body)}
+#home #market-lab .market-lab{
+  color:var(--atlas-ink);
+  border:1px solid #b8c6d8;
+  border-top:4px solid var(--atlas-teal);
+  border-radius:15px;
+  background:#f8fafc;
+  box-shadow:0 20px 48px rgba(15,23,42,.1);
+}
+#home #market-lab .market-tag,
+#home #market-lab .market-panel-kicker{color:var(--atlas-blue-deep)}
+#home #market-lab .market-lab-heading h3{color:var(--atlas-ink)}
+#home #market-lab .market-live-indicator{
+  color:#475569;
+  border-color:#cbd5e1;
+  background:#fff;
+}
+#home #market-lab .market-live-indicator i{
+  background:#0f766e;
+  box-shadow:0 0 0 3px rgba(15,118,110,.12);
+}
+#home #market-lab .market-overview{
+  gap:9px;
+  border:0;
+  background:transparent;
+}
+#home #market-lab .market-overview>div{
+  border:1px solid #bae6fd;
+  border-radius:9px;
+  background:var(--atlas-blue-soft);
+}
+#home #market-lab .market-overview>div:first-child{
+  background:var(--atlas-green-soft);
+  border-color:#bbf7d0;
+}
+#home #market-lab .market-overview>div:last-child{
+  background:var(--atlas-red-soft);
+  border-color:#fecaca;
+}
+#home #market-lab .market-overview span{color:#475569}
+#home #market-lab .market-overview strong{color:var(--atlas-blue-deep)}
+#home #market-lab .market-overview>div:first-child strong{color:var(--atlas-green)}
+#home #market-lab .market-overview>div:last-child strong{color:var(--atlas-red)}
+#home #market-lab .market-book{
+  border-color:#334155;
+  background:var(--atlas-night);
+}
+#home #market-lab .market-book-head strong{color:#f8fafc}
+#home #market-lab .market-book-head span{color:#94a3b8}
+#home #market-lab .market-book-labels{color:#cbd5e1}
+#home #market-lab .market-book-row{
+  color:#e2e8f0;
+  border-color:#334155;
+  background:#172336;
+}
+#home #market-lab .market-book-levels.asks .market-book-row strong{color:#fca5a5}
+#home #market-lab .market-book-levels.bids .market-book-row strong{color:#86efac}
+#home #market-lab .market-book-levels.asks .market-book-row .market-depth-bar i{background:#ef4444}
+#home #market-lab .market-book-levels.bids .market-book-row .market-depth-bar i{background:#22c55e}
+#home #market-lab .market-book-row.is-consumed{
+  background:#273548;
+  border-color:#38bdf8;
+}
+#home #market-lab .market-book-row.is-partial{
+  background:#213247;
+  border-color:#7dd3fc;
+}
+#home #market-lab .market-book-row.is-consumed strong,
+#home #market-lab .market-book-row.is-partial strong{color:#f8fafc}
+#home #market-lab .market-mid-price{
+  border-color:#475569;
+  background:#223148;
+}
+#home #market-lab .market-mid-price span{color:#cbd5e1}
+#home #market-lab .market-mid-price strong{color:#7dd3fc}
+#home #market-lab .market-book-note{color:#94a3b8}
+#home #market-lab .market-order-panel{
+  border-color:#cbd5e1;
+  background:#fff;
+}
+#home #market-lab .market-order-panel h3{color:var(--atlas-ink)}
+#home #market-lab .market-side-toggle button{
+  color:var(--atlas-body);
+  background:#fff;
+  border-color:#cbd5e1;
+}
+#home #market-lab .market-side-toggle button:hover{border-color:#7dd3fc}
+#home #market-lab .market-side-toggle button[aria-pressed="true"][data-market-side="buy"]{
+  color:#14532d;
+  border-color:#86efac;
+  background:#f0fdf4;
+}
+#home #market-lab .market-side-toggle button[aria-pressed="true"][data-market-side="sell"]{
+  color:#991b1b;
+  border-color:#fca5a5;
+  background:#fef2f2;
+}
+#home #market-lab .market-quantity-label{color:var(--atlas-body)}
+#home #market-lab .market-quantity-label strong{color:var(--atlas-blue-deep)}
+#home #market-lab #market-quantity{accent-color:#0284c7}
+#home #market-lab .market-range-ends{color:#64748b}
+#home #market-lab .market-execution{
+  border:1px solid #bae6fd;
+  border-radius:10px;
+  background:#eff6ff;
+}
+#home #market-lab .market-execution-main span{color:#475569}
+#home #market-lab .market-execution-main strong{color:var(--atlas-blue-deep)}
+#home #market-lab .market-result-row{color:#475569;border-top-color:#dbeafe}
+#home #market-lab .market-result-row strong{color:var(--atlas-ink)}
+#home #market-lab .market-explanation{
+  border-left-color:var(--atlas-teal);
+  background:var(--atlas-teal-soft);
+  color:var(--atlas-teal-deep);
+}
+#home #market-lab .market-learning-note{
+  border:1px solid #99f6e4;
+  border-left:4px solid var(--atlas-teal);
+  background:var(--atlas-teal-soft);
+}
+#home #market-lab .market-learning-note strong{color:var(--atlas-teal-deep)}
+#home #market-lab .market-learning-note p{color:#334155}
+#home #market-lab .market-disclaimer{color:#536174}
+
+/* Bitcoin lab teaser and page footer. */
+#home #laboratoire{background:#111b2a}
+#home #laboratoire h2{color:#f8fafc}
+#home #laboratoire .sub{color:#cbd5e1}
+#home #laboratoire .container>div>p:not(.sub){color:#dbe7f0}
+#home #laboratoire .cta{
+  color:#fff;
+  background:var(--atlas-blue);
+  border-color:#38bdf8;
+}
+#home #laboratoire .cta:hover{background:var(--atlas-blue-deep)}
+#home #laboratoire .lab-card{
+  border:1px solid #3b536b;
+  background:radial-gradient(circle at 50% 42%,#164e63 0%,#172336 48%,#101923 100%);
+}
+#home #laboratoire .lab-card .coin{
+  color:#7dd3fc;
+  border-color:#38bdf8;
+  background:radial-gradient(circle at 35% 30%,#155e75,#0f172a 72%);
+  box-shadow:0 0 70px rgba(56,189,248,.16);
+}
+#home #laboratoire .lab-card p{color:#cbd5e1!important}
+.footer{
+  color:#94a3b8;
+  border-top:1px solid #334155;
+  background:#0b1220;
+}
+.footer .container{color:#94a3b8}
+
+/* Keep all cards fluid and the interaction states visible on compact screens. */
+#home .path-card,
+#home .guide-form,
+#home .guide-result,
+#home .progress-panel,
+#home .chapter,
+#home .market-book,
+#home .market-order-panel{min-width:0}
+#home button:focus-visible,
+#home a:focus-visible,
+#home input:focus-visible,
+#home select:focus-visible,
+.top a:focus-visible,
+.top button:focus-visible{
+  outline:3px solid #38bdf8;
+  outline-offset:3px;
+}
+@media(max-width:800px){
+  #home #parcours .path-card{width:100%}
+  #home #boussole .guide-result{min-height:240px}
+}
+@media(max-width:520px){
+  #home>.stats>div{padding:20px 8px}
+  #home #market-lab .market-overview{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #home #market-lab .market-overview span{font-size:8px;line-height:1.4}
+  #home #market-lab .market-overview strong{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  #home .path-card,
+  #home .chapter,
+  #home .guide-chapter-link,
+  #home .progress-track>span{transition:none!important}
+}
