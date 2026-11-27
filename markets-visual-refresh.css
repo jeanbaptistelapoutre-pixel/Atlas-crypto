@@ -1,0 +1,460 @@
+/* Atlas Crypto — Chapter 11 visual harmonization.
+   Chart colors follow the same restrained market palette as Chapter 12:
+   navy data canvases, slate text, blue/teal structure, green bids and red asks. */
+#lesson-content{
+  --m11-ink:#172033;
+  --m11-body:#334155;
+  --m11-muted:#64748b;
+  --m11-line:#cbd5e1;
+  --m11-paper:#f8fafc;
+  --m11-paper-soft:#f1f5f9;
+  --m11-blue:#0369a1;
+  --m11-blue-deep:#075985;
+  --m11-blue-soft:#e0f2fe;
+  --m11-teal:#0f766e;
+  --m11-teal-deep:#115e59;
+  --m11-teal-soft:#e7f5f1;
+  --m11-red:#ef4444;
+  --m11-red-soft:#fef2f2;
+  --m11-green:#22c55e;
+  --m11-green-soft:#f0fdf4;
+  --m11-dark:#101923;
+  --m11-dark-panel:#17212f;
+}
+
+/* Conceptual charts use the same dark chart canvas as the candlestick visuals. */
+#lesson-content .market-figure{
+  padding:clamp(14px,2.4vw,24px);
+  border:1px solid #334155;
+  border-radius:14px;
+  background:var(--m11-dark);
+  color:#e2e8f0;
+  box-shadow:0 10px 28px rgba(15,23,42,.12);
+}
+#lesson-content .market-figure-heading>span{
+  color:#94a3b8;
+  font-size:.68rem;
+  letter-spacing:.11em;
+}
+#lesson-content .market-figure-heading>b{
+  color:#f8fafc;
+  font:600 1.05rem/1.35 'DM Sans',sans-serif;
+}
+#lesson-content .market-figure figcaption{
+  color:#94a3b8;
+  font-size:.78rem;
+  line-height:1.55;
+}
+#lesson-content .m11-economics-chart{
+  border:1px solid #334155;
+  border-radius:10px;
+  background:#111827;
+}
+
+/* Price references: the three cards share a surface; labels carry the distinction. */
+#lesson-content .m11-price-anatomy article,
+#lesson-content .m11-definition-grid article,
+#lesson-content .m11-two-col article,
+#lesson-content .m11-order-compare article,
+#lesson-content .m11-liquidity-triad article,
+#lesson-content .m11-volume-depth>div,
+#lesson-content .m11-misconceptions article,
+#lesson-content .m11-takeaways article{
+  min-width:0;
+  color:var(--m11-ink);
+  background:var(--m11-paper);
+  border:1px solid var(--m11-line);
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(15,23,42,.055);
+}
+#lesson-content .m11-price-anatomy article,
+#lesson-content .m11-definition-grid article,
+#lesson-content .m11-liquidity-triad article,
+#lesson-content .m11-takeaways article{
+  border-top:3px solid var(--m11-teal);
+}
+#lesson-content .m11-price-anatomy article>span,
+#lesson-content .m11-definition-grid article>span,
+#lesson-content .m11-misconceptions article>span,
+#lesson-content .m11-takeaways article>span{
+  color:var(--m11-blue-deep);
+  font-size:.68rem;
+  letter-spacing:.09em;
+  font-weight:800;
+}
+#lesson-content .m11-price-anatomy article>b,
+#lesson-content .m11-definition-grid article>b{
+  color:var(--m11-ink);
+}
+#lesson-content .m11-price-anatomy article>p,
+#lesson-content .m11-definition-grid article>p,
+#lesson-content .m11-two-col article>p,
+#lesson-content .m11-liquidity-triad article>p,
+#lesson-content .m11-liquidity-triad article>small,
+#lesson-content .m11-volume-depth>div>span,
+#lesson-content .m11-volume-depth>div>small,
+#lesson-content .m11-misconceptions article>p,
+#lesson-content .m11-takeaways article>p{
+  color:var(--m11-body)!important;
+  line-height:1.6!important;
+}
+#lesson-content .m11-price-anatomy article:nth-child(1){border-top-color:var(--m11-blue)}
+#lesson-content .m11-price-anatomy article:nth-child(2){border-top-color:var(--m11-teal)}
+#lesson-content .m11-price-anatomy article:nth-child(3){border-top-color:#64748b}
+#lesson-content .m11-price-anatomy article:nth-child(1)>span{color:var(--m11-blue-deep)}
+#lesson-content .m11-price-anatomy article:nth-child(2)>span{color:var(--m11-teal-deep)}
+#lesson-content .m11-price-anatomy article:nth-child(3)>span{color:#475569}
+#lesson-content .m11-caption{color:var(--m11-muted)!important;font-size:.78rem!important}
+
+/* Market order book: keep the ladder on navy; red ask / green bid are semantic. */
+#lesson-content .m11-book{
+  grid-template-columns:minmax(0,1fr) minmax(145px,.7fr) minmax(0,1fr);
+  gap:12px;
+}
+#lesson-content .m11-book-title span{color:#e2e8f0}
+#lesson-content .m11-book-title small{color:#94a3b8}
+#lesson-content .m11-book-row{
+  border:1px solid #334155;
+  border-radius:7px;
+  background:#17212f;
+}
+#lesson-content .m11-book-row>span,
+#lesson-content .m11-book-row>b{color:#e2e8f0}
+#lesson-content .m11-book-row>i{background:var(--m11-red);opacity:.26}
+#lesson-content .m11-book-side.bids .m11-book-row>i{background:var(--m11-green)}
+#lesson-content .m11-book-side.asks .m11-book-row.best{
+  border-color:var(--m11-red);
+  background:#2b2028;
+}
+#lesson-content .m11-book-side.bids .m11-book-row.best{
+  border-color:var(--m11-green);
+  background:#182a27;
+}
+#lesson-content .m11-book-spread{
+  border-top:1px solid #334155;
+  border-bottom:1px solid #334155;
+  border-radius:9px;
+  background:#1b2939;
+}
+#lesson-content .m11-book-spread span{color:#cbd5e1}
+#lesson-content .m11-book-spread b{
+  color:#f8fafc;
+  font:700 1.25rem 'DM Sans',sans-serif;
+}
+#lesson-content .m11-book-spread em{
+  border-color:#38bdf8;
+  background:#0c4a6e;
+  color:#e0f2fe;
+}
+#lesson-content .m11-book-legend{color:#cbd5e1;font-size:.75rem}
+#lesson-content .m11-book-legend .ask-dot{background:var(--m11-red)}
+#lesson-content .m11-book-legend .bid-dot{background:var(--m11-green)}
+
+/* Ask / bid / spread definitions use the same market-side semantics as the book. */
+#lesson-content .m11-definition-grid article:nth-child(1){border-top-color:var(--m11-red)}
+#lesson-content .m11-definition-grid article:nth-child(2){border-top-color:var(--m11-green)}
+#lesson-content .m11-definition-grid article:nth-child(3){border-top-color:var(--m11-blue)}
+#lesson-content .m11-definition-grid article:nth-child(1)>span,
+#lesson-content .m11-definition-grid article:nth-child(1)>b{color:#b91c1c}
+#lesson-content .m11-definition-grid article:nth-child(2)>span,
+#lesson-content .m11-definition-grid article:nth-child(2)>b{color:#15803d}
+#lesson-content .m11-definition-grid article:nth-child(3)>span,
+#lesson-content .m11-definition-grid article:nth-child(3)>b{color:var(--m11-blue-deep)}
+
+/* Order types: one shared card system, blue and teal accents only. */
+#lesson-content .m11-order-compare article{
+  background:var(--m11-paper);
+  border-color:var(--m11-line);
+}
+#lesson-content .m11-order-compare article:first-child{border-top:3px solid var(--m11-blue)}
+#lesson-content .m11-order-compare article:last-child{border-top:3px solid var(--m11-teal)}
+#lesson-content .m11-order-label{
+  color:var(--m11-blue-deep);
+  font-size:.68rem;
+  letter-spacing:.1em;
+}
+#lesson-content .m11-order-compare article:last-child .m11-order-label{color:var(--m11-teal-deep)}
+#lesson-content .m11-order-compare h3{
+  color:var(--m11-ink);
+  font:600 1.12rem/1.4 'DM Sans',sans-serif!important;
+}
+#lesson-content .m11-order-compare p{color:var(--m11-body)!important}
+#lesson-content .m11-order-tradeoff{
+  padding:11px 12px;
+  border-left:3px solid var(--m11-blue);
+  border-radius:0 7px 7px 0;
+  background:var(--m11-blue-soft);
+  color:var(--m11-body);
+}
+#lesson-content .m11-order-compare article:last-child .m11-order-tradeoff{
+  border-left-color:var(--m11-teal);
+  background:var(--m11-teal-soft);
+}
+#lesson-content .m11-order-tradeoff b{color:var(--m11-blue-deep)}
+#lesson-content .m11-order-compare article:last-child .m11-order-tradeoff b{color:var(--m11-teal-deep)}
+
+/* Liquidity is a three-part model; each card stays within the blue/teal family. */
+#lesson-content .m11-liquidity-triad article>span{color:var(--m11-blue-deep);font:700 1rem 'DM Sans',sans-serif}
+#lesson-content .m11-liquidity-triad article>b{
+  color:var(--m11-ink);
+  font:600 1.05rem 'DM Sans',sans-serif;
+}
+#lesson-content .m11-liquidity-triad article>small{
+  border-top-color:#dbe3ed;
+  color:var(--m11-blue-deep)!important;
+}
+#lesson-content .m11-liquidity-triad article:nth-child(2)>span,
+#lesson-content .m11-liquidity-triad article:nth-child(2)>small{color:var(--m11-teal-deep)!important}
+#lesson-content .m11-volume-depth>div{
+  min-height:175px;
+  background:var(--m11-paper);
+}
+#lesson-content .m11-volume-depth>div>b{
+  color:var(--m11-ink);
+  font:600 1rem 'DM Sans',sans-serif;
+}
+#lesson-content .m11-volume-depth>div>span{margin-top:6px}
+#lesson-content .m11-volume-bars i{background:#0ea5e9}
+#lesson-content .m11-depth-bars i{background:#0f766e}
+
+/* Misconceptions and applied case: quiet neutral cards and a teal conclusion. */
+#lesson-content .m11-misconceptions article{background:var(--m11-paper)}
+#lesson-content .m11-misconceptions article>span{color:var(--m11-blue-deep)}
+#lesson-content .m11-misconceptions h3{
+  color:var(--m11-ink);
+  font:600 1rem/1.45 'DM Sans',sans-serif!important;
+}
+#lesson-content .m11-misconceptions p{color:var(--m11-body)!important}
+#lesson-content .m11-misconceptions p b{color:var(--m11-teal-deep)}
+#lesson-content .m11-application{
+  padding:clamp(16px,2.4vw,22px);
+  border:1px solid #99f6e4;
+  border-left:4px solid var(--m11-teal);
+  border-radius:12px;
+  background:var(--m11-teal-soft);
+}
+#lesson-content .m11-application>span{color:var(--m11-teal-deep)}
+#lesson-content .m11-application h3{
+  color:var(--m11-ink);
+  font:600 1.18rem/1.35 'DM Sans',sans-serif!important;
+}
+#lesson-content .m11-application p,
+#lesson-content .m11-application li{color:var(--m11-body)}
+#lesson-content .m11-application ol{padding-left:22px}
+#lesson-content .m11-application-end{
+  border-top-color:#99f6e4;
+  color:var(--m11-teal-deep)!important;
+}
+
+/* Summary cards share the same surface, weight and ink hierarchy. */
+#lesson-content .m11-takeaways article{
+  border-left:3px solid var(--m11-teal);
+  border-top:1px solid var(--m11-line);
+}
+#lesson-content .m11-takeaways article:nth-child(2n){border-left-color:var(--m11-blue)}
+#lesson-content .m11-takeaways article>span{color:var(--m11-blue-deep)}
+#lesson-content .m11-takeaways article>b{
+  color:var(--m11-ink);
+  font:600 1rem/1.4 'DM Sans',sans-serif;
+}
+#lesson-content .m11-takeaways article>p{color:var(--m11-body)!important}
+
+/* Interactive order-book simulator: light workbench like Chapter 12 labs. */
+#lesson-content .m11-simulator{
+  padding:clamp(16px,2.5vw,24px);
+  border:1px solid #cbd5e1;
+  border-radius:14px;
+  background:#f7f5f0;
+  color:var(--m11-ink);
+  box-shadow:0 10px 28px rgba(15,23,42,.08);
+}
+#lesson-content .m11-sim-head h3{
+  color:var(--m11-ink);
+  font:600 1.15rem 'DM Sans',sans-serif!important;
+}
+#lesson-content .m11-sim-head>div>span{color:var(--m11-blue-deep);font-size:.68rem}
+#lesson-content .m11-sim-badge{
+  padding:6px 9px;
+  border:1px solid #cbd5e1;
+  background:#fff;
+  color:#475569;
+  font-size:.7rem;
+}
+#lesson-content .m11-sim-modes button{
+  padding:10px 12px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  background:#fff;
+  color:var(--m11-body);
+  font:600 .82rem 'DM Sans',sans-serif;
+}
+#lesson-content .m11-sim-modes button[aria-pressed="true"]{
+  border-color:#0284c7;
+  background:#e0f2fe;
+  color:#075985;
+  box-shadow:inset 0 0 0 1px #7dd3fc;
+}
+#lesson-content .m11-sim-book,
+#lesson-content .m11-sim-controls{
+  padding:15px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  background:#fff;
+}
+#lesson-content .m11-sim-book-head b{color:var(--m11-ink);font:600 1rem 'DM Sans',sans-serif}
+#lesson-content .m11-sim-book-head span{color:var(--m11-muted)}
+#lesson-content .m11-sim-level{
+  padding:10px 9px;
+  border:1px solid #dbe3ed;
+  border-radius:7px;
+  background:#f8fafc;
+}
+#lesson-content .m11-sim-level>b{color:var(--m11-blue-deep)}
+#lesson-content .m11-sim-track{background:#e2e8f0}
+#lesson-content .m11-sim-track i{background:#0ea5e9}
+#lesson-content .m11-sim-qty{color:#475569}
+#lesson-content .m11-sim-level.is-consumed{
+  border-color:#86efac;
+  background:#f0fdf4;
+}
+#lesson-content .m11-sim-level.is-consumed .m11-sim-track i{background:#16a34a}
+#lesson-content .m11-sim-level.is-partial{
+  border-color:#7dd3fc;
+  background:#f0f9ff;
+}
+#lesson-content .m11-sim-level.is-partial .m11-sim-track i{background:#0284c7}
+#lesson-content .m11-sim-controls>label{color:var(--m11-body)}
+#lesson-content .m11-sim-controls>label strong{color:var(--m11-blue-deep)}
+#lesson-content #m11-order-size{accent-color:#0284c7}
+#lesson-content .m11-sim-range{color:var(--m11-muted)}
+#lesson-content .m11-sim-results{
+  padding:13px;
+  border:1px solid #bae6fd;
+  border-radius:9px;
+  background:#eff6ff;
+}
+#lesson-content .m11-sim-results>div{border-bottom-color:#dbeafe}
+#lesson-content .m11-sim-results span{color:#475569}
+#lesson-content .m11-sim-results b{color:var(--m11-ink)}
+#lesson-content #m11-sim-average{color:var(--m11-teal-deep)}
+#lesson-content .m11-sim-feedback{
+  border-left:3px solid var(--m11-teal);
+  border-radius:6px;
+  background:var(--m11-teal-soft);
+  color:var(--m11-teal-deep);
+}
+#lesson-content .m11-sim-method{color:var(--m11-muted)!important}
+
+/* Chapter 11 callouts and checklist inherit site-wide gold rules; use the
+   chapter 12 blue/teal learning-note language instead. */
+#lesson-content #m11-point-de-depart .lesson-callout,
+#lesson-content #m11-equilibre .lesson-callout,
+#lesson-content #m11-carnet .lesson-callout,
+#lesson-content #m11-liquidite .lesson-callout,
+#lesson-content #m11-retenir .lesson-callout{
+  color:var(--m11-teal-deep);
+  border:1px solid #99f6e4;
+  border-left:4px solid var(--m11-teal);
+  border-radius:10px;
+  background:var(--m11-teal-soft);
+}
+#lesson-content #m11-point-de-depart .lesson-callout strong,
+#lesson-content #m11-equilibre .lesson-callout strong,
+#lesson-content #m11-carnet .lesson-callout strong,
+#lesson-content #m11-liquidite .lesson-callout strong,
+#lesson-content #m11-retenir .lesson-callout strong{color:var(--m11-teal-deep)}
+#lesson-content #m11-point-de-depart .lesson-callout p,
+#lesson-content #m11-equilibre .lesson-callout p,
+#lesson-content #m11-carnet .lesson-callout p,
+#lesson-content #m11-liquidite .lesson-callout p,
+#lesson-content #m11-retenir .lesson-callout p{color:var(--m11-teal-deep)!important}
+#lesson-content #m11-equilibre .lesson-callout-muted,
+#lesson-content #m11-liquidite .lesson-callout-muted{
+  border-color:#bae6fd;
+  border-left-color:var(--m11-blue);
+  background:var(--m11-blue-soft);
+  color:var(--m11-blue-deep);
+}
+#lesson-content #m11-equilibre .lesson-callout-muted strong,
+#lesson-content #m11-equilibre .lesson-callout-muted p,
+#lesson-content #m11-liquidite .lesson-callout-muted strong,
+#lesson-content #m11-liquidite .lesson-callout-muted p{color:var(--m11-blue-deep)!important}
+#lesson-content #m11-simulation .check-list li{
+  margin:7px 0;
+  padding:11px 14px 11px 40px;
+  border:1px solid var(--m11-line);
+  border-radius:8px;
+  background:var(--m11-paper);
+  color:var(--m11-body);
+}
+#lesson-content #m11-simulation .check-list li:before{color:var(--m11-teal)}
+
+/* Preserve the shared dark glossary and quiz treatment used elsewhere in Atlas. */
+#lesson-content #m11-glossaire .market-glossary details{
+  background:#1d1914;
+  border-color:#55432e;
+}
+#lesson-content #m11-glossaire .market-glossary summary{color:#ecd09b}
+#lesson-content #m11-glossaire .market-glossary details p{color:#c8baa8!important}
+#lesson-content #m11-glossaire .market-glossary details[open]{border-color:#816541}
+
+/* Visible keyboard focus and reduced-motion support. */
+#lesson-content .m11-simulator button:focus-visible,
+#lesson-content .m11-simulator input:focus-visible{
+  outline:3px solid #0ea5e9;
+  outline-offset:2px;
+}
+@media(max-width:760px){
+  #lesson-content .m11-sim-layout{grid-template-columns:1fr}
+  #lesson-content .m11-book{grid-template-columns:1fr}
+  #lesson-content .m11-book-spread{
+    grid-template-columns:1fr 1fr;
+    padding:12px;
+    border:1px solid #334155;
+    border-radius:9px;
+  }
+  #lesson-content .m11-book-spread span{grid-column:1/-1}
+  #lesson-content .m11-book-spread em{grid-column:1/-1;grid-row:auto}
+}
+@media(max-width:600px){
+  #lesson-content .m11-price-anatomy,
+  #lesson-content .m11-definition-grid,
+  #lesson-content .m11-liquidity-triad,
+  #lesson-content .m11-two-col,
+  #lesson-content .m11-order-compare,
+  #lesson-content .m11-volume-depth,
+  #lesson-content .m11-takeaways{grid-template-columns:1fr}
+  #lesson-content .m11-sim-level{
+    grid-template-columns:72px minmax(28px,.75fr) minmax(90px,1.25fr);
+    gap:6px;
+    padding:8px 6px;
+  }
+  #lesson-content .m11-sim-qty{font-size:8px}
+  #lesson-content .m11-book-row{min-height:44px}
+  #lesson-content .m11-simulator{padding:14px}
+  #lesson-content .m11-application{padding:15px}
+}
+@media(prefers-reduced-motion:reduce){
+  #lesson-content .m11-sim-level,
+  #lesson-content .m11-sim-track i{transition:none!important}
+}
+
+/* Audit correction — keep the example caption in normal flow below its cards.
+   The legacy stylesheet used a negative top margin here, which pulled the
+   sentence up into the card bottoms on the Chapter 11 desktop layout. */
+#lesson-content .m11-caption{
+  display:block;
+  position:relative;
+  z-index:1;
+  margin:12px 0 22px!important;
+  padding:0;
+  color:#94a3b8!important;
+  line-height:1.55!important;
+}
+#lesson-content .m11-price-anatomy{
+  margin-bottom:0;
+}
+
+/* Accessibility audit: titles and methodological notes on pale surfaces. */
+#lesson-content .m11-two-col article>b{color:#075985}
+#lesson-content .m11-sim-method{color:#536174!important}

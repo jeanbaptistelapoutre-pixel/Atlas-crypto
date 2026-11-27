@@ -75,7 +75,7 @@ window.ATLAS_LESSONS = {
         <div class="lesson-callout"><strong>Une grille d’analyse, pas un interrupteur</strong><p>Dans les manuels, ces trois fonctions servent à caractériser la monnaie. Dans la réalité, un instrument peut les remplir partiellement ou de manière imparfaite. Il vaut donc mieux demander « dans quelle mesure et dans quel contexte ? » plutôt que classer trop vite un actif comme monnaie ou non-monnaie.</p></div>
         <h3>Un même instrument peut-il remplir les trois fonctions ?</h3>
         <p>L’euro est utilisé pour afficher les prix, payer dans la zone euro et conserver temporairement un pouvoir d’achat. Mais sa capacité à préserver ce pouvoir d’achat dépend de l’évolution des prix. Le bitcoin peut être transféré et certains acteurs l’acceptent en paiement ; toutefois, sa volatilité et son acceptation limitée rendent son usage comme unité de compte ou réserve de valeur plus incertain dans de nombreuses situations. Cette observation décrit des usages : elle ne constitue pas une recommandation d’investissement.</p>
-        <div class="lesson-callout lesson-callout-muted"><strong>Fonctions économiques et statut institutionnel : deux questions différentes</strong><p>Cette grille permet d’étudier certains usages du bitcoin ; elle ne signifie pas qu’il est reconnu comme une monnaie au même titre que l’euro. Dans sa fiche pédagogique publiée en novembre 2026, la <a href="https://www.banque-france.fr/fr/publications-et-statistiques/publications/monnaie-de-quoi-parle-t-on" target="_blank" rel="noopener noreferrer">Banque de France</a> précise que les crypto-actifs ne sont pas considérés comme de la monnaie. On peut donc analyser des fonctions observées sans confondre cet exercice avec une classification institutionnelle.</p></div>
+        <div class="lesson-callout lesson-callout-muted"><strong>Fonctions économiques et statut institutionnel : deux questions différentes</strong><p>Cette grille permet d’étudier certains usages du bitcoin ; elle ne signifie pas qu’il est reconnu comme une monnaie au même titre que l’euro. Dans sa fiche pédagogique publiée le 2 novembre 2026, la <a href="https://www.banque-france.fr/fr/publications-et-statistiques/publications/monnaie-de-quoi-parle-t-on" target="_blank" rel="noopener noreferrer">Banque de France</a> rappelle que les crypto-actifs ne sont pas considérés comme de la monnaie. Sur le plan juridique en France, les crypto-actifs n’ont pas cours légal : <a href="https://www.economie.gouv.fr/particuliers/gerer-mon-argent/gerer-mon-budget-et-mon-epargne/cryptoactifs-cryptomonnaies-comment" target="_blank" rel="noopener noreferrer">l’euro est la seule monnaie ayant cours légal</a>, même si un professionnel peut accepter volontairement un paiement en crypto-actifs. On peut donc analyser les usages observés sans confondre fonctions économiques et statut institutionnel.</p></div>
         <div class="comparison-note"><b>Le bon réflexe</b><p>Ne demande pas seulement si un actif est transférable. Demande aussi s’il est utilisé pour fixer les prix, s’il est largement accepté pour régler des achats et si sa valeur d’achat reste suffisamment prévisible dans le temps.</p></div>
       </section>
 
@@ -153,15 +153,19 @@ window.ATLAS_LESSONS = {
           <article class="money-type"><div class="money-icon">₿</div><h3>Cryptoactif</h3><p>Un actif numérique dont les transferts et la tenue des unités sont régis par un protocole ou un réseau. Certains peuvent être utilisés pour transférer de la valeur, mais leur statut, leurs droits, leur stabilité et leur acceptation diffèrent fortement.</p><span>Exemple : bitcoin (BTC)</span></article>
         </div>
         <div class="distinction-panel"><div><span class="lesson-kicker">Distinction essentielle</span><h3>La carte bancaire n’est pas la monnaie.</h3><p>Une carte, un virement ou un paiement mobile est un instrument ou un moyen de paiement : il permet d’initier ou d’autoriser une opération. Quand tu paies 35 € avec une carte de débit, la monnaie réglée est généralement de la monnaie scripturale. La carte n’est pas le dépôt bancaire : elle donne accès à un mécanisme de paiement.</p></div><div class="distinction-visual"><div class="flow-chip">Ton compte<br><b>−35 €</b></div><div class="flow-arrow">→</div><div class="flow-chip">Réseau de paiement<br><b>instruction</b></div><div class="flow-arrow">→</div><div class="flow-chip">Compte du vendeur<br><b>+35 €</b></div></div><p class="flow-footnote">Schéma simplifié : une opération réelle peut impliquer la banque du payeur, la banque du commerçant, un réseau de carte, des étapes de compensation et un règlement interbancaire.</p><div class="payment-steps"><div><b>1 · Autorisation</b><span>La banque émettrice vérifie notamment que l’opération peut être acceptée.</span></div><div><b>2 · Compensation</b><span>Les informations de paiement sont échangées et les montants dus entre participants sont calculés.</span></div><div><b>3 · Règlement</b><span>Les obligations entre établissements sont soldées, généralement en monnaie de banque centrale.</span></div></div></div>
-        <h3>Un système à plusieurs étages</h3>
-        <p>Les dépôts bancaires et la monnaie de banque centrale sont liés, mais ce ne sont pas la même chose. Un dépôt est une dette d’une banque commerciale envers son client. Les réserves sont des créances des banques sur la banque centrale. Lorsque deux banques doivent régler entre elles, elles utilisent généralement de la monnaie de banque centrale pour le règlement final.</p>
-        <figure class="lesson-figure"><div class="layers-diagram">
-          <div class="layer layer-public"><b>Particuliers et entreprises</b><span>Utilisent espèces et dépôts bancaires</span></div>
-          <div class="layer-link">Paiements et transferts entre clients</div>
-          <div class="layer layer-bank"><b>Banques commerciales</b><span>Tiennent les comptes, accordent des crédits et exécutent les paiements</span></div>
-          <div class="layer-link">Règlements entre banques en monnaie centrale</div>
-          <div class="layer layer-central"><b>Banque centrale</b><span>Émet la monnaie centrale et met en œuvre la politique monétaire</span></div>
-        </div><figcaption>Vue simplifiée de quelques relations dans l’architecture monétaire de la zone euro.</figcaption></figure>
+        <details class="fc-advanced">
+          <summary>Pour aller plus loin : comment les banques règlent-elles entre elles ?</summary>
+          <div class="fc-advanced-content">
+            <p>Les dépôts bancaires et la monnaie de banque centrale sont liés, mais ce ne sont pas la même chose. Un dépôt est une dette d’une banque commerciale envers son client. Les réserves sont des créances des banques sur la banque centrale. Lorsque deux banques doivent régler entre elles, elles utilisent généralement de la monnaie de banque centrale pour le règlement final.</p>
+            <figure class="lesson-figure"><div class="layers-diagram">
+              <div class="layer layer-public"><b>Particuliers et entreprises</b><span>Utilisent espèces et dépôts bancaires</span></div>
+              <div class="layer-link">Paiements et transferts entre clients</div>
+              <div class="layer layer-bank"><b>Banques commerciales</b><span>Tiennent les comptes, accordent des crédits et exécutent les paiements</span></div>
+              <div class="layer-link">Règlements entre banques en monnaie centrale</div>
+              <div class="layer layer-central"><b>Banque centrale</b><span>Émet la monnaie centrale et met en œuvre la politique monétaire</span></div>
+            </div><figcaption>Vue simplifiée de quelques relations dans l’architecture monétaire de la zone euro.</figcaption></figure>
+          </div>
+        </details>
         <div class="lesson-callout lesson-callout-muted"><strong>À ne pas confondre</strong><p>« Numérique » décrit un support ou une forme technique. Cela ne suffit pas à déterminer la nature juridique ou économique d’une valeur. Un dépôt bancaire, de la monnaie électronique, une monnaie numérique de banque centrale et un cryptoactif peuvent tous être représentés par des données informatiques, mais ils ne créent pas les mêmes droits ni les mêmes obligations.</p></div>
       </section>
 
@@ -370,7 +374,9 @@ window.ATLAS_LESSONS = {
         <h2>Sources et lectures complémentaires</h2>
         <p>Les exemples de cette fiche sont pédagogiques. Pour vérifier les définitions, le cadre de l’euro, la mesure de l’inflation et la création monétaire, consulte les sources institutionnelles ci-dessous. Les textes peuvent avoir des objectifs différents ; lis aussi leurs définitions et leurs limites.</p>
         <div class="source-list">
-          <a href="https://www.banque-france.fr/fr/publications-et-statistiques/publications/monnaie-de-quoi-parle-t-on" target="_blank" rel="noopener noreferrer"><span>Banque de France · 2026</span><b>Monnaie : de quoi parle-t-on ?</b><small>Les trois fonctions de la monnaie, ses formes et les mécanismes du système monétaire.</small><em>Ouvrir la ressource ↗</em></a>
+          <a href="https://www.banque-france.fr/fr/publications-et-statistiques/publications/monnaie-de-quoi-parle-t-on" target="_blank" rel="noopener noreferrer"><span>Banque de France · 2 novembre 2026</span><b>Monnaie : de quoi parle-t-on ?</b><small>Les trois fonctions de la monnaie, ses formes et les mécanismes du système monétaire.</small><em>Ouvrir la ressource ↗</em></a>
+          <a href="https://www.banque-france.fr/fr/ensemble-dialoguons/ensemble-dialoguons-la-crypto" target="_blank" rel="noopener noreferrer"><span>Banque de France · Ressource pédagogique</span><b>Ensemble, dialoguons : la crypto</b><small>Les fonctions de la monnaie et les différences entre monnaie numérique et crypto-actifs.</small><em>Ouvrir la ressource ↗</em></a>
+          <a href="https://www.economie.gouv.fr/particuliers/gerer-mon-argent/gerer-mon-budget-et-mon-epargne/cryptoactifs-cryptomonnaies-comment" target="_blank" rel="noopener noreferrer"><span>Ministère de l’Économie</span><b>Cryptoactifs : peut-on parler de monnaie ?</b><small>Distinction entre usages économiques, statut juridique et cours légal en France.</small><em>Ouvrir la ressource ↗</em></a>
           <a href="https://www.ecb.europa.eu/ecb-and-you/explainers/tell-me-more/html/what_is_money.fr.html" target="_blank" rel="noopener noreferrer"><span>Banque centrale européenne</span><b>Qu’est-ce que la monnaie ?</b><small>Les fonctions de la monnaie, les formes utilisées aujourd’hui et la création monétaire.</small><em>Ouvrir la ressource ↗</em></a>
           <a href="https://www.ecb.europa.eu/ecb/orga/tasks/euro/html/index.en.html" target="_blank" rel="noopener noreferrer"><span>Banque centrale européenne</span><b>Banknotes · émission des billets et pièces</b><small>Qui peut émettre les billets en euros et qui est l’émetteur légal des pièces.</small><em>Ouvrir la ressource ↗</em></a>
           <a href="https://www.banque-france.fr/fr/publications-et-statistiques/publications/livre-paiements-et-infrastructures-de-marche-lere" target="_blank" rel="noopener noreferrer"><span>Banque de France</span><b>Paiements et infrastructures de marché à l’ère digitale</b><small>Une présentation plus technique de la monnaie, du crédit, des paiements et des infrastructures de règlement.</small><em>Ouvrir la ressource ↗</em></a>
@@ -564,7 +570,13 @@ window.ATLAS_LESSONS = {
       <section class="lesson-section" id="btc-preuve-travail">
         <span class="lesson-kicker">07 · Ordonner les transactions</span>
         <h2>La preuve de travail : rendre la réécriture coûteuse.</h2>
-        <p>Les mineurs construisent un bloc candidat qui contient notamment une référence au bloc précédent et une sélection de transactions. Ils calculent l’empreinte de son en-tête et font varier notamment le nonce, un compteur inscrit dans cet en-tête, pour rechercher un résultat inférieur à la cible fixée par le protocole. Lorsque les valeurs disponibles ne suffisent plus, ils peuvent modifier d’autres données du bloc candidat afin de disposer de nouvelles tentatives. La recherche demande un grand nombre de calculs ; vérifier qu’un résultat respecte la cible est en revanche rapide.</p>
+        <p>Les mineurs assemblent des transactions dans un bloc candidat, puis cherchent une empreinte qui respecte la condition fixée par le protocole. Trouver un résultat valide demande généralement de nombreux essais ; le vérifier est rapide. Les autres nœuds peuvent ainsi contrôler le bloc sans refaire la recherche.</p>
+        <details class="fc-advanced">
+          <summary>Pour aller plus loin : le nonce et la cible de difficulté</summary>
+          <div class="fc-advanced-content">
+            <p>Dans Bitcoin, le mineur fait notamment varier le <em>nonce</em>, un champ numérique inscrit dans l’en-tête du bloc. Il cherche une empreinte qui ne dépasse pas la cible fixée par le protocole. Plus cette cible est basse, plus il faut en moyenne d’essais pour trouver un résultat valide. Lorsque les valeurs disponibles du nonce ne suffisent plus, le mineur peut modifier d’autres données du bloc candidat pour renouveler ses tentatives.</p>
+          </div>
+        </details>
         <div class="btc-pow-sequence">
           <div><span>01</span><b>Construire</b><small>Assembler un bloc candidat et son en-tête.</small></div><i>→</i>
           <div><span>02</span><b>Calculer</b><small>Essayer différentes valeurs et calculer les empreintes.</small></div><i>→</i>
@@ -809,7 +821,7 @@ window.ATLAS_LESSONS = {
             <div><small>Engagement sur le contenu</small><strong>Racine de Merkle</strong><em>Résume les empreintes des enregistrements</em></div>
             <div><small>Repères techniques</small><strong>Temps, version, paramètres…</strong><em>Champs propres au protocole</em></div>
           </div>
-          <div class="ch3-block-body"><div><span>CONTENU DU BLOC</span><b>Transactions ou autres données</b><small>Exemples : transferts, appels de contrats, événements ou changements d’état selon le réseau.</small></div><div class="ch3-records"><i>Enregistrement 01</i><i>Enregistrement 02</i><i>Enregistrement 03</i><i>…</i></div></div>
+          <div class="ch3-block-body"><div><span>CONTENU DU BLOC</span><b>Transactions ou autres données</b><small>Exemples : transferts, appels de contrats, événements ou changements d’état selon le réseau.</small></div><div class="ch3-records"><i>Enregistrement 01</i><i>Enregistrement 02</i><i>Enregistrement 03</i><i class="ch3-record-more">… autres enregistrements</i></div></div>
           <div class="ch3-block-caption">Schéma de principe : les champs exacts et leur organisation dépendent du protocole.</div>
         </div>
         <h3>Un bloc n’a pas la même structure partout.</h3>
@@ -942,7 +954,13 @@ window.ATLAS_LESSONS = {
           <div><b>Hard fork</b><p>Changement des règles de consensus qui n’est pas rétrocompatible avec les règles précédentes. Il peut conduire à une séparation durable entre groupes de logiciels.</p></div>
         </div>
         <h3>La finalité n’a pas le même sens partout.</h3>
-        <p>Dans un système à preuve de travail comme Bitcoin, la confiance augmente généralement avec le travail cumulé construit au-dessus d’un bloc : on parle souvent de finalité probabiliste, car le risque d’une réorganisation diminue sans devenir mathématiquement nul. Dans Ethereum en preuve d’enjeu, des points de contrôle sont finalisés lorsque les attestations atteignent le seuil prévu par le protocole — au moins deux tiers de l’ETH mis en jeu pour les votes concernés ; revenir sur un bloc finalisé impliquerait des pénalités économiques majeures pour les validateurs concernés. Ces deux modèles ne doivent pas être confondus.</p>
+        <p>Dans un système à preuve de travail comme Bitcoin, la confiance augmente généralement avec le travail cumulé construit au-dessus d’un bloc : on parle souvent de finalité probabiliste, car le risque d’une réorganisation diminue sans devenir mathématiquement nul. D’autres réseaux utilisent des règles de finalité différentes : il faut donc toujours regarder le fonctionnement propre à chaque protocole.</p>
+        <details class="fc-advanced">
+          <summary>Pour aller plus loin : la finalité dans Ethereum</summary>
+          <div class="fc-advanced-content">
+            <p>Dans Ethereum en preuve d’enjeu, des points de contrôle sont finalisés lorsque les attestations représentent au moins les deux tiers de l’ETH mis en jeu sur le réseau. Revenir sur un bloc finalisé impliquerait des pénalités économiques très importantes pour les validateurs concernés. Ce mécanisme n’est pas équivalent aux confirmations probabilistes de Bitcoin.</p>
+          </div>
+        </details>
         <div class="lesson-callout lesson-callout-muted"><strong>Pas d’irréversibilité magique.</strong><p>Le terme « finalisé » a une définition propre à chaque réseau. Il ne signifie pas qu’une panne, une erreur logicielle, une attaque ou une coordination exceptionnelle devient impossible. Il décrit une garantie conditionnelle, liée aux règles et aux hypothèses du protocole.</p></div>
       </section>
 
@@ -955,7 +973,13 @@ window.ATLAS_LESSONS = {
           <article class="caution"><span>Elle ne garantit pas automatiquement…</span><ul><li>que la donnée saisie au départ était vraie ;</li><li>que l’identité d’un utilisateur est connue ou honnête ;</li><li>la confidentialité des informations publiées ;</li><li>la disponibilité permanente, l’absence de bug ou un recours juridique ;</li><li>une valeur économique ou un rendement.</li></ul></article>
         </div>
         <h3>Le problème des données du monde réel.</h3>
-        <p>Imaginons qu’un transporteur inscrive « colis livré » sur une blockchain. Le réseau peut vérifier que cette déclaration a été enregistrée et qu’elle n’a pas été modifiée selon les règles retenues. Il ne peut pas, par le seul calcul cryptographique, vérifier que le colis a réellement été déposé devant la bonne porte. Il faut une source fiable, un contrôle physique, un capteur ou un tiers qui atteste l’événement. La donnée hors chaîne — c’est-à-dire issue de l’extérieur du registre — doit donc être apportée par une source à évaluer. Lorsqu’un logiciel transmet une telle information à un contrat ou à un réseau, on parle souvent d’<em>oracle</em> ; cet intermédiaire devient alors une hypothèse de confiance supplémentaire.</p>
+        <p>Imaginons qu’un transporteur inscrive « colis livré » sur une blockchain. Le réseau peut vérifier que cette déclaration a été enregistrée et qu’elle n’a pas été modifiée selon les règles retenues. Il ne peut pas, par le seul calcul cryptographique, vérifier que le colis a réellement été déposé devant la bonne porte. Il faut une source fiable, un contrôle physique, un capteur ou un tiers qui atteste l’événement. La blockchain protège ici la cohérence de l’enregistrement, pas la vérité du fait extérieur.</p>
+        <details class="fc-advanced">
+          <summary>Pour aller plus loin : qu’est-ce qu’un oracle ?</summary>
+          <div class="fc-advanced-content">
+            <p>Un <em>oracle</em> est un service ou un mécanisme qui transmet à un réseau une information provenant de l’extérieur, par exemple un statut de livraison, une température ou un prix de marché. Le réseau peut vérifier que la donnée reçue respecte les règles prévues, mais il ne peut pas prouver par la cryptographie seule que la source est exacte. La fiabilité de l’oracle constitue donc une hypothèse de confiance supplémentaire.</p>
+          </div>
+        </details>
         <div class="ch3-warning"><b>« Garbage in, garbage out ».</b><p>Si une donnée fausse est inscrite dans un registre parfaitement protégé, le registre conservera fidèlement cette donnée fausse. La blockchain protège la cohérence de l’historique ; elle ne transforme pas une déclaration inexacte en vérité.</p></div>
         <h3>Autres limites à examiner.</h3>
         <ul class="check-list"><li><b>Capacité :</b> le débit et la taille des données sont limités par le protocole et les ressources des participants.</li><li><b>Coût :</b> les frais, l’énergie, le stockage et la maintenance peuvent être importants selon l’architecture.</li><li><b>Confidentialité :</b> une chaîne publique peut rendre des informations visibles et analysables durablement.</li><li><b>Correction :</b> une erreur peut nécessiter une nouvelle écriture corrective plutôt que l’effacement de l’ancienne trace.</li><li><b>Gouvernance :</b> les mises à jour du logiciel et les changements de règles impliquent des choix collectifs et parfois des désaccords.</li></ul>
@@ -964,7 +988,14 @@ window.ATLAS_LESSONS = {
       <section class="lesson-section" id="ch3-choisir">
         <span class="lesson-kicker">10 · Faire le bon choix technique</span>
         <h2>Blockchain ou base de données classique ?</h2>
-        <p>Une blockchain n’est pas automatiquement supérieure à une base de données. Le bon choix dépend du problème. Une blockchain publique permet généralement au public de consulter le registre et, selon les règles, de soumettre des transactions ou de participer au réseau. Une blockchain permissionnée réserve certaines opérations — écriture, validation ou administration — à des participants autorisés. Ces modèles n’offrent pas les mêmes garanties d’ouverture, de gouvernance ni de confidentialité. Si une organisation unique est responsable du registre et que les utilisateurs lui font confiance, une base classique est souvent plus rapide, moins coûteuse, plus simple à corriger et plus facile à protéger par des règles d’accès.</p>
+        <p>Une blockchain n’est pas automatiquement supérieure à une base de données. Le bon choix dépend du problème. Une blockchain publique permet généralement au public de consulter le registre et, selon les règles, de soumettre des transactions ou de participer au réseau. Une blockchain permissionnée limite certaines opérations à des participants autorisés. Ces modèles n’offrent pas les mêmes garanties d’ouverture, de gouvernance ni de confidentialité.</p>
+        <details class="fc-advanced">
+          <summary>Pour aller plus loin : quelles autorisations peuvent être limitées ?</summary>
+          <div class="fc-advanced-content">
+            <p>Les règles peuvent distinguer plusieurs droits : consulter les données, proposer une écriture, valider un bloc ou administrer le réseau. Une blockchain permissionnée n’est donc pas nécessairement entièrement privée : tout dépend des autorisations accordées à chaque rôle.</p>
+          </div>
+        </details>
+        <p> Si une organisation unique est responsable du registre et que les utilisateurs lui font confiance, une base classique est souvent plus rapide, moins coûteuse, plus simple à corriger et plus facile à protéger par des règles d’accès.</p>
         <div class="ch3-choice-table">
           <div class="head"><b>Question</b><b>Base classique</b><b>Blockchain</b></div>
           <div><b>Qui écrit ?</b><span>Un opérateur ou un groupe bien défini.</span><span>Plusieurs participants selon des règles partagées.</span></div>

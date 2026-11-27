@@ -244,7 +244,7 @@ function atlasCreateTermButton(match, entry){
   const button=document.createElement('button');
   button.type='button';button.className='atlas-term';button.textContent=match;
   button.dataset.termTitle=entry.label;button.dataset.termDefinition=entry.definition;button.dataset.termId=entry.id;
-  button.setAttribute('aria-label',`Afficher la définition de ${entry.label}`);
+  button.setAttribute('aria-label',`${match} — afficher la définition`);
   button.setAttribute('aria-expanded','false');
   return button;
 }
@@ -264,7 +264,7 @@ function atlasDecorateTerms(chapterNumber, root){
   });
   if(!patternParts.length)return;
   const expression=new RegExp(`(?<![\\p{L}\\p{N}_])(?:${patternParts.join('|')})(?![\\p{L}\\p{N}_])`,'giu');
-  const excluded='a,button,summary,script,style,code,pre,textarea,input,select,option,.glossary-list,.btc-glossary,.market-glossary,.quiz-question,.quiz-options,.quiz-suite,.btc-quiz-set,.atlas-term,svg';
+  const excluded='a,button,summary,script,style,code,pre,textarea,input,select,option,[role="img"],.glossary-list,.btc-glossary,.market-glossary,.quiz-question,.quiz-options,.quiz-suite,.btc-quiz-set,.atlas-term,svg';
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
     acceptNode(node){
       if(!node.nodeValue||!node.nodeValue.trim())return NodeFilter.FILTER_REJECT;
@@ -761,13 +761,13 @@ function atlasInitMarketLab(){
     $('#market-notional').textContent=fmtPrice(execution.notional);
     $('#market-slippage').textContent=slippage.toLocaleString('fr-FR',{minimumFractionDigits:3,maximumFractionDigits:3})+' %';
     $('#market-filled').textContent=fmtQty(execution.filled)+' / '+fmtQty(quantity)+' unités';
-    const direction=buy?'achat':'vente';
+    const ordreLabel=buy?'d’achat':'de vente';
     const depth=execution.levelsTouched;
     let message='';
-    if(execution.remaining>0)message='La profondeur disponible ne suffit pas à exécuter toute la quantité demandée dans ce carnet fictif.';
-    else if(depth===1)message='À cette taille, ton ordre consomme uniquement le meilleur niveau du côté '+(buy?'vendeur':'acheteur')+'.';
-    else message='Ton ordre traverse '+depth+' niveaux de prix. Le prix moyen s’éloigne du meilleur prix affiché : c’est le slippage.';
-    $('#market-explanation').textContent='Pour cet ordre de '+direction+', '+message;
+    if(execution.remaining>0)message='la profondeur disponible ne suffit pas à exécuter toute la quantité demandée dans ce carnet fictif.';
+    else if(depth===1)message='à cette taille, ton ordre consomme uniquement le meilleur niveau du côté '+(buy?'vendeur':'acheteur')+'.';
+    else message='ton ordre traverse '+depth+' niveaux de prix. Le prix moyen s’éloigne du meilleur prix affiché : c’est le slippage.';
+    $('#market-explanation').textContent='Pour ton ordre '+ordreLabel+', '+message;
     document.querySelectorAll('[data-market-side]').forEach(button=>{
       const selected=button.dataset.marketSide===side;
       button.setAttribute('aria-pressed',String(selected));

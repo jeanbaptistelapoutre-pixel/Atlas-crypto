@@ -160,3 +160,6 @@
   background:#e2e8f0;
   color:#334155;
 }
+
+/* Accessibility audit: small labels on the warm-neutral simulator surface. */
+#lesson-content .m12-lab-card .m12-lab-heading>div>span{color:#536174}
