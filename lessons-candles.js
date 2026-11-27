@@ -325,8 +325,8 @@ window.initCandlesLessonInteractions = function(chapterNumber) {
       const top = values.high + spread * 0.2;
       const bottom = Math.max(0, values.low - spread * 0.2);
       const y = value => 255 - ((value - bottom) / (top - bottom)) * 205;
-      const upper = Math.min(values.open, values.close);
-      const lower = Math.max(values.open, values.close);
+      const bodyTopPrice = Math.max(values.open, values.close);
+      const bodyBottomPrice = Math.min(values.open, values.close);
       const rising = values.close > values.open;
       const falling = values.close < values.open;
       const color = rising ? '#22c55e' : falling ? '#ef4444' : '#94a3b8';
@@ -334,8 +334,8 @@ window.initCandlesLessonInteractions = function(chapterNumber) {
       wick.setAttribute('y1', String(y(values.high)));
       wick.setAttribute('y2', String(y(values.low)));
       wick.setAttribute('stroke', color);
-      body.setAttribute('y', String(y(lower)));
-      body.setAttribute('height', String(Math.max(3, y(upper) - y(lower))));
+      body.setAttribute('y', String(y(bodyTopPrice)));
+      body.setAttribute('height', String(Math.max(3, y(bodyBottomPrice) - y(bodyTopPrice))));
       body.setAttribute('fill', color);
       openLine.setAttribute('y1', String(y(values.open)));
       openLine.setAttribute('y2', String(y(values.open)));
