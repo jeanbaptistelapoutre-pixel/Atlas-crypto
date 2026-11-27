@@ -55,7 +55,7 @@
     document.body.append(anchor);
     anchor.click();
     anchor.remove();
-    URL.revokeObjectURL(url);
+    window.setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
 
   function renderMode() {
@@ -246,7 +246,7 @@
   }
   function exportCsv() {
     if(!portfolio||!portfolio.transactions.length)return;
-    const rows=[['Date','Opération','Actif','Quantité','Prix de référence (USDC)','Montant brut (USDC)','Frais (USDC)','Montant net (USDC)','P&L réalisé (USDC)','Source']];
+    const rows=[['Date','Opération','Actif','Quantité','Prix de référence (USDC)','Montant brut (USDC)','Frais (USDC)','Débit/crédit net (USDC)','P&L réalisé (USDC)','Source']];
     for(const tx of [...portfolio.transactions].reverse()) {
       rows.push([tx.timestamp,tx.side==='buy'?'Achat':'Vente',tx.symbol,tx.quantity,tx.price,engine.unitsToString(tx.grossMicro,6,6),engine.unitsToString(tx.feeMicro,6,6),engine.unitsToString(tx.netMicro,6,6),engine.unitsToString(tx.realizedPnlMicro||'0',6,6),tx.source||'']);
     }
