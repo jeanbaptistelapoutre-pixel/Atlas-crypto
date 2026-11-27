@@ -94,7 +94,7 @@ test('reconstructs daily portfolio value from transactions and UTC closing price
   const points=engine.buildDailyPerformance(portfolio,{
     BTC:[[closeOne,'10000'],[closeTwo,'11000']]
   },currentDay-2*day);
-  const values=points.map(point=>(Number(BigInt(point.valueMicro))/1e6).toFixed(2));
+  const values=Array.from(points,point=>(Number(BigInt(point.valueMicro))/1e6).toFixed(2));
   assert.deepEqual(values,['10000.00','9999.00','10148.40']);
 });
 
