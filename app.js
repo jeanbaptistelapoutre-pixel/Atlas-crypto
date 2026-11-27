@@ -89,7 +89,7 @@ function atlasTermPattern(value){
     .replace(/'/g,"['’‘`´]");
 }
 function atlasGlossaryEntries(chapterNumber, root){
-  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':chapterNumber>=11&&chapterNumber<=20?'#m'+chapterNumber+'-glossaire .market-glossary':null;
+  const selector=chapterNumber===1?'#glossaire .glossary-list':chapterNumber===2?'#btc-glossaire .btc-glossary':chapterNumber===3?'#ch3-glossaire .btc-glossary':chapterNumber===4?'#ch4-glossaire .btc-glossary':chapterNumber>=11&&chapterNumber<=20?'#m'+chapterNumber+'-glossaire .market-glossary':null;
   const glossary=root.querySelector(selector);
   if(!glossary)return [];
   const entries=[...glossary.querySelectorAll('details')].map((detail,index)=>({
@@ -206,6 +206,29 @@ function atlasGlossaryEntries(chapterNumber, root){
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
     entries.forEach(entry=>{if(!entry.aliases.length){entry.aliases=[entry.label];if(!/[s)]$/i.test(entry.label))entry.aliases.push(entry.label+'s');}});
+  } else if(chapterNumber===4){
+    const aliases={
+      'Clé privée':['clé privée','clés privées','private key','private keys'],
+      'Clé publique':['clé publique','clés publiques','public key','public keys'],
+      'Paire de clés':['paire de clés','paires de clés','key pair','key pairs'],
+      'Courbe elliptique':['courbe elliptique','courbes elliptiques','elliptic curve'],
+      'Signature numérique':['signature numérique','signatures numériques','signature','signatures'],
+      'ECDSA':['ECDSA'],
+      'Schnorr':['Schnorr','signature Schnorr','signatures Schnorr'],
+      'Adresse Bitcoin':['adresse Bitcoin','adresses Bitcoin','adresse bitcoin','adresses bitcoin','adresse de réception','adresses de réception'],
+      'ScriptPubKey':['scriptPubKey','pubkey script','script de sortie','script de verrouillage'],
+      'Portefeuille (wallet)':['portefeuille','portefeuilles','wallet','wallets'],
+      'Phrase mnémonique':['phrase mnémonique','phrase mnemotechnique','phrase de récupération','phrases de récupération','seed phrase','seed phrases'],
+      'Graine (seed)':['graine','graines','seed'],
+      'BIP39':['BIP39','BIP 39'],
+      'Portefeuille HD':['portefeuille HD','portefeuilles HD','wallet HD','HD wallet','HD wallets'],
+      'BIP32':['BIP32','BIP 32'],
+      'Clé publique étendue (xpub)':['xpub','clé publique étendue','clés publiques étendues'],
+      'Multisignature (multisig)':['multisignature','multisignatures','multisig'],
+      'UTXO':['UTXO','UTXOs','sortie non dépensée','sorties non dépensées'],
+      'Confidentialité financière':['confidentialité financière','confidentialité','vie privée']
+    };
+    entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
   } else if(chapterNumber===11){
     const aliases={
       'Carnet d’ordres (order book)':["carnet d’ordres","carnet d'ordres","carnet d ordres","order book","carnets d’ordres"],
