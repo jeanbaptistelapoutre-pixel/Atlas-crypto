@@ -2180,3 +2180,34 @@
   background:var(--fc-blue-soft);
   border-color:#bae6fd;
 }
+
+/* Accessibility audit corrections: all labels on pale learning surfaces need
+   the same high-contrast blue/slate ink as their card body. */
+#lesson-content #troc>figure>figcaption{color:#536174!important}
+#lesson-content .lesson-lab-box .lesson-kicker,
+#lesson-content .distinction-panel .lesson-kicker,
+#lesson-content .loan-header .lesson-kicker,
+#lesson-content .inflation-story .lesson-kicker,
+#lesson-content .calculator-heading .lesson-kicker,
+#lesson-content #ch3-chain-lab>.ch3-lab-head>.lesson-kicker,
+#lesson-content #ch3-merkle-lab>.ch3-lab-head>.lesson-kicker{
+  color:#075985!important;
+}
+#lesson-content #retenir .takeaway-grid>div h3{color:#172033!important}
+#lesson-content #btc-probleme .btc-caveat>b,
+#lesson-content #btc-double-depense .btc-caveat>b,
+#lesson-content #btc-preuve-travail .btc-caveat>b,
+#lesson-content #btc-emission .btc-caveat>b{color:#334155!important}
+#lesson-content .btc-conflict-lab .lesson-kicker,
+#lesson-content .btc-role-lab>.lesson-kicker,
+#lesson-content .btc-flow-lab .btc-lab-heading>.lesson-kicker,
+#lesson-content .btc-halving-lab>.lesson-kicker{
+  color:#075985!important;
+}
+#lesson-content #btc-parcours-transaction .btc-flow-step>b{color:#172033}
+#lesson-content #btc-parcours-transaction .btc-flow-step>small{color:#475569}
+#lesson-content #btc-parcours-transaction .btc-flow-step.active>b{color:#fff}
+#lesson-content #btc-parcours-transaction .btc-flow-step.active>small{color:#dbeafe}
+#lesson-content #btc-parcours-transaction #btc-flow-detail>span{color:#075985}
+#lesson-content #btc-parcours-transaction .btc-flow-note>b{color:#115e59}
+#lesson-content #ch3-consensus .ch3-consensus-compare .ch3-card-kicker{color:#075985}
