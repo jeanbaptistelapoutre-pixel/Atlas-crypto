@@ -75,10 +75,13 @@
 .m11-application p,.m11-application li{color:#d0c1ae;font-size:12px;line-height:1.7}
 .m11-application ol{padding-left:22px}
 .m11-application-end{margin-bottom:0!important;padding-top:12px;border-top:1px solid #55442f;color:#e3c58e!important}
-.market-glossary{display:grid;gap:7px;margin:20px 0}
-.market-glossary details{border:1px solid #55432e;border-radius:7px;background:#1d1914}
-.market-glossary summary{padding:12px 14px;color:#ecd09b;font-size:12px;font-weight:700;cursor:pointer}
-.market-glossary details p{margin:0!important;padding:0 14px 14px;color:#c8baa8;font-size:11px!important;line-height:1.7!important}
+/* Glossaires unifiés : le style visuel du chapitre 11 devient la référence pour les chapitres 1 à 3. */
+.glossary-list,.btc-glossary,.market-glossary{display:grid;gap:7px;margin:20px 0}
+.glossary-list details,.btc-glossary details,.market-glossary details{margin:0;padding:0;border:1px solid #55432e;border-radius:7px;background:#1d1914}
+.glossary-list summary,.btc-glossary summary,.market-glossary summary{padding:12px 14px;color:#ecd09b;font-size:12px;font-weight:700;cursor:pointer}
+.glossary-list details p,.btc-glossary details p,.market-glossary details p{margin:0!important;padding:0 14px 14px;color:#c8baa8;font-size:11px!important;line-height:1.7!important}
+.glossary-list details[open],.btc-glossary details[open],.market-glossary details[open]{border-color:#816541}
+.glossary-list summary:focus-visible,.btc-glossary summary:focus-visible,.market-glossary summary:focus-visible{outline:2px solid #d9b77e;outline-offset:2px;border-radius:5px}
 .m11-takeaways{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:24px 0}
 .m11-takeaways article{padding:16px;border:1px solid #57452f;border-radius:8px;background:linear-gradient(145deg,#251f17,#191612)}
 .m11-takeaways article>span{color:#d8b77e;font-size:9px;font-weight:700}
