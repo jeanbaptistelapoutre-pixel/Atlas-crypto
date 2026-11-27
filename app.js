@@ -2,7 +2,7 @@ const $=s=>document.querySelector(s);
 let active='Toutes';
 const parts=['Toutes',...new Set(CHAPTERS.map(x=>x.part))];
 const filterEl=$('#filters');
-const normalizeSearch=value=>String(value??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLocaleLowerCase('fr');
+const normalizeSearch=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr');
 parts.forEach(part=>{
   const button=document.createElement('button');
   button.type='button';
