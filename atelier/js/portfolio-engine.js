@@ -34,11 +34,20 @@
     return (BigInt(grossMicro) * BigInt(feeBps)) / 10000n;
   }
   function safePortfolio(portfolio) {
-    if (!portfolio || portfolio.schemaVersion !== 1 || !Array.isArray(portfolio.transactions) || !portfolio.assets || typeof portfolio.assets !== 'object') return false;
-    if (!/^\d+$/.test(String(portfolio.realizedPnlMicro)) || !/^\d+$/.test(String(portfolio.totalFeesMicro)) || !Number.isInteger(portfolio.feeBps) || portfolio.feeBps < 0 || portfolio.feeBps > 200) return false;
-    if (!/^\d+$/.test(String(portfolio.cashMicro)) || !/^\d+$/.test(String(portfolio.initialCapitalMicro))) return false;
-    for (const [symbol, holding] of Object.entries(portfolio.assets)) {
-      if (!/^[A-Z0-9]{2,15}$/.test(symbol) || !/^\d+$/.test(String(holding.quantityUnits)) || !/^\d+$/.test(String(holding.costBasisMicro))) return false;
+    const unsigned=value=>/^\\d+$/.test(String(value));
+    const signed=value=>/^-?\\d+$/.test(String(value));
+    const decimal=value=>/^\\d+(?:\\.\\d{1,8})?$/.test(String(value));
+    if (!portfolio || portfolio.schemaVersion !== 1 || !Array.isArray(portfolio.transactions) || portfolio.transactions.length>10000 || !portfolio.assets || typeof portfolio.assets !== 'object' || Array.isArray(portfolio.assets)) return false;
+    if (!unsigned(portfolio.cashMicro) || !unsigned(portfolio.initialCapitalMicro) || BigInt(portfolio.initialCapitalMicro)<=0n) return false;
+    if (!signed(portfolio.realizedPnlMicro) || !unsigned(portfolio.totalFeesMicro) || !Number.isInteger(portfolio.feeBps) || portfolio.feeBps<0 || portfolio.feeBps>200) return false;
+    for (const [symbol,holding] of Object.entries(portfolio.assets)) {
+      if (!/^[A-Z0-9]{2,15}$/.test(symbol) || !holding || !unsigned(holding.quantityUnits) || BigInt(holding.quantityUnits)<=0n || !unsigned(holding.costBasisMicro)) return false;
+    }
+    for (const tx of portfolio.transactions) {
+      if (!tx || typeof tx!=='object' || !/^[A-Z0-9]{2,15}$/.test(String(tx.symbol)) || !['buy','sell'].includes(tx.side)) return false;
+      if (!decimal(tx.quantity) || Number(tx.quantity)<=0 || !decimal(tx.price) || Number(tx.price)<=0) return false;
+      if (!unsigned(tx.grossMicro) || !unsigned(tx.feeMicro) || !unsigned(tx.netMicro) || !signed(tx.realizedPnlMicro)) return false;
+      if (typeof tx.timestamp!=='string' || !Number.isFinite(Date.parse(tx.timestamp)) || typeof tx.id!=='string') return false;
     }
     return true;
   }
