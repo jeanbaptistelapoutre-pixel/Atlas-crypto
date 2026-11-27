@@ -343,3 +343,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 .step.active{border-color:#0f766e;background:#e7f5f1;color:#115e59}
 .feedback{border-left:3px solid #0f766e}
 .feedback.error,.feedback.incorrect,.feedback.wrong{color:#991b1b;border-color:#fecaca;background:#fef2f2}
+
+@media(max-width:650px){
+  nav{max-width:100vw;overflow:hidden}
+  nav .navlinks{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    flex:1 1 100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    contain:paint;
+  }
+}
