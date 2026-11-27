@@ -109,7 +109,7 @@
 
   function renderHistory() {
     const body = $('#history-body');
-    const empty = $('#history-empty');
+    const empty = $('#transactions-empty');
     const rows = portfolio.transactions.slice(0,12);
     empty.hidden = rows.length > 0;
     body.innerHTML = rows.map(tx => {
