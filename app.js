@@ -248,7 +248,9 @@ function atlasGlossaryEntries(chapterNumber, root){
       'Mempool':['mempool','réserve de transactions en attente'],
       'Confirmation':['confirmation','confirmations'],
       'Double dépense':['double dépense','doubles dépenses'],
-      'Coin selection':['coin selection','sélection des UTXO','sélection des entrées']
+      'Coin selection':['coin selection','sélection des UTXO','sélection des entrées'],
+      'Règles de consensus':['règles de consensus','règle de consensus','consensus'],
+      'Politique de relais':['politique de relais','politiques de relais','relay policy','transaction relay policy']
     };
     entries.forEach(entry=>{if(aliases[entry.label])entry.aliases=aliases[entry.label];});
   } else if(chapterNumber===11){
@@ -434,8 +436,12 @@ function initChapter5TransactionLab(chapterNumber){
   const update=()=>{
     const amountBTC=Number(amountInput.value);
     const rate=Number(rateInput.value);
-    if(!Number.isFinite(amountBTC)||!Number.isFinite(rate)||amountBTC<=0||rate<1||rate>200){
-      status.textContent='Vérifie le montant (positif) et le taux de frais (de 1 à 200 sat/vB).';
+    if(!Number.isFinite(amountBTC)||!Number.isFinite(rate)||amountBTC<=0||rate<1||rate>200||!Number.isInteger(rate)){
+      feeOutput.textContent='—';
+      feeBtc.textContent='—';
+      changeOutput.textContent='—';
+      equation.textContent='Corrige les valeurs pour obtenir un calcul.';
+      status.textContent='Vérifie le montant (positif) et le taux de frais (un nombre entier entre 1 et 200 sat/vB).';
       status.classList.add('is-alert');return;
     }
     const paymentSats=Math.round(amountBTC*100000000);
