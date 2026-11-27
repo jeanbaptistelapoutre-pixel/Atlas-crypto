@@ -249,3 +249,14 @@ tbody tr:last-child td{border-bottom:0}
 .track-mark{border-color:#4564a3;color:#83a7ff}
 .portfolio-footer{color:#9ba6b5}
 @media(max-width:480px){.atelier-hero{background:radial-gradient(ellipse at 70% 40%,#17243b 0%,#0b0e11 72%)}}
+
+
+/* Recovery and data-integrity states */
+.setup-side{display:grid;gap:12px;min-width:0}
+.storage-warning{padding:17px;border:1px solid #8b6c32;background:#272116}
+.storage-warning>strong{display:block;color:#f2ca76;font-size:12px}
+.storage-warning p{margin:7px 0 12px;color:#d0c3ad;font-size:10px;line-height:1.75}
+.storage-warning-actions{display:flex;flex-wrap:wrap;gap:16px}
+.storage-warning-actions .text-button{white-space:normal;text-align:left}
+.setup-error{margin:0;color:#f6465d;font-size:10px}
+.setup-error:empty{display:none}
