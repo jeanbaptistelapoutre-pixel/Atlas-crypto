@@ -73,4 +73,17 @@ Ne pas coupler le portefeuille à une seule source dans son code métier.
 - Tester une série historique pour reconstruire une valeur quotidienne de portefeuille.
 - Valider l'attribution et les conditions d'utilisation applicables à la diffusion publique.
 
-**Décision provisoire :** CoinGecko est le meilleur candidat fonctionnel pour valoriser un portefeuille multi-actifs ; ce n'est pas encore une décision de production tant que les conditions d'utilisation et le comportement CORS n'ont pas été testés.
+## 6. Test réel et choix pour le MVP (28 novembre 2026)
+
+Un test technique a été effectué depuis un environnement Vercel avec un en-tête `Origin: https://atlas-crypto-three.vercel.app` :
+
+- Endpoint testé : `https://data-api.binance.vision/api/v3/ticker/24hr?symbols=...`
+- Réponse HTTP : **200 OK**.
+- En-tête de réponse observé : `Access-Control-Allow-Origin: *`.
+- La requête groupée a retourné les 8 paires USDC sélectionnées : `BTCUSDC`, `ETHUSDC`, `SOLUSDC`, `XRPUSDC`, `BNBUSDC`, `DOGEUSDC`, `ADAUSDC`, `LINKUSDC`.
+
+**Choix retenu pour le MVP : Binance Spot Market Data Only.** Le premier portefeuille affiche donc une liste réduite de cours Spot provenant explicitement de Binance, avec un rafraîchissement périodique. Le prix est un dernier prix échangé à titre indicatif, pas une garantie de prix d'exécution. Le MVP ne simule ni profondeur réelle, ni spread, ni slippage.
+
+Cette validation confirme le fonctionnement de l'endpoint et l'en-tête CORS au moment du test ; elle ne garantit ni une disponibilité permanente, ni une limite de requêtes illimitée. Le code doit continuer à gérer les erreurs et les données périmées.
+
+CoinGecko reste une piste future pour une valorisation agrégée multi-plateformes, à envisager avec un proxy serveur et un plan dont les conditions autorisent clairement l'usage par Atlas Crypto.
