@@ -166,7 +166,7 @@
       for(const candle of candles||[]) {
         const closeTime=Number(candle[0]);
         const closePrice=String(candle[1]);
-        if(Number.isFinite(closeTime)&&closeTime>0&&/^\\d+(?:[.]\\d{1,8})?$/.test(closePrice)) {
+        if(Number.isFinite(closeTime)&&closeTime>0&&/^\d+(?:[.]\d{1,8})?$/.test(closePrice)) {
           map.set(closeTime,closePrice);
           timestamps.add(closeTime);
         }
