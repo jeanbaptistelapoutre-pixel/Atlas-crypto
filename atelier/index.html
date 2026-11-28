@@ -139,6 +139,16 @@
             <article class="summary-tile"><span>P&L LATENT</span><strong id="unrealized-pnl">—</strong><small>Positions encore détenues</small></article>
           </div>
 
+          <section class="data-panel allocation-panel" aria-labelledby="allocation-heading">
+            <div class="panel-heading">
+              <div><span class="panel-kicker">EXPOSITION DU PORTEFEUILLE</span><h3 id="allocation-heading">Répartition des actifs</h3></div>
+              <div class="allocation-heading-total"><span>VALEUR RÉPARTIE</span><strong id="allocation-total">—</strong></div>
+            </div>
+            <div class="allocation-bar" id="allocation-bar" role="img" aria-label="Répartition du portefeuille en attente de valorisation"></div>
+            <div class="allocation-list" id="allocation-list"></div>
+            <p class="allocation-status" id="allocation-status">La répartition inclura les actifs détenus et les liquidités disponibles.</p>
+          </section>
+
           <div class="portfolio-grid">
             <section class="data-panel positions-panel">
               <div class="panel-heading"><div><span class="panel-kicker">VOS ACTIFS</span><h3>Positions détenues</h3></div><button class="text-button" id="trade-open" type="button">Nouvelle opération <b>＋</b></button></div>
@@ -178,8 +188,13 @@
                   </div>
                   <div class="history-toolbar-actions"><span id="history-source-label">Binance Spot · UTC</span><button class="text-button" id="export-track-record" type="button" disabled>Exporter le track record CSV ↗</button><button class="text-button" id="refresh-history" type="button">↻ Actualiser l’historique</button></div>
                 </div>
+                <div class="performance-legend" aria-label="Légende du graphique">
+                  <span class="performance-legend-item" data-legend-series="portfolio"><i class="legend-swatch legend-atlas"></i>Portefeuille Atlas</span>
+                  <span class="performance-legend-item" data-legend-series="btc"><i class="legend-swatch legend-btc"></i>Bitcoin · achat-conservation</span>
+                  <span class="performance-legend-item" data-legend-series="eth"><i class="legend-swatch legend-eth"></i>Ethereum · achat-conservation</span>
+                </div>
                 <div class="performance-chart-wrap">
-                  <svg id="performance-chart" viewBox="0 0 900 270" role="img" aria-label="Évolution de la valeur du portefeuille aux clôtures journalières"></svg>
+                  <svg id="performance-chart" viewBox="0 0 900 270" role="img" aria-label="Comparaison des performances du portefeuille Atlas avec Bitcoin et Ethereum aux clôtures journalières UTC"></svg>
                 </div>
                 <p class="history-status" id="history-status" role="status" aria-live="polite">Préparation de l’historique…</p>
               </div>
