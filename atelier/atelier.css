@@ -299,3 +299,36 @@ tbody tr:last-child td{border-bottom:0}
 .chart-last-point-eth{fill:#f6465d;stroke:#0b0e11;stroke-width:2}
 @media(max-width:1050px){.performance-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:560px){.performance-stats{grid-template-columns:1fr 1fr}.performance-stats>div:last-child{grid-column:auto}.history-toolbar-actions{align-items:flex-start;flex-direction:column}.history-toolbar-actions>span{text-align:left}}
+
+
+/* Portfolio allocation: compact exposure overview, including available USDC cash. */
+.allocation-panel{margin-bottom:13px}
+.allocation-heading-total{text-align:right}
+.allocation-heading-total>span,.allocation-heading-total>strong{display:block}
+.allocation-heading-total>span{color:#8f9bab;font-size:8px;letter-spacing:.1em;font-weight:700}
+.allocation-heading-total>strong{margin-top:4px;color:#eaecef;font-size:15px;font-variant-numeric:tabular-nums}
+.allocation-bar{display:flex;gap:2px;width:100%;height:12px;overflow:hidden;border:1px solid #252d3a;background:#0b0e11}
+.allocation-segment{display:block;min-width:0;height:100%;transition:width .25s ease}
+.allocation-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 18px;margin-top:16px}
+.allocation-item{display:grid;grid-template-columns:9px minmax(0,1fr) auto;align-items:center;gap:9px;min-width:0}
+.allocation-dot{width:8px;height:8px;border-radius:1px}
+.allocation-name,.allocation-values{min-width:0}
+.allocation-name strong,.allocation-name small,.allocation-values strong,.allocation-values small{display:block}
+.allocation-name strong{overflow:hidden;color:#e2e8f0;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.allocation-name small{margin-top:2px;color:#8995a6;font-size:8px}
+.allocation-values{text-align:right;font-variant-numeric:tabular-nums}
+.allocation-values strong{color:#dce4ef;font-size:10px}
+.allocation-values small{margin-top:2px;color:#8995a6;font-size:8px}
+.allocation-status{margin:13px 0 0;color:#8995a6;font-size:8px;line-height:1.6}
+.allocation-unavailable{grid-column:1/-1;padding:12px;border:1px dashed #34405a;color:#a1aab8;font-size:9px;line-height:1.6}
+
+/* Explicit line legend and series-specific styling for the comparative track record. */
+.performance-legend{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin:4px 0 10px}
+.performance-legend-item{display:inline-flex;align-items:center;gap:7px;color:#aeb8c6;font-size:9px}
+.performance-legend-item[hidden]{display:none}
+.legend-swatch{display:inline-block;width:19px;height:0;border-top:3px solid}
+.legend-atlas{border-color:#2962ff}
+.legend-btc{border-color:#0ecb81;border-top-style:dashed}
+.legend-eth{border-color:#f6465d;border-top-style:dotted}
+@media(max-width:720px){.allocation-list{grid-template-columns:repeat(2,minmax(0,1fr))}.performance-legend{gap:9px 14px}}
+@media(max-width:420px){.allocation-list{grid-template-columns:1fr}.allocation-panel{padding:15px}.allocation-heading-total>strong{font-size:12px}}
