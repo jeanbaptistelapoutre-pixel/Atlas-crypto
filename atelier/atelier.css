@@ -307,8 +307,8 @@ tbody tr:last-child td{border-bottom:0}
 .allocation-heading-total>span,.allocation-heading-total>strong{display:block}
 .allocation-heading-total>span{color:#8f9bab;font-size:8px;letter-spacing:.1em;font-weight:700}
 .allocation-heading-total>strong{margin-top:4px;color:#eaecef;font-size:15px;font-variant-numeric:tabular-nums}
-.allocation-bar{display:flex;gap:2px;width:100%;height:12px;overflow:hidden;border:1px solid #252d3a;background:#0b0e11}
-.allocation-segment{display:block;min-width:0;height:100%;transition:width .25s ease}
+.allocation-bar{display:flex;gap:0;width:100%;height:12px;overflow:hidden;border:1px solid #252d3a;background:#0b0e11}
+.allocation-segment{display:block;min-width:0;height:100%;box-shadow:inset -1px 0 #0b0e11;transition:width .25s ease}
 .allocation-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 18px;margin-top:16px}
 .allocation-item{display:grid;grid-template-columns:9px minmax(0,1fr) auto;align-items:center;gap:9px;min-width:0}
 .allocation-dot{width:8px;height:8px;border-radius:1px}
