@@ -291,10 +291,46 @@
     });
     return {symbol,baseTimestamp:first.timestamp,basePrice:priceMap.get(first.timestamp),points};
   }
+  function buildPortfolioAllocation(portfolio, valuation) {
+    if(!valuation||valuation.complete!==true||valuation.totalValueMicro===null||valuation.totalValueMicro===undefined) {
+      return {complete:false,totalValueMicro:null,items:[]};
+    }
+    const total=BigInt(valuation.totalValueMicro);
+    if(total<=0n)return {complete:false,totalValueMicro:null,items:[]};
+    const raw=[];
+    const cash=BigInt(portfolio.cashMicro);
+    if(cash<0n)throw new Error('Le solde disponible ne peut pas être négatif.');
+    if(cash>0n)raw.push({symbol:'USDC',valueMicro:cash.toString()});
+    for(const position of valuation.positions||[]) {
+      if(position.missingPrice)return {complete:false,totalValueMicro:null,items:[]};
+      const value=BigInt(position.marketValueMicro);
+      if(value<0n)throw new Error('La valeur d’une position ne peut pas être négative.');
+      if(value>0n)raw.push({symbol:position.symbol,valueMicro:value.toString()});
+    }
+    const sum=raw.reduce((acc,item)=>acc+BigInt(item.valueMicro),0n);
+    if(sum!==total)throw new Error('La répartition ne correspond pas à la valeur totale du portefeuille.');
+    const weighted=raw.map((item,index)=>{
+      const numerator=BigInt(item.valueMicro)*10000n;
+      return {...item,index,shareBps:numerator/total,remainder:numerator%total};
+    });
+    const allocated=weighted.reduce((acc,item)=>acc+item.shareBps,0n);
+    let remaining=10000n-allocated;
+    const ranked=[...weighted].sort((a,b)=>{
+      if(a.remainder===b.remainder)return a.index-b.index;
+      return a.remainder>b.remainder?-1:1;
+    });
+    for(let index=0;remaining>0n&&index<ranked.length;index++,remaining--)ranked[index].shareBps+=1n;
+    if(remaining!==0n)throw new Error('Impossible d’arrondir précisément la répartition du portefeuille.');
+    return {
+      complete:true,
+      totalValueMicro:total.toString(),
+      items:weighted.map(({symbol,valueMicro,shareBps})=>({symbol,valueMicro,shareBps:Number(shareBps)}))
+    };
+  }
   function setFeeBps(portfolio, value) {
     const percent=parseUnits(value,2,{allowZero:true});
     if(percent>200n)throw new Error('La commission doit être comprise entre 0 et 2 %.');
     return {...portfolio,feeBps:Number(percent)};
   }
-  window.AtlasPortfolioEngine={MONEY_SCALE,ASSET_SCALE,PRICE_SCALE,parseUnits,unitsToString,notionalMicro,quantityUnits,feeMicro,createPortfolio,previewBuy,previewSell,applyTrade,valuePortfolio,buildDailyPerformance,buildBenchmarkPerformance,setFeeBps,safePortfolio};
+  window.AtlasPortfolioEngine={MONEY_SCALE,ASSET_SCALE,PRICE_SCALE,parseUnits,unitsToString,notionalMicro,quantityUnits,feeMicro,createPortfolio,previewBuy,previewSell,applyTrade,valuePortfolio,buildDailyPerformance,buildBenchmarkPerformance,buildPortfolioAllocation,setFeeBps,safePortfolio};
 })();
