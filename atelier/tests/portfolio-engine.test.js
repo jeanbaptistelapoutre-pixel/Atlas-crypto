@@ -113,6 +113,47 @@ test('does not fabricate a valuation when a held asset has no closing price',()=
   assert.equal(points[0].kind,'start');
 });
 
+test('builds BTC and ETH buy-and-hold benchmarks from the first common daily close',()=>{
+  const engine=loadEngine();
+  const firstClose=Date.UTC(2026,0,2,23,59,59,999);
+  const secondClose=Date.UTC(2026,0,3,23,59,59,999);
+  const capital='10000000000';
+  const portfolioPoints=[
+    {timestamp:firstClose-3600000,valueMicro:capital,kind:'start'},
+    {timestamp:firstClose,valueMicro:'9900000000',kind:'daily-close'},
+    {timestamp:secondClose,valueMicro:'10100000000',kind:'daily-close'}
+  ];
+  const candles={
+    BTC:[[firstClose,'50000'],[secondClose,'60000']],
+    ETH:[[firstClose,'2500'],[secondClose,'2000']]
+  };
+  const btc=engine.buildBenchmarkPerformance(portfolioPoints,candles,capital,'BTC');
+  const eth=engine.buildBenchmarkPerformance(portfolioPoints,candles,capital,'ETH');
+  assert.equal(btc.baseTimestamp,firstClose);
+  assert.equal(eth.baseTimestamp,firstClose);
+  assert.deepEqual(Array.from(btc.points,point=>point.valueMicro),['10000000000','12000000000']);
+  assert.deepEqual(Array.from(eth.points,point=>point.valueMicro),['10000000000','8000000000']);
+});
+
+test('benchmark series omits dates without a matching BTC and ETH close',()=>{
+  const engine=loadEngine();
+  const firstClose=Date.UTC(2026,1,2,23,59,59,999);
+  const missingClose=Date.UTC(2026,1,3,23,59,59,999);
+  const lastClose=Date.UTC(2026,1,4,23,59,59,999);
+  const portfolioPoints=[
+    {timestamp:firstClose,valueMicro:'10000000000',kind:'daily-close'},
+    {timestamp:missingClose,valueMicro:'10000000000',kind:'daily-close'},
+    {timestamp:lastClose,valueMicro:'10000000000',kind:'daily-close'}
+  ];
+  const benchmark=engine.buildBenchmarkPerformance(
+    portfolioPoints,
+    {BTC:[[firstClose,'40000'],[lastClose,'42000']],ETH:[[firstClose,'2000'],[missingClose,'2050'],[lastClose,'2100']]},
+    '10000000000','BTC'
+  );
+  assert.deepEqual(Array.from(benchmark.points,point=>point.timestamp),[firstClose,lastClose]);
+  assert.equal(benchmark.points.length,2);
+});
+
 test('fee setting accepts zero through two percent and rejects larger values',()=>{
   const engine=loadEngine();
   const portfolio=engine.createPortfolio('10000');
