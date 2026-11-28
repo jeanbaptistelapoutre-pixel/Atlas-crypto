@@ -154,6 +154,34 @@ test('benchmark series omits dates without a matching BTC and ETH close',()=>{
   assert.equal(benchmark.points.length,2);
 });
 
+test('builds a complete allocation including cash and rounds shares to exactly 100 percent',()=>{
+  const engine=loadEngine();
+  let portfolio=engine.createPortfolio('10000');
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','2000','20000')).portfolio;
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'ETH','1000','2000')).portfolio;
+  const valuation=engine.valuePortfolio(portfolio,{
+    BTC:{price:'22000'},
+    ETH:{price:'1800'}
+  });
+  const allocation=engine.buildPortfolioAllocation(portfolio,valuation);
+  assert.equal(allocation.complete,true);
+  assert.equal(allocation.items.reduce((sum,item)=>sum+item.shareBps,0),10000);
+  assert.equal(allocation.items.reduce((sum,item)=>sum+BigInt(item.valueMicro),0n).toString(),valuation.totalValueMicro);
+  assert.ok(allocation.items.some(item=>item.symbol==='USDC'));
+  assert.ok(allocation.items.some(item=>item.symbol==='BTC'));
+  assert.ok(allocation.items.some(item=>item.symbol==='ETH'));
+});
+
+test('does not present a complete allocation while a held asset has no reference price',()=>{
+  const engine=loadEngine();
+  let portfolio=engine.createPortfolio('10000');
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','1000','20000')).portfolio;
+  const valuation=engine.valuePortfolio(portfolio,{});
+  const allocation=engine.buildPortfolioAllocation(portfolio,valuation);
+  assert.equal(allocation.complete,false);
+  assert.deepEqual(Array.from(allocation.items),[]);
+});
+
 test('fee setting accepts zero through two percent and rejects larger values',()=>{
   const engine=loadEngine();
   const portfolio=engine.createPortfolio('10000');
