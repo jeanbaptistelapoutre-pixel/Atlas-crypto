@@ -289,3 +289,13 @@ tbody tr:last-child td{border-bottom:0}
 .history-toolbar-actions{display:flex;align-items:center;gap:17px;justify-content:flex-end}
 .history-toolbar-actions>span{color:#8995a6;font-size:8px;text-align:right}
 @media(max-width:720px){.history-toolbar-actions{align-items:flex-start;justify-content:space-between;width:100%;flex-wrap:wrap}.history-toolbar-actions>span{text-align:left}}
+
+
+/* Track record comparison: Atlas blue, BTC green, ETH red. */
+.performance-stats{grid-template-columns:repeat(5,minmax(0,1fr))}
+.chart-line-btc{fill:none;stroke:#0ecb81;stroke-width:2.5;stroke-dasharray:7 5;stroke-linecap:round;stroke-linejoin:round}
+.chart-line-eth{fill:none;stroke:#f6465d;stroke-width:2.5;stroke-dasharray:3 5;stroke-linecap:round;stroke-linejoin:round}
+.chart-last-point-btc{fill:#0ecb81;stroke:#0b0e11;stroke-width:2}
+.chart-last-point-eth{fill:#f6465d;stroke:#0b0e11;stroke-width:2}
+@media(max-width:1050px){.performance-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.performance-stats{grid-template-columns:1fr 1fr}.performance-stats>div:last-child{grid-column:auto}.history-toolbar-actions{align-items:flex-start;flex-direction:column}.history-toolbar-actions>span{text-align:left}}
