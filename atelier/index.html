@@ -163,9 +163,11 @@
               <div class="panel-heading"><div><span class="panel-kicker">SUIVI DES PERFORMANCES</span><h3>Historique & track record</h3></div><span class="coming-label" id="history-status-label">CLÔTURES JOURNALIÈRES</span></div>
               <div class="performance-panel" id="performance-panel" hidden>
                 <div class="performance-stats">
-                  <div><span>PERFORMANCE SUR LA PÉRIODE</span><strong id="history-return">—</strong><small id="history-range-label">Depuis la création</small></div>
+                  <div><span>PERFORMANCE PORTEFEUILLE</span><strong id="history-return">—</strong><small id="history-range-label">Depuis la création</small></div>
                   <div><span>DRAWDOWN MAXIMAL</span><strong id="history-drawdown">—</strong><small>Sur la période affichée</small></div>
                   <div><span>VALORISATIONS</span><strong id="history-points">—</strong><small>Clôtures journalières complètes</small></div>
+                  <div><span>BENCHMARK BTC</span><strong id="benchmark-btc-return">—</strong><small id="benchmark-btc-return-detail">Achat-conservation fictif</small></div>
+                  <div><span>BENCHMARK ETH</span><strong id="benchmark-eth-return">—</strong><small id="benchmark-eth-return-detail">Achat-conservation fictif</small></div>
                 </div>
                 <div class="performance-toolbar">
                   <div class="history-range-buttons" role="group" aria-label="Période du graphique">
@@ -174,7 +176,7 @@
                     <button type="button" data-history-range="90">90J</button>
                     <button type="button" data-history-range="all">Tout</button>
                   </div>
-                  <div class="history-toolbar-actions"><span id="history-source-label">Binance Spot · UTC</span><button class="text-button" id="refresh-history" type="button">↻ Actualiser l’historique</button></div>
+                  <div class="history-toolbar-actions"><span id="history-source-label">Binance Spot · UTC</span><button class="text-button" id="export-track-record" type="button" disabled>Exporter le track record CSV ↗</button><button class="text-button" id="refresh-history" type="button">↻ Actualiser l’historique</button></div>
                 </div>
                 <div class="performance-chart-wrap">
                   <svg id="performance-chart" viewBox="0 0 900 270" role="img" aria-label="Évolution de la valeur du portefeuille aux clôtures journalières"></svg>
