@@ -121,6 +121,53 @@
     }).join('');
   }
 
+  function renderAllocation(valuation) {
+    const bar=$('#allocation-bar');
+    const list=$('#allocation-list');
+    const total=$('#allocation-total');
+    const status=$('#allocation-status');
+    const allocation=engine.buildPortfolioAllocation(portfolio,valuation);
+    if(!allocation.complete) {
+      bar.innerHTML='';
+      list.innerHTML='<div class="allocation-unavailable">Répartition indisponible tant que tous les cours nécessaires ne sont pas reçus.</div>';
+      total.textContent='Indisponible';
+      bar.setAttribute('aria-label','Répartition indisponible : valorisation partielle.');
+      status.textContent='Aucune pondération approximative n’est affichée. Les positions dont le cours manque restent exclues jusqu’à la réception de données complètes.';
+      return;
+    }
+    const colors={
+      USDC:'#848e9c',
+      BTC:'#2962ff',
+      ETH:'#4777e8',
+      SOL:'#5e8be8',
+      XRP:'#739de0',
+      BNB:'#87add8',
+      DOGE:'#9bbbd3',
+      ADA:'#aec9ce',
+      LINK:'#c0d7d9'
+    };
+    const names=Object.fromEntries(window.AtlasMarketData.assets.map(asset=>[asset.symbol,asset.name]));
+    const items=[...allocation.items].sort((a,b)=>{
+      const left=BigInt(a.valueMicro),right=BigInt(b.valueMicro);
+      return left===right?0:left>right?-1:1;
+    });
+    const colorFor=symbol=>colors[symbol]||'#91a8c7';
+    const aria=items.map(item=>(item.symbol==='USDC'?'Liquidités':(names[item.symbol]||item.symbol))+' '+fmt.formatPct(item.shareBps/100)).join(', ');
+    bar.innerHTML=items.map(item=>{
+      const color=colorFor(item.symbol);
+      const title=(item.symbol==='USDC'?'Liquidités':(names[item.symbol]||item.symbol))+' · '+fmt.formatPct(item.shareBps/100)+' · '+fmt.formatUsdc(item.valueMicro);
+      return '<span class="allocation-segment" style="width:'+(item.shareBps/100).toFixed(2)+'%;background:'+color+'" title="'+fmt.escapeHtml(title)+'" aria-hidden="true"></span>';
+    }).join('');
+    bar.setAttribute('aria-label','Répartition du portefeuille : '+aria+'.');
+    list.innerHTML=items.map(item=>{
+      const color=colorFor(item.symbol);
+      const name=item.symbol==='USDC'?'Liquidités':(names[item.symbol]||item.symbol);
+      return '<div class="allocation-item"><span class="allocation-dot" style="background:'+color+'" aria-hidden="true"></span><div class="allocation-name"><strong>'+fmt.escapeHtml(name)+'</strong><small>'+fmt.escapeHtml(item.symbol)+'</small></div><div class="allocation-values"><strong>'+fmt.formatPct(item.shareBps/100)+'</strong><small>'+fmt.formatUsdc(item.valueMicro)+'</small></div></div>';
+    }).join('');
+    total.textContent=fmt.formatUsdc(allocation.totalValueMicro);
+    status.textContent='Répartition calculée sur la valeur de marché actuelle, liquidités incluses. Les pondérations sont arrondies au centième et totalisent exactement 100,00 %.';
+  }
+
   function renderDashboard() {
     if (!portfolio) return;
     marketBySymbol = Object.fromEntries(markets.map(item => [item.symbol,item]));
@@ -140,6 +187,7 @@
       $('#portfolio-performance').textContent = 'Valorisation partielle : un ou plusieurs cours sont indisponibles.';
       $('#portfolio-performance').className = '';
     }
+    renderAllocation(valuation);
     renderHoldings(valuation);
     renderHistory();
     const updated = marketsUpdatedAt ? fmt.formatDate(marketsUpdatedAt) : 'Aucune donnée reçue';
@@ -191,6 +239,10 @@
     panel.hidden=visible.length===0;
     empty.hidden=visible.length>0;
     $('#export-track-record').disabled=historyPoints.length===0;
+    const legendAvailability={portfolio:visible.length>0,btc:visibleBtc.length>0,eth:visibleEth.length>0};
+    document.querySelectorAll('[data-legend-series]').forEach(item=>{
+      item.hidden=!legendAvailability[item.dataset.legendSeries];
+    });
     document.querySelectorAll('[data-history-range]').forEach(button=>{
       const active=button.dataset.historyRange===historyRange;
       button.classList.toggle('active',active);
@@ -212,16 +264,21 @@
       return;
     }
 
-    const first=visible[0];
-    const last=visible[visible.length-1];
+    const commonBenchmarkDates=new Set(visibleBtc.map(point=>point.timestamp));
+    const comparablePortfolio=visible.filter(point=>point.kind==='daily-close'&&commonBenchmarkDates.has(point.timestamp));
+    const hasComparableWindow=comparablePortfolio.length>=2&&visibleBtc.length>=2&&visibleEth.length>=2;
+    const returnPoints=hasComparableWindow?comparablePortfolio:visible;
+    const first=returnPoints[0];
+    const last=returnPoints[returnPoints.length-1];
     const firstValue=Number(BigInt(first.valueMicro))/1e6;
     const lastValue=Number(BigInt(last.valueMicro))/1e6;
     const periodReturn=firstValue>0?(lastValue/firstValue-1)*100:0;
     $('#history-return').textContent=fmt.formatPct(periodReturn);
     $('#history-return').className=periodReturn>0?'positive':periodReturn<0?'negative':'';
-    $('#history-range-label').textContent=historyRange==='all'
+    const rangeLabel=historyRange==='all'
       ?(historyInfo?.truncated?'Période disponible · 1 000 jours maximum':'Depuis la création du portefeuille')
       :'Sur les '+historyRange+' derniers jours';
+    $('#history-range-label').textContent=rangeLabel+(hasComparableWindow?' · dates communes BTC/ETH':' · série Atlas');
     $('#history-points').textContent=String(visible.length);
 
     let peak=0;
@@ -252,7 +309,11 @@
     if(min===max){const pad=Math.max(Math.abs(min)*.005,1);min-=pad;max+=pad;}
     else {const pad=(max-min)*.12;min-=pad;max+=pad;}
     const yAt=value=>top+(max-value)/(max-min)*plotHeight;
-    const pathFor=points=>points.map((point,index)=>(index?'L':'M')+xAt(point.timestamp).toFixed(2)+' '+yAt(Number(BigInt(point.valueMicro))/1e6).toFixed(2)).join(' ');
+    const pathFor=points=>points.map((point,index)=>{
+      const previous=points[index-1];
+      const newSegment=!previous||point.timestamp-previous.timestamp>129600000;
+      return (newSegment?'M':'L')+xAt(point.timestamp).toFixed(2)+' '+yAt(Number(BigInt(point.valueMicro))/1e6).toFixed(2);
+    }).join(' ');
     const grid=[0,1,2,3].map(index=>{
       const value=max-(max-min)*index/3;
       const y=top+plotHeight*index/3;
@@ -267,8 +328,11 @@
     let chart='<defs><linearGradient id="atelier-history-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2962ff" stop-opacity=".22"/><stop offset="100%" stop-color="#2962ff" stop-opacity="0"/></linearGradient></defs>'+grid;
     const portfolioPath=pathFor(visible);
     const firstPortfolio=visible[0],lastPortfolio=visible[visible.length-1];
-    const area=portfolioPath+' L '+xAt(lastPortfolio.timestamp).toFixed(2)+' '+(top+plotHeight)+' L '+xAt(firstPortfolio.timestamp).toFixed(2)+' '+(top+plotHeight)+' Z';
-    chart+='<path d="'+area+'" fill="url(#atelier-history-fill)"/>';
+    const portfolioHasGaps=visible.some((point,index)=>index>0&&point.timestamp-visible[index-1].timestamp>129600000);
+    if(!portfolioHasGaps) {
+      const area=portfolioPath+' L '+xAt(lastPortfolio.timestamp).toFixed(2)+' '+(top+plotHeight)+' L '+xAt(firstPortfolio.timestamp).toFixed(2)+' '+(top+plotHeight)+' Z';
+      chart+='<path d="'+area+'" fill="url(#atelier-history-fill)"/>';
+    }
     for(const item of series) {
       const linePath=pathFor(item.points);
       const latest=item.points[item.points.length-1];
@@ -282,7 +346,8 @@
     if(historyInfo?.truncated)notices.push('Affichage limité aux 1 000 dernières clôtures journalières.');
     if(historyInfo?.errors?.length)notices.push('Données historiques manquantes pour '+historyInfo.errors.map(item=>item.symbol).join(', ')+'. Certains jours peuvent être absents.');
     if(!notices.length)notices.push('La courbe Atlas est reconstruite à partir des transactions et des clôtures Binance Spot UTC.');
-    notices.push('Benchmarks : achat-conservation fictif du capital initial au premier cours de clôture UTC complet commun disponible après création du portefeuille ; mêmes dates pour les trois courbes.');
+    notices.push('Benchmarks : achat-conservation fictif du capital initial au premier cours de clôture UTC complet commun disponible après création du portefeuille. Le rendement Atlas et les benchmarks sont comparés sur les mêmes clôtures UTC.');
+    notices.push('Une interruption de courbe signale une clôture manquante : aucun point ni rendement n’est interpolé.');
     if(historyInfo?.updatedAt)notices.push('Dernière réception de données : '+fmt.formatDate(historyInfo.updatedAt)+'.');
     else notices.push('Aucune nouvelle réception historique confirmée.');
     if(historyInfo?.checkedAt)notices.push('Dernier contrôle : '+fmt.formatDate(historyInfo.checkedAt)+'.');
