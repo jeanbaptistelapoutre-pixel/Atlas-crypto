@@ -189,3 +189,121 @@ test('fee setting accepts zero through two percent and rejects larger values',()
   assert.equal(engine.setFeeBps(portfolio,'0').feeBps,0);
   assert.throws(()=>engine.setFeeBps(portfolio,'2.01'));
 });
+
+test('rejects transaction arrays that are not stored newest-first',()=>{
+  const engine=loadEngine();
+  let portfolio=engine.createPortfolio('10000');
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','500','60000')).portfolio;
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'ETH','300','2000')).portfolio;
+  const reordered=JSON.parse(JSON.stringify(portfolio));
+  reordered.transactions.reverse();
+  assert.equal(engine.safePortfolio(reordered),false);
+});
+
+test('rejects duplicate transaction identifiers',()=>{
+  const engine=loadEngine();
+  let portfolio=engine.createPortfolio('10000');
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','500','60000')).portfolio;
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'ETH','300','2000')).portfolio;
+  const duplicate=JSON.parse(JSON.stringify(portfolio));
+  duplicate.transactions[1].id=duplicate.transactions[0].id;
+  assert.equal(engine.safePortfolio(duplicate),false);
+});
+
+test('rejects initial capital outside the limits enforced at portfolio creation',()=>{
+  const engine=loadEngine();
+  const portfolio=engine.createPortfolio('10000');
+  portfolio.initialCapitalMicro='100000000000001';
+  portfolio.cashMicro=portfolio.initialCapitalMicro;
+  assert.equal(engine.safePortfolio(portfolio),false);
+});
+
+test('validates asset symbols against the supplied market catalogue',()=>{
+  const engine=loadEngine();
+  let portfolio=engine.createPortfolio('10000');
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','500','60000')).portfolio;
+  const unsupported=JSON.parse(JSON.stringify(portfolio));
+  unsupported.assets.FAKE=unsupported.assets.BTC;
+  delete unsupported.assets.BTC;
+  unsupported.transactions[0].symbol='FAKE';
+  assert.equal(engine.safePortfolio(unsupported,['BTC','ETH']),false);
+  assert.equal(engine.safePortfolio(portfolio,['BTC','ETH']),true);
+});
+
+test('trade execution rejects previews whose fee or net amount was altered',()=>{
+  const engine=loadEngine();
+  const portfolio=engine.createPortfolio('10000');
+  const preview=engine.previewBuy(portfolio,'BTC','1000','60000');
+  const altered={...preview,feeMicro:'0',netMicro:preview.grossMicro};
+  assert.throws(()=>engine.applyTrade(portfolio,altered));
+  assert.equal(engine.safePortfolio(engine.applyTrade(portfolio,preview).portfolio),true);
+});
+
+test('ignores zero-price historical candles instead of treating them as market values',()=>{
+  const engine=loadEngine();
+  const firstClose=Date.UTC(2026,2,2,23,59,59,999);
+  const secondClose=Date.UTC(2026,2,3,23,59,59,999);
+  let portfolio=engine.createPortfolio('10000');
+  portfolio.createdAt=new Date(firstClose-86400000).toISOString();
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','1000','10000')).portfolio;
+  const points=engine.buildDailyPerformance(portfolio,{
+    BTC:[[firstClose,'0'],[secondClose,'10000']]
+  },firstClose-86400000);
+  assert.deepEqual(Array.from(points,point=>point.timestamp),[Date.parse(portfolio.createdAt),secondClose]);
+});
+
+test('portfolio store refuses backups containing symbols outside its live catalogue',()=>{
+  const engine=loadEngine();
+  const localValues=new Map();
+  const localStorage={
+    getItem:key=>localValues.has(key)?localValues.get(key):null,
+    setItem:(key,value)=>localValues.set(key,value),
+    removeItem:key=>localValues.delete(key)
+  };
+  const context=vm.createContext({
+    window:{
+      AtlasPortfolioEngine:engine,
+      AtlasMarketData:{assets:[{symbol:'BTC'},{symbol:'ETH'}]}
+    },
+    localStorage,
+    console:{warn(){}}
+  });
+  const storeSource=fs.readFileSync(path.join(__dirname,'..','js','portfolio-store.js'),'utf8');
+  vm.runInContext(storeSource,context,{filename:'portfolio-store.js'});
+  const store=context.window.AtlasPortfolioStore;
+  let portfolio=engine.createPortfolio('10000');
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','500','60000')).portfolio;
+  assert.equal(store.save(portfolio),undefined);
+  const unsupported=JSON.parse(JSON.stringify(portfolio));
+  unsupported.assets.FAKE=unsupported.assets.BTC;
+  delete unsupported.assets.BTC;
+  unsupported.transactions[0].symbol='FAKE';
+  assert.throws(()=>store.save(unsupported));
+  assert.throws(()=>store.parseBackup(JSON.stringify(unsupported)));
+});
+
+test('rejects duplicate transaction timestamps in the ordered ledger',()=>{
+  const engine=loadEngine();
+  let portfolio=engine.createPortfolio('10000');
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'BTC','500','60000')).portfolio;
+  portfolio=engine.applyTrade(portfolio,engine.previewBuy(portfolio,'ETH','300','2000')).portfolio;
+  const duplicate=JSON.parse(JSON.stringify(portfolio));
+  duplicate.transactions[1].timestamp=duplicate.transactions[0].timestamp;
+  assert.equal(engine.safePortfolio(duplicate),false);
+});
+
+test('benchmark series never turns a zero reference price into a 100 percent loss',()=>{
+  const engine=loadEngine();
+  const firstClose=Date.UTC(2026,4,2,23,59,59,999);
+  const secondClose=Date.UTC(2026,4,3,23,59,59,999);
+  const points=[
+    {timestamp:firstClose,valueMicro:'10000000000',kind:'daily-close'},
+    {timestamp:secondClose,valueMicro:'10000000000',kind:'daily-close'}
+  ];
+  const benchmark=engine.buildBenchmarkPerformance(
+    points,
+    {BTC:[[firstClose,'40000'],[secondClose,'0']],ETH:[[firstClose,'2000'],[secondClose,'2100']]},
+    '10000000000','BTC'
+  );
+  assert.deepEqual(Array.from(benchmark.points,point=>point.timestamp),[firstClose]);
+});

@@ -33,35 +33,49 @@
   function feeMicro(grossMicro, feeBps) {
     return (BigInt(grossMicro) * BigInt(feeBps)) / 10000n;
   }
-  function safePortfolio(portfolio) {
-    const unsigned=value=>/^[0-9]+$/.test(String(value));
-    const signed=value=>/^-?[0-9]+$/.test(String(value));
-    const decimal=value=>/^[0-9]+([.][0-9]{1,8})?$/.test(String(value));
+  function safePortfolio(portfolio, allowedSymbols=null) {
+    const unsigned=value=>typeof value==='string'&&/^[0-9]+$/.test(value);
+    const signed=value=>typeof value==='string'&&/^-?[0-9]+$/.test(value);
+    const decimal=value=>typeof value==='string'&&/^[0-9]+([.][0-9]{1,8})?$/.test(value);
+    const canonicalTimestamp=value=>{
+      if(typeof value!=='string')return null;
+      const time=Date.parse(value);
+      if(!Number.isFinite(time))return null;
+      try{return new Date(time).toISOString()===value?time:null;}catch{return null;}
+    };
     if (!portfolio || portfolio.schemaVersion !== 1 || !Array.isArray(portfolio.transactions) || portfolio.transactions.length>10000 || !portfolio.assets || typeof portfolio.assets !== 'object' || Array.isArray(portfolio.assets)) return false;
-    if (typeof portfolio.createdAt!=='string' || !Number.isFinite(Date.parse(portfolio.createdAt))) return false;
-    if (!unsigned(portfolio.cashMicro) || !unsigned(portfolio.initialCapitalMicro) || BigInt(portfolio.initialCapitalMicro)<=0n) return false;
-    if (!signed(portfolio.realizedPnlMicro) || !unsigned(portfolio.totalFeesMicro) || !Number.isInteger(portfolio.feeBps) || portfolio.feeBps<0 || portfolio.feeBps>200) return false;
+    const createdAt=canonicalTimestamp(portfolio.createdAt);
+    if(createdAt===null) return false;
+    if (!unsigned(portfolio.cashMicro) || !unsigned(portfolio.initialCapitalMicro) || !signed(portfolio.realizedPnlMicro) || !unsigned(portfolio.totalFeesMicro) || !Number.isInteger(portfolio.feeBps) || portfolio.feeBps<0 || portfolio.feeBps>200) return false;
+    const initialCapital=BigInt(portfolio.initialCapitalMicro);
+    if(initialCapital<100000000n||initialCapital>100000000000000n)return false;
 
-    // Rebuild the ledger from the immutable transactions before trusting a local or imported portfolio.
-    let expectedCash=BigInt(portfolio.initialCapitalMicro);
+    const supportedSymbols=Array.isArray(allowedSymbols)?new Set(allowedSymbols):null;
+    const transactionIds=new Set();
+    let previousTimestamp=null;
+    let expectedCash=initialCapital;
     let expectedFees=0n;
     let expectedRealized=0n;
     const expectedAssets={};
-    const createdAt=Date.parse(portfolio.createdAt);
-    const chronological=[...portfolio.transactions].reverse().sort((a,b)=>Date.parse(a.timestamp)-Date.parse(b.timestamp));
+    // Stored order is newest-first. Reversing must produce a strictly chronological ledger.
+    const chronological=[...portfolio.transactions].reverse();
     try {
       for(const tx of chronological) {
-        if(!tx || typeof tx!=='object' || !/^[A-Z0-9]{2,15}$/.test(String(tx.symbol)) || !['buy','sell'].includes(tx.side)) return false;
-        if(!decimal(tx.quantity) || Number(tx.quantity)<=0 || !decimal(tx.price) || Number(tx.price)<=0) return false;
-        if(!unsigned(tx.grossMicro) || !unsigned(tx.feeMicro) || !unsigned(tx.netMicro) || !signed(tx.realizedPnlMicro)) return false;
-        const time=Date.parse(tx.timestamp);
-        if(typeof tx.timestamp!=='string' || !Number.isFinite(time) || time<createdAt || typeof tx.id!=='string' || !tx.id) return false;
+        if(!tx||typeof tx!=='object'||typeof tx.symbol!=='string'||!/^[A-Z0-9]{2,15}$/.test(tx.symbol)||!['buy','sell'].includes(tx.side)) return false;
+        if(supportedSymbols&&!supportedSymbols.has(tx.symbol))return false;
+        if(typeof tx.id!=='string'||!tx.id||tx.id.length>128||transactionIds.has(tx.id))return false;
+        transactionIds.add(tx.id);
+        const time=canonicalTimestamp(tx.timestamp);
+        if(time===null||time<createdAt||(previousTimestamp!==null&&time<=previousTimestamp))return false;
+        previousTimestamp=time;
+        if(!decimal(tx.quantity)||!decimal(tx.price)||!unsigned(tx.grossMicro)||!unsigned(tx.feeMicro)||!unsigned(tx.netMicro)||!signed(tx.realizedPnlMicro)) return false;
+        if(tx.source!==undefined&&(typeof tx.source!=='string'||tx.source.length>100))return false;
         const quantity=parseUnits(tx.quantity,8);
         const price=parseUnits(tx.price,8);
         const gross=BigInt(tx.grossMicro);
         const fee=BigInt(tx.feeMicro);
         const net=BigInt(tx.netMicro);
-        if(notionalMicro(quantity,price)!==gross) return false;
+        if(quantity<=0n||price<=0n||gross<=0n||fee>(gross*200n)/10000n||notionalMicro(quantity,price)!==gross) return false;
         expectedFees+=fee;
         const holding=expectedAssets[tx.symbol]||(expectedAssets[tx.symbol]={quantityUnits:0n,costBasisMicro:0n});
         if(tx.side==='buy') {
@@ -110,7 +124,15 @@
       transactions:[]
     };
   }
+  function assertTradableSymbol(symbol) {
+    if(typeof symbol!=='string'||!/^[A-Z0-9]{2,15}$/.test(symbol))throw new Error('Actif non valide.');
+  }
+  function assertFeeRate(portfolio) {
+    if(!Number.isInteger(portfolio?.feeBps)||portfolio.feeBps<0||portfolio.feeBps>200)throw new Error('Commission simulée invalide.');
+  }
   function previewBuy(portfolio, symbol, grossInput, priceInput) {
+    assertTradableSymbol(symbol);
+    assertFeeRate(portfolio);
     const grossInputMicro = parseUnits(grossInput,6);
     const price = parseUnits(priceInput,8);
     const qty = quantityUnits(grossInputMicro,price);
@@ -122,6 +144,8 @@
     return {symbol,side:'buy',priceUnits:price.toString(),quantityUnits:qty.toString(),grossMicro:gross.toString(),feeMicro:fee.toString(),netMicro:total.toString()};
   }
   function previewSell(portfolio, symbol, quantityInput, priceInput) {
+    assertTradableSymbol(symbol);
+    assertFeeRate(portfolio);
     const quantity = parseUnits(quantityInput,8);
     const price = parseUnits(priceInput,8);
     const holding = portfolio.assets[symbol];
@@ -133,13 +157,25 @@
     return {symbol,side:'sell',priceUnits:price.toString(),quantityUnits:quantity.toString(),grossMicro:gross.toString(),feeMicro:fee.toString(),netMicro:net.toString()};
   }
   function applyTrade(portfolio, preview, metadata={}) {
+    if(!preview||!['buy','sell'].includes(preview.side))throw new Error('Aperçu d’opération invalide.');
+    assertTradableSymbol(preview.symbol);
+    assertFeeRate(portfolio);
+    let qty,gross,fee,net,price;
+    try {
+      qty=BigInt(preview.quantityUnits);
+      gross=BigInt(preview.grossMicro);
+      fee=BigInt(preview.feeMicro);
+      net=BigInt(preview.netMicro);
+      price=BigInt(preview.priceUnits);
+    } catch {
+      throw new Error('Aperçu d’opération incomplet ou invalide.');
+    }
+    if(qty<=0n||price<=0n||gross<=0n||notionalMicro(qty,price)!==gross)throw new Error('Le montant, la quantité ou le prix de l’aperçu est incohérent.');
+    const expectedFee=feeMicro(gross,portfolio.feeBps);
+    const expectedNet=preview.side==='buy'?gross+expectedFee:gross-expectedFee;
+    if(fee!==expectedFee||net!==expectedNet)throw new Error('Les frais ou le montant net de l’aperçu ne correspondent plus aux paramètres du portefeuille.');
     const next = JSON.parse(JSON.stringify(portfolio));
     const symbol = preview.symbol;
-    const qty = BigInt(preview.quantityUnits);
-    const gross = BigInt(preview.grossMicro);
-    const fee = BigInt(preview.feeMicro);
-    const net = BigInt(preview.netMicro);
-    const price = BigInt(preview.priceUnits);
     const current = next.assets[symbol] || {quantityUnits:'0',costBasisMicro:'0'};
     let realized = 0n;
     if(preview.side==='buy') {
@@ -177,7 +213,7 @@
       feeMicro:fee.toString(),
       netMicro:net.toString(),
       realizedPnlMicro:realized.toString(),
-      source:metadata.source||'Binance Spot'
+      source:typeof metadata.source==='string'&&metadata.source.trim()?metadata.source.trim().slice(0,100):'Binance Spot'
     };
     next.transactions.unshift(transaction);
     return {portfolio:next,transaction};
@@ -211,7 +247,7 @@
       for(const candle of candles||[]) {
         const closeTime=Number(candle[0]);
         const closePrice=String(candle[1]);
-        if(Number.isFinite(closeTime)&&closeTime>0&&/^\d+(?:[.]\d{1,8})?$/.test(closePrice)) {
+        if(Number.isFinite(closeTime)&&closeTime>0&&/^\d+(?:[.]\d{1,8})?$/.test(closePrice)&&parseUnits(closePrice,8,{allowZero:true})>0n) {
           map.set(closeTime,closePrice);
           timestamps.add(closeTime);
         }
@@ -270,7 +306,7 @@
         if(!Array.isArray(candle)||candle.length<2)continue;
         const timestamp=Number(candle[0]);
         const price=String(candle[1]);
-        if(Number.isFinite(timestamp)&&timestamp>0&&/^\d+(?:[.]\d{1,8})?$/.test(price))map.set(timestamp,price);
+        if(Number.isFinite(timestamp)&&timestamp>0&&/^\d+(?:[.]\d{1,8})?$/.test(price)&&parseUnits(price,8,{allowZero:true})>0n)map.set(timestamp,price);
       }
       return map;
     };

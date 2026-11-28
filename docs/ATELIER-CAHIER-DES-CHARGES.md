@@ -131,6 +131,8 @@ MVP sans compte :
 - Stockage local dans le navigateur ; aucune donnée de portefeuille envoyée à un serveur Atlas.
 - Clé de stockage versionnée, par exemple `atlas-atelier-portfolio-v1`.
 - Validation des données lors du chargement et de l'import.
+- Validation du ledger avant chargement, sauvegarde ou import : soldes reconstruits depuis les transactions, ordre stocké du plus récent au plus ancien, identifiants uniques, champs numériques en chaînes décimales contrôlées et symboles limités au catalogue Spot effectivement pris en charge.
+- Les dates de transaction proviennent de l'horloge locale de l'appareil ; elles ne constituent pas un horodatage serveur certifié. Une date future doit donc être interprétée avec prudence plutôt que corrigée ou rejetée silencieusement.
 - Sauvegarde JSON complète pour permettre un transfert manuel vers un autre navigateur/appareil.
 - Export CSV lisible pour analyser les transactions.
 - Message clair : données liées à ce navigateur et à cet appareil ; supprimer les données du navigateur peut supprimer le portefeuille.
