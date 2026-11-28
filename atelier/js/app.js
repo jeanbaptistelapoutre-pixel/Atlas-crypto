@@ -13,6 +13,7 @@
   let currentPreview = null;
   let historyInfo = null;
   let historyPoints = [];
+  let historyBenchmarks = {BTC:[],ETH:[]};
   let historyRange = '30';
   let historyBusy = false;
   let historyRefreshQueued = false;
@@ -154,6 +155,30 @@
     return filtered.length?filtered:[historyPoints[historyPoints.length-1]];
   }
 
+  function visibleBenchmarkPoints(points) {
+    if(!points?.length||!historyPoints.length)return [];
+    if(historyRange==='all')return points;
+    const latest=historyPoints[historyPoints.length-1].timestamp;
+    const cutoff=latest-Number(historyRange)*86400000;
+    return points.filter(point=>point.timestamp>=cutoff&&point.timestamp<=latest);
+  }
+
+  function formatSeriesReturn(points) {
+    if(!points||points.length<2)return null;
+    const first=Number(BigInt(points[0].valueMicro));
+    const last=Number(BigInt(points[points.length-1].valueMicro));
+    return first>0?(last/first-1)*100:null;
+  }
+
+  function renderBenchmarkReturn(id, points) {
+    const value=$(id);
+    const pct=formatSeriesReturn(points);
+    value.textContent=pct===null?'—':fmt.formatPct(pct);
+    value.className=pct===null?'':pct>0?'positive':pct<0?'negative':'';
+    const detail=$(id+'-detail');
+    if(detail)detail.textContent=points.length>1?points.length+' clôtures comparables':'Historique comparable insuffisant';
+  }
+
   function renderPerformancePanel() {
     const panel=$('#performance-panel');
     const empty=$('#history-empty');
@@ -161,8 +186,11 @@
     const status=$('#history-status');
     const svg=$('#performance-chart');
     const visible=visibleHistoryPoints();
+    const visibleBtc=visibleBenchmarkPoints(historyBenchmarks.BTC?.points||[]);
+    const visibleEth=visibleBenchmarkPoints(historyBenchmarks.ETH?.points||[]);
     panel.hidden=visible.length===0;
     empty.hidden=visible.length>0;
+    $('#export-track-record').disabled=historyPoints.length===0;
     document.querySelectorAll('[data-history-range]').forEach(button=>{
       const active=button.dataset.historyRange===historyRange;
       button.classList.toggle('active',active);
@@ -170,6 +198,8 @@
     });
     if(!visible.length) {
       $('#history-points').textContent='0';
+      $('#benchmark-btc-return').textContent='—';
+      $('#benchmark-eth-return').textContent='—';
       if(historyError) {
         empty.querySelector('strong').textContent='Historique temporairement indisponible.';
         empty.querySelector('p').textContent=historyError+' Vos transactions restent enregistrées ; vous pourrez réessayer plus tard.';
@@ -203,38 +233,59 @@
     });
     $('#history-drawdown').textContent=fmt.formatPct(maxDrawdown);
     $('#history-drawdown').className=maxDrawdown<0?'negative':'';
+    renderBenchmarkReturn('#benchmark-btc-return',visibleBtc);
+    renderBenchmarkReturn('#benchmark-eth-return',visibleEth);
 
+    const series=[
+      {points:visible,lineClass:'chart-line',pointClass:'chart-last-point'},
+      {points:visibleBtc,lineClass:'chart-line-btc',pointClass:'chart-last-point-btc'},
+      {points:visibleEth,lineClass:'chart-line-eth',pointClass:'chart-last-point-eth'}
+    ].filter(item=>item.points.length>0);
+    const allPoints=series.flatMap(item=>item.points);
+    const firstTimestamp=Math.min(...allPoints.map(point=>point.timestamp));
+    const lastTimestamp=Math.max(...allPoints.map(point=>point.timestamp));
     const width=900,height=270,left=82,right=22,top=18,bottom=37;
     const plotWidth=width-left-right,plotHeight=height-top-bottom;
-    const values=visible.map(point=>Number(BigInt(point.valueMicro))/1e6);
+    const xAt=timestamp=>left+(lastTimestamp===firstTimestamp?plotWidth/2:(timestamp-firstTimestamp)/(lastTimestamp-firstTimestamp)*plotWidth);
+    const values=allPoints.map(point=>Number(BigInt(point.valueMicro))/1e6);
     let min=Math.min(...values),max=Math.max(...values);
     if(min===max){const pad=Math.max(Math.abs(min)*.005,1);min-=pad;max+=pad;}
     else {const pad=(max-min)*.12;min-=pad;max+=pad;}
-    const xAt=index=>left+(visible.length<=1?plotWidth/2:index/(visible.length-1)*plotWidth);
     const yAt=value=>top+(max-value)/(max-min)*plotHeight;
-    const coords=values.map((value,index)=>[xAt(index),yAt(value)]);
-    const path=coords.map((point,index)=>(index?'L':'M')+point[0].toFixed(2)+' '+point[1].toFixed(2)).join(' ');
-    const area=path+' L '+coords[coords.length-1][0].toFixed(2)+' '+(top+plotHeight)+' L '+coords[0][0].toFixed(2)+' '+(top+plotHeight)+' Z';
+    const pathFor=points=>points.map((point,index)=>(index?'L':'M')+xAt(point.timestamp).toFixed(2)+' '+yAt(Number(BigInt(point.valueMicro))/1e6).toFixed(2)).join(' ');
     const grid=[0,1,2,3].map(index=>{
       const value=max-(max-min)*index/3;
       const y=top+plotHeight*index/3;
       const label=fmt.formatUsdc(String(Math.round(value*1e6)));
       return '<line x1="'+left+'" y1="'+y+'" x2="'+(width-right)+'" y2="'+y+'" class="chart-grid"/><text x="'+(left-12)+'" y="'+(y+4)+'" class="chart-axis-label" text-anchor="end">'+label+'</text>';
     }).join('');
-    const dateIndexes=[0,Math.floor((visible.length-1)/3),Math.floor((visible.length-1)*2/3),visible.length-1].filter((value,index,array)=>array.indexOf(value)===index);
-    const dates=dateIndexes.map(index=>{
-      const date=new Date(visible[index].timestamp);
-      const label=new Intl.DateTimeFormat('fr-FR',{day:'2-digit',month:'short',timeZone:'UTC'}).format(date);
-      return '<text x="'+xAt(index)+'" y="'+(height-10)+'" class="chart-axis-label" text-anchor="middle">'+label+'</text>';
+    const tickTimes=[...new Set([0,1,2,3].map(index=>Math.round(firstTimestamp+(lastTimestamp-firstTimestamp)*index/3)))];
+    const dates=tickTimes.map(timestamp=>{
+      const label=new Intl.DateTimeFormat('fr-FR',{day:'2-digit',month:'short',timeZone:'UTC'}).format(new Date(timestamp));
+      return '<text x="'+xAt(timestamp)+'" y="'+(height-10)+'" class="chart-axis-label" text-anchor="middle">'+label+'</text>';
     }).join('');
-    const latest=coords[coords.length-1];
-    svg.innerHTML='<defs><linearGradient id="atelier-history-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2962ff" stop-opacity=".28"/><stop offset="100%" stop-color="#2962ff" stop-opacity="0"/></linearGradient></defs>'+grid+'<path d="'+area+'" fill="url(#atelier-history-fill)"/><path d="'+path+'" class="chart-line"/><circle cx="'+latest[0]+'" cy="'+latest[1]+'" r="4.5" class="chart-last-point"/>'+dates;
-    svg.setAttribute('aria-label','Valeur du portefeuille aux clôtures journalières, de '+fmt.formatDate(first.timestamp)+' à '+fmt.formatDate(last.timestamp));
+    let chart='<defs><linearGradient id="atelier-history-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2962ff" stop-opacity=".22"/><stop offset="100%" stop-color="#2962ff" stop-opacity="0"/></linearGradient></defs>'+grid;
+    const portfolioPath=pathFor(visible);
+    const firstPortfolio=visible[0],lastPortfolio=visible[visible.length-1];
+    const area=portfolioPath+' L '+xAt(lastPortfolio.timestamp).toFixed(2)+' '+(top+plotHeight)+' L '+xAt(firstPortfolio.timestamp).toFixed(2)+' '+(top+plotHeight)+' Z';
+    chart+='<path d="'+area+'" fill="url(#atelier-history-fill)"/>';
+    for(const item of series) {
+      const linePath=pathFor(item.points);
+      const latest=item.points[item.points.length-1];
+      chart+='<path d="'+linePath+'" class="'+item.lineClass+'"/>';
+      chart+='<circle cx="'+xAt(latest.timestamp)+'" cy="'+yAt(Number(BigInt(latest.valueMicro))/1e6)+'" r="4" class="'+item.pointClass+'"/>';
+    }
+    svg.innerHTML=chart+dates;
+    svg.setAttribute('aria-label','Comparaison du portefeuille Atlas avec les simulations achat-conservation BTC et ETH, en USDC, aux clôtures journalières UTC.');
+
     const notices=[];
     if(historyInfo?.truncated)notices.push('Affichage limité aux 1 000 dernières clôtures journalières.');
     if(historyInfo?.errors?.length)notices.push('Données historiques manquantes pour '+historyInfo.errors.map(item=>item.symbol).join(', ')+'. Certains jours peuvent être absents.');
-    if(!notices.length)notices.push('Valeurs reconstruites à partir des transactions enregistrées et des clôtures journalières UTC de Binance Spot. Les journées non terminées ne sont pas affichées.');
+    if(!notices.length)notices.push('La courbe Atlas est reconstruite à partir des transactions et des clôtures Binance Spot UTC.');
+    notices.push('Benchmarks : achat-conservation fictif du capital initial au premier cours de clôture UTC complet commun disponible après création du portefeuille ; mêmes dates pour les trois courbes.');
     if(historyInfo?.updatedAt)notices.push('Dernière réception de données : '+fmt.formatDate(historyInfo.updatedAt)+'.');
+    else notices.push('Aucune nouvelle réception historique confirmée.');
+    if(historyInfo?.checkedAt)notices.push('Dernier contrôle : '+fmt.formatDate(historyInfo.checkedAt)+'.');
     status.textContent=notices.join(' ');
     statusLabel.textContent=(historyInfo?.truncated||historyInfo?.errors?.length)?'HISTORIQUE PARTIEL':'CLÔTURES JOURNALIÈRES';
     $('#history-source-label').textContent=historyInfo?.source||'Binance Spot · UTC';
@@ -252,12 +303,17 @@
       if(portfolio!==requestedPortfolio){historyRefreshQueued=true;return;}
       historyInfo=loadedHistory;
       historyPoints=engine.buildDailyPerformance(requestedPortfolio,historyInfo.candlesBySymbol,historyInfo.rangeStart);
+      historyBenchmarks={
+        BTC:engine.buildBenchmarkPerformance(historyPoints,historyInfo.candlesBySymbol,requestedPortfolio.initialCapitalMicro,'BTC'),
+        ETH:engine.buildBenchmarkPerformance(historyPoints,historyInfo.candlesBySymbol,requestedPortfolio.initialCapitalMicro,'ETH')
+      };
       renderPerformancePanel();
     } catch(error) {
       if(portfolio!==requestedPortfolio){historyRefreshQueued=true;return;}
       console.warn('Atelier : historique de valorisation indisponible.',error);
       historyError=error.message;
       historyPoints=[];
+      historyBenchmarks={BTC:[],ETH:[]};
       historyInfo=null;
       renderPerformancePanel();
     } finally {
@@ -390,6 +446,40 @@
     download('atlas-atelier-transactions-'+new Date().toISOString().slice(0,10)+'.csv',csv,'text/csv;charset=utf-8');
   }
 
+  function exportTrackRecordCsv() {
+    if(!historyPoints.length)return;
+    const portfolioByTime=new Map(historyPoints.map(point=>[point.timestamp,point.valueMicro]));
+    const btcByTime=new Map((historyBenchmarks.BTC?.points||[]).map(point=>[point.timestamp,point.valueMicro]));
+    const ethByTime=new Map((historyBenchmarks.ETH?.points||[]).map(point=>[point.timestamp,point.valueMicro]));
+    const timestamps=[...new Set([...portfolioByTime.keys(),...btcByTime.keys(),...ethByTime.keys()])].sort((a,b)=>a-b);
+    const rows=[[
+      'Date UTC',
+      'Portefeuille Atlas (USDC)',
+      'Benchmark BTC · achat-conservation (USDC)',
+      'Benchmark ETH · achat-conservation (USDC)',
+      'Drawdown portefeuille (%)'
+    ]];
+    let peak=null;
+    for(const timestamp of timestamps) {
+      const portfolioValue=portfolioByTime.get(timestamp);
+      let drawdown='';
+      if(portfolioValue!==undefined) {
+        const value=BigInt(portfolioValue);
+        peak=peak===null||value>peak?value:peak;
+        drawdown=peak>0n?((Number(value)/Number(peak)-1)*100).toFixed(4):'';
+      }
+      rows.push([
+        new Date(timestamp).toISOString(),
+        portfolioValue===undefined?'':engine.unitsToString(portfolioValue,6,6),
+        btcByTime.has(timestamp)?engine.unitsToString(btcByTime.get(timestamp),6,6):'',
+        ethByTime.has(timestamp)?engine.unitsToString(ethByTime.get(timestamp),6,6):'',
+        drawdown
+      ]);
+    }
+    const csv='\uFEFF'+rows.map(row=>row.map(csvCell).join(';')).join('\r\n');
+    download('atlas-atelier-track-record-'+new Date().toISOString().slice(0,10)+'.csv',csv,'text/csv;charset=utf-8');
+  }
+
   function openConfirm(title,message,callback) {
     $('#confirm-title').textContent=title;
     $('#confirm-text').textContent=message;
@@ -481,6 +571,7 @@
   // Backup, restore and reset
   $('#export-json').addEventListener('click',exportJson);
   $('#export-csv').addEventListener('click',exportCsv);
+  $('#export-track-record').addEventListener('click',exportTrackRecordCsv);
   $('#import-json').addEventListener('click',()=>$('#import-file').click());
   $('#setup-import-json').addEventListener('click',()=>$('#import-file').click());
   $('#discard-corrupt-storage').addEventListener('click',()=>openConfirm(
@@ -508,7 +599,7 @@
     finally {event.target.value='';}
   });
   $('#reset-portfolio').addEventListener('click',()=>openConfirm('Réinitialiser le portefeuille ?', 'Cette action supprimera le capital, les positions et tout l’historique enregistrés dans ce navigateur. Pensez à exporter une sauvegarde avant de continuer.',()=>{
-    try {store.clear();portfolio=null;historyInfo=null;historyPoints=[];historyError=null;renderMode();$('#initial-capital').value='10000';setMarketState(markets.length?'success':'loading','Portefeuille réinitialisé. Vous pouvez en créer un nouveau.');}
+    try {store.clear();portfolio=null;historyInfo=null;historyPoints=[];historyBenchmarks={BTC:[],ETH:[]};historyError=null;renderMode();$('#initial-capital').value='10000';setMarketState(markets.length?'success':'loading','Portefeuille réinitialisé. Vous pouvez en créer un nouveau.');}
     catch(error){alert(error.message);}
   }));
   $('#refresh-prices').addEventListener('click',()=>refreshMarkets(true));
