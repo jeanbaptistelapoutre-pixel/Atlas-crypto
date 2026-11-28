@@ -258,10 +258,43 @@
     }
     return points.filter((point,index,array)=>index===0||point.timestamp>array[index-1].timestamp);
   }
+  function buildBenchmarkPerformance(portfolioPoints, candlesBySymbol, initialCapitalMicro, symbol) {
+    if(!Array.isArray(portfolioPoints))throw new Error('Historique du portefeuille invalide.');
+    if(!['BTC','ETH'].includes(symbol))throw new Error('Benchmark non pris en charge.');
+    const capital=BigInt(initialCapitalMicro);
+    if(capital<=0n)throw new Error('Le capital de référence doit être positif.');
+    const peerSymbol=symbol==='BTC'?'ETH':'BTC';
+    const buildPriceMap=candles=>{
+      const map=new Map();
+      for(const candle of candles||[]) {
+        if(!Array.isArray(candle)||candle.length<2)continue;
+        const timestamp=Number(candle[0]);
+        const price=String(candle[1]);
+        if(Number.isFinite(timestamp)&&timestamp>0&&/^\d+(?:[.]\d{1,8})?$/.test(price))map.set(timestamp,price);
+      }
+      return map;
+    };
+    const priceMap=buildPriceMap(candlesBySymbol?.[symbol]);
+    const peerPriceMap=buildPriceMap(candlesBySymbol?.[peerSymbol]);
+    const dailyPoints=portfolioPoints
+      .filter(point=>point&&point.kind==='daily-close'&&Number.isFinite(point.timestamp))
+      .slice()
+      .sort((a,b)=>a.timestamp-b.timestamp)
+      .filter(point=>priceMap.has(point.timestamp)&&peerPriceMap.has(point.timestamp));
+    const first=dailyPoints[0];
+    if(!first)return {symbol,baseTimestamp:null,basePrice:null,points:[]};
+    const basePrice=parseUnits(priceMap.get(first.timestamp),8);
+    if(basePrice<=0n)return {symbol,baseTimestamp:null,basePrice:null,points:[]};
+    const points=dailyPoints.map(point=>{
+      const price=parseUnits(priceMap.get(point.timestamp),8);
+      return {timestamp:point.timestamp,valueMicro:((capital*price)/basePrice).toString(),kind:'benchmark'};
+    });
+    return {symbol,baseTimestamp:first.timestamp,basePrice:priceMap.get(first.timestamp),points};
+  }
   function setFeeBps(portfolio, value) {
     const percent=parseUnits(value,2,{allowZero:true});
     if(percent>200n)throw new Error('La commission doit être comprise entre 0 et 2 %.');
     return {...portfolio,feeBps:Number(percent)};
   }
-  window.AtlasPortfolioEngine={MONEY_SCALE,ASSET_SCALE,PRICE_SCALE,parseUnits,unitsToString,notionalMicro,quantityUnits,feeMicro,createPortfolio,previewBuy,previewSell,applyTrade,valuePortfolio,buildDailyPerformance,setFeeBps,safePortfolio};
+  window.AtlasPortfolioEngine={MONEY_SCALE,ASSET_SCALE,PRICE_SCALE,parseUnits,unitsToString,notionalMicro,quantityUnits,feeMicro,createPortfolio,previewBuy,previewSell,applyTrade,valuePortfolio,buildDailyPerformance,buildBenchmarkPerformance,setFeeBps,safePortfolio};
 })();
