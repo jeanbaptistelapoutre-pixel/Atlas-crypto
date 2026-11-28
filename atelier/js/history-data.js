@@ -49,8 +49,8 @@
   }
 
   async function getDailyHistory(portfolio,{force=false}={}) {
-    const symbols=[...new Set(portfolio.transactions.map(tx=>tx.symbol))];
-    if(!symbols.length)return {candlesBySymbol:{},symbols:[],rangeStart:Date.parse(portfolio.createdAt),truncated:false,errors:[],source:'Binance Spot · clôtures journalières UTC'};
+    // BTC and ETH are always loaded as buy-and-hold benchmarks, even when not held in the portfolio.
+    const symbols=[...new Set([...portfolio.transactions.map(tx=>tx.symbol),'BTC','ETH'])];
     const allAssets=window.AtlasMarketData.assets;
     const assetBySymbol=Object.fromEntries(allAssets.map(asset=>[asset.symbol,asset]));
     const unknown=symbols.filter(symbol=>!assetBySymbol[symbol]);
@@ -112,10 +112,11 @@
       symbols,
       rangeStart,
       truncated,
-      errors, 
+      errors,
+      // updatedAt is the last successful market-data fetch; checkedAt is only the latest check.
       updatedAt:cache.lastSuccessAt,
-      source:'Binance Spot · clôtures journalières UTC',
-      updatedAt:new Date().toISOString()
+      checkedAt:new Date(now).toISOString(),
+      source:'Binance Spot · clôtures journalières UTC'
     };
   }
 
