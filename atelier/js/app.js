@@ -278,18 +278,23 @@
     const rangeLabel=historyRange==='all'
       ?(historyInfo?.truncated?'Période disponible · 1 000 jours maximum':'Depuis la création du portefeuille')
       :'Sur les '+historyRange+' derniers jours';
-    $('#history-range-label').textContent=rangeLabel+(hasComparableWindow?' · dates communes BTC/ETH':' · série Atlas');
-    $('#history-points').textContent=String(visible.length);
+    const preciseRangeLabel=historyRange==='all'&&hasComparableWindow&&!historyInfo?.truncated
+      ?'Depuis la première clôture UTC commune'
+      :rangeLabel;
+    $('#history-range-label').textContent=preciseRangeLabel+(hasComparableWindow?' · dates communes BTC/ETH':' · série Atlas');
+    $('#history-points').textContent=String(visible.filter(point=>point.kind==='daily-close').length);
 
+    const riskPoints=hasComparableWindow?comparablePortfolio:visible;
     let peak=0;
     let maxDrawdown=0;
-    visible.forEach(point=>{
+    riskPoints.forEach(point=>{
       const value=Number(BigInt(point.valueMicro))/1e6;
       peak=Math.max(peak,value);
       if(peak>0)maxDrawdown=Math.min(maxDrawdown,(value/peak-1)*100);
     });
     $('#history-drawdown').textContent=fmt.formatPct(maxDrawdown);
     $('#history-drawdown').className=maxDrawdown<0?'negative':'';
+    $('#history-drawdown-label').textContent=hasComparableWindow?'Même période que le rendement':'Sur la période affichée';
     renderBenchmarkReturn('#benchmark-btc-return',visibleBtc);
     renderBenchmarkReturn('#benchmark-eth-return',visibleEth);
 
