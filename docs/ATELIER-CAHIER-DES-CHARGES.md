@@ -122,7 +122,8 @@ La page d'accueil de l'Atelier présente sa promesse, les quatre modules, l'éta
 - Le rendement affiché est calculé entre le premier et le dernier point de la période sélectionnée. Le drawdown maximal est calculé sur cette même période affichée.
 - Les jours où un prix nécessaire est manquant ne doivent pas être présentés comme des valorisations complètes ; les erreurs ou historiques partiels restent visibles à l'utilisateur.
 - Les points de suivi sont indépendants de la présence du visiteur sur le site : les clôtures historiques permettent de reconstruire les journées passées à partir des transactions enregistrées.
-- Les comparaisons BTC/ETH ne sont pas encore intégrées. Toute future comparaison devra utiliser une hypothèse explicite (par exemple achat-conservation à la date de création du portefeuille), pas un benchmark implicite.
+- Les benchmarks BTC et ETH utilisent une hypothèse d'achat-conservation fictif du capital initial au premier cours de clôture journalière UTC complet commun disponible après la création du portefeuille. Les rendements sont comparés sur les mêmes dates de valorisation que le portefeuille ; les cours manquants ne sont pas interpolés.
+- L'export CSV du track record couvre toute la période historique disponible, avec les valeurs du portefeuille, les deux benchmarks et le drawdown du portefeuille.
 
 ## 5. Données, stockage et confidentialité
 
@@ -177,8 +178,8 @@ L'adaptateur `market-data.js` doit exposer une interface stable et gérer les er
 - [x] Reconstruction d'une série journalière à partir des transactions et des clôtures Binance Spot.
 - [x] Graphique avec plages 7J / 30J / 90J / Tout et drawdown maximal sur la plage affichée.
 - [x] Cache local des chandeliers, récupération incrémentale et état explicite en cas d'historique incomplet.
-- [ ] Benchmark documenté BTC/ETH.
-- [ ] Export du track record.
+- [x] Benchmark documenté BTC/ETH, basé sur un achat-conservation fictif au premier cours de clôture UTC commun disponible.
+- [x] Export CSV du track record complet (portefeuille, BTC, ETH et drawdown).
 
 **Phase 3 — Journal de trading**
 - Enregistrement manuel des trades, contexte, plan, risque initial, captures et analyse statistique.
