@@ -70,7 +70,7 @@ La page d'accueil de l'Atelier présente sa promesse, les quatre modules, l'éta
 - Valeur totale du portefeuille et capital disponible.
 - P&L total, P&L réalisé et P&L latent.
 - Courbe de valorisation avec période sélectionnable, dès que les données historiques nécessaires sont disponibles.
-- Répartition par actif.
+- Répartition par actif et liquidités disponibles ; les pondérations doivent inclure l'USDC, être calculées sur une valorisation complète et totaliser exactement 100,00 % après arrondi au centième. Si un cours manque, ne pas afficher une répartition présentée comme complète.
 - Positions principales et dernière activité.
 - Indication visible de la date/heure de la dernière mise à jour des cours.
 
@@ -119,8 +119,8 @@ La page d'accueil de l'Atelier présente sa promesse, les quatre modules, l'éta
 - Le track record est reconstruit à partir du journal immuable des transactions : les mouvements de cash et de quantités sont rejoués chronologiquement, puis valorisés à chaque clôture journalière UTC.
 - Les clôtures journalières Binance Spot sont utilisées comme prix de référence historique ; la journée UTC en cours n'est pas affichée tant que sa clôture n'est pas terminée.
 - La première version conserve au maximum 1 000 clôtures journalières, avec un cache local versionné. Le graphique propose 7 jours, 30 jours, 90 jours et toute la période disponible.
-- Le rendement affiché est calculé entre le premier et le dernier point de la période sélectionnée. Le drawdown maximal est calculé sur cette même période affichée.
-- Les jours où un prix nécessaire est manquant ne doivent pas être présentés comme des valorisations complètes ; les erreurs ou historiques partiels restent visibles à l'utilisateur.
+- Le rendement affiché est calculé entre le premier et le dernier point de la période sélectionnée. Le drawdown maximal est calculé sur cette même période affichée. Lorsque les benchmarks BTC et ETH disposent d'au moins deux clôtures communes complètes avec le portefeuille, le rendement et le drawdown comparatifs utilisent exactement ces mêmes clôtures UTC ; le libellé précise cette fenêtre commune. Si les données comparables sont insuffisantes, la performance Atlas reste lisible séparément.
+- Les jours où un prix nécessaire est manquant ne doivent pas être présentés comme des valorisations complètes ; les erreurs ou historiques partiels restent visibles à l'utilisateur. Les courbes ne relient pas artificiellement les clôtures séparées par des journées manquantes et aucune valeur n'est interpolée.
 - Les points de suivi sont indépendants de la présence du visiteur sur le site : les clôtures historiques permettent de reconstruire les journées passées à partir des transactions enregistrées.
 - Les benchmarks BTC et ETH utilisent une hypothèse d'achat-conservation fictif du capital initial au premier cours de clôture journalière UTC complet commun disponible après la création du portefeuille. Les rendements sont comparés sur les mêmes dates de valorisation que le portefeuille ; les cours manquants ne sont pas interpolés.
 - L'export CSV du track record couvre toute la période historique disponible, avec les valeurs du portefeuille, les deux benchmarks et le drawdown du portefeuille.
